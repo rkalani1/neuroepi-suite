@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "NeuroEpi Suite"
+abstract: >-
+  A production-quality, open-source stroke epidemiology and clinical research
+  toolkit for grant writing, manuscript preparation, study design, hypothesis
+  development, and critical appraisal. Built as a static web application with
+  no dependencies.
+authors:
+  - family-names: "Kalani"
+    given-names: "Rizwan"
+    orcid: ""
+version: "1.0.0"
+date-released: "2025-02-05"
+license: MIT
+url: "https://github.com/rizwankalani/neuroepi-suite"
+repository-code: "https://github.com/rizwankalani/neuroepi-suite"
+keywords:
+  - stroke
+  - epidemiology
+  - clinical research
+  - sample size
+  - power analysis
+  - meta-analysis
+  - clinical trials
+  - biostatistics
+  - neurology
