@@ -1,5 +1,5 @@
 /**
- * NeuroEpi Suite — Effect Size Converter Module
+ * Neuro-Epi — Effect Size Converter Module
  * Input any effect measure with CI -> compute all others.
  * Conversions: OR <-> RR <-> RD <-> Cohen's d <-> Hedge's g <-> log-OR <-> log-RR
  * Interpretive labels, common OR shift visualization, copy buttons.

@@ -1,5 +1,5 @@
 /**
- * NeuroEpi Suite — NNT / NNH Calculator Module
+ * Neuro-Epi — NNT / NNH Calculator Module
  * Input modes: Event rates, 2x2 table, Published RR/OR + baseline risk
  * Outputs: ARR, RR, RRR, OR, NNT/NNH with CIs, chi-squared, Fisher exact,
  *          fragility index, Cates plot, PEER-adjusted NNT, patient explanation,

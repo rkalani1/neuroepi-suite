@@ -1,5 +1,5 @@
 /**
- * NeuroEpi Suite — Critical Appraisal Module
+ * Neuro-Epi — Critical Appraisal Module
  * Interactive scored checklists: RoB 2.0, NOS, AMSTAR-2, QUADAS-2, GRADE
  */
 

@@ -1,5 +1,5 @@
 /**
- * NeuroEpi Suite — App Shell
+ * Neuro-Epi — App Shell
  * SPA router, navigation, theme toggle, state management
  * Note: All HTML content is generated from trusted internal sources only (no user-supplied HTML).
  */
@@ -18,42 +18,66 @@ const App = (() => {
                 { id: 'sample-size', label: 'Sample Size', icon: '#' },
                 { id: 'power-analysis', label: 'Power Analysis', icon: 'P' },
                 { id: 'hypothesis-builder', label: 'Hypothesis Builder', icon: 'H' },
-                { id: 'regression-helper', label: 'Regression Planning', icon: 'R' }
+                { id: 'study-design-guide', label: 'Design Guide', icon: '\u2630' }
             ]
         },
         {
-            title: 'ANALYSIS',
+            title: 'EPIDEMIOLOGY',
             items: [
-                { id: 'nnt-calculator', label: 'NNT / NNH', icon: 'N' },
-                { id: 'effect-size', label: 'Effect Sizes', icon: 'E' },
                 { id: 'epidemiology-calcs', label: 'Epi Calculators', icon: '2' },
-                { id: 'diagnostic-accuracy', label: 'Diagnostic Accuracy', icon: 'D' },
                 { id: 'risk-calculators', label: 'Risk Calculators', icon: '%' },
+                { id: 'epi-concepts', label: 'Epi Concepts', icon: '\u03B5' },
+                { id: 'causal-inference', label: 'Causal Inference', icon: '\u2192' }
+            ]
+        },
+        {
+            title: 'BIOSTATISTICS',
+            items: [
+                { id: 'effect-size', label: 'Effect Sizes', icon: 'E' },
+                { id: 'nnt-calculator', label: 'NNT / NNH', icon: 'N' },
+                { id: 'diagnostic-accuracy', label: 'Diagnostic Accuracy', icon: 'D' },
+                { id: 'regression-helper', label: 'Regression Planning', icon: 'R' },
                 { id: 'survival-analysis', label: 'Survival Analysis', icon: 'S' },
+                { id: 'biostats-reference', label: 'Biostats Reference', icon: '\u03A3' },
+                { id: 'results-interpreter', label: 'Results Interpreter', icon: '\u2261' }
+            ]
+        },
+        {
+            title: 'CLINICAL TRIALS',
+            items: [
+                { id: 'trial-database', label: 'Trial Database', icon: 'T' },
+                { id: 'critical-appraisal', label: 'Critical Appraisal', icon: 'C' },
+                { id: 'reporting-guidelines', label: 'Reporting Guidelines', icon: '\u2611' }
+            ]
+        },
+        {
+            title: 'META-ANALYSIS',
+            items: [
                 { id: 'meta-analysis', label: 'Meta-Analysis', icon: 'M' }
             ]
         },
         {
-            title: 'EVIDENCE',
+            title: 'ML & PREDICTION',
             items: [
-                { id: 'trial-database', label: 'Trial Database', icon: 'T' },
-                { id: 'critical-appraisal', label: 'Critical Appraisal', icon: 'C' }
+                { id: 'ml-prediction', label: 'ML for Research', icon: '\u26A1' }
             ]
         },
         {
-            title: 'WRITING',
+            title: 'WRITING & PRODUCTIVITY',
             items: [
-                { id: 'grant-assistant', label: 'Grant Assistant', icon: 'G' }
+                { id: 'grant-assistant', label: 'Grant Assistant', icon: 'G' },
+                { id: 'methods-generator', label: 'Methods Generator', icon: '\u270E' },
+                { id: 'project-planner', label: 'Project Planner', icon: '\u2610' }
             ]
         }
     ];
 
     const MOBILE_NAV = [
         { id: 'sample-size', label: 'Design', icon: '#' },
-        { id: 'nnt-calculator', label: 'Analysis', icon: 'N' },
-        { id: 'meta-analysis', label: 'Meta', icon: 'M' },
+        { id: 'epidemiology-calcs', label: 'Epi', icon: '2' },
+        { id: 'effect-size', label: 'Stats', icon: 'E' },
         { id: 'trial-database', label: 'Trials', icon: 'T' },
-        { id: 'grant-assistant', label: 'Writing', icon: 'G' }
+        { id: 'grant-assistant', label: 'Write', icon: 'G' }
     ];
 
     // ============================================================
@@ -88,8 +112,8 @@ const App = (() => {
             + '<div class="sidebar-logo">'
             + '<div class="sidebar-logo-icon">NE</div>'
             + '<div>'
-            + '<div class="sidebar-logo-text">NeuroEpi Suite</div>'
-            + '<div class="sidebar-logo-version">Stroke Research Toolkit v1.0</div>'
+            + '<div class="sidebar-logo-text">Neuro-Epi</div>'
+            + '<div class="sidebar-logo-version">Epidemiology &amp; Clinical Research</div>'
             + '</div></div></div>'
             + '<nav class="sidebar-nav">';
 

@@ -1,42 +1,58 @@
-# NeuroEpi Suite
+# Neuro-Epi
 
-**Production-quality stroke epidemiology and clinical research toolkit.**
+**Comprehensive epidemiology, biostatistics, and clinical research platform.**
 
-A comprehensive, zero-dependency static web app built for vascular neurologists, stroke researchers, epidemiologists, and clinical trialists. Designed for daily use in grant writing, manuscript preparation, study design, hypothesis development, and critical appraisal.
+A zero-dependency static web app built for clinical researchers, epidemiologists, biostatisticians, and clinical trialists. Designed for daily use in study design, data analysis, grant writing, manuscript preparation, and critical appraisal.
 
 **[Live Demo →](https://rkalani1.github.io/neuroepi-suite/)**
 
 ## Features
 
 ### Study Design
-- **Sample Size Calculator** — 8 designs: two proportions, two means, time-to-event, mRS ordinal shift (Whitehead), non-inferiority, cluster RCT, stepped-wedge, multi-arm. Includes sensitivity tables, power curves, presets for landmark trials, and grant-ready methods text.
-- **Power Analysis** — Reverse calculator (input N → achieved power), interactive dashboard with real-time sliders, multi-scenario comparison with overlaid power curves.
-
-### Analysis Tools
-- **NNT Calculator** — NNT/NNH from rates, 2×2 tables, or published OR/RR. Cates plot (icon array), fragility index, PEER-adjusted NNT, patient explanation generator.
-- **Meta-Analysis** — Fixed and random effects (DerSimonian-Laird with optional HKSJ), forest plots, funnel plots, Egger's test, leave-one-out sensitivity, cumulative meta-analysis, trim-and-fill.
-- **Survival Analysis** — Kaplan-Meier with CI bands, log-rank test, hazard ratio, median survival, number-at-risk tables, multi-group overlays.
-- **Diagnostic Accuracy** — Full 2×2 with Wilson CIs, Fagan nomogram (interactive canvas), ROC curve with AUC, McNemar's test for paired comparisons.
-- **Epidemiology Calculators** — 2×2 analysis, Mantel-Haenszel stratified analysis, additive/multiplicative interaction, Cochran-Armitage trend test, bias checklist.
-- **Effect Size Converter** — Bidirectional conversions: OR ↔ RR ↔ RD ↔ Cohen's d ↔ Hedge's g. Cohen and stroke-specific benchmarks.
-- **Risk Calculators** — Clinical stroke risk scores (CHA₂DS₂-VASc, HAS-BLED, ABCD², Essen Stroke Risk Score, SEDAN, DRAGON) plus epidemiological rate calculators (incidence rates, rate ratios, prevalence, SMR, direct age standardization, attributable risk, DALY/YLL).
-- **Regression Helper** — Model selection wizard, events-per-variable calculator, DAG builder for confounder identification.
-
-### Evidence & Writing
-- **Trial Database** — 80+ major stroke trials with verified data, searchable and filterable. Side-by-side comparison, copy citation, PubMed links.
-- **Critical Appraisal** — RoB 2.0 (with signaling questions and algorithmic judgments), Newcastle-Ottawa, AMSTAR-2, QUADAS-2, GRADE.
-- **Grant Assistant** — Specific aims page builder, study design section, power justification text, Gantt timeline, human subjects template, budget calculator.
+- **Sample Size Calculator** — 8 designs: two proportions, two means, time-to-event, mRS ordinal shift (Whitehead), non-inferiority, cluster RCT, stepped-wedge, multi-arm. Sensitivity tables, power curves, presets, grant-ready methods text.
+- **Power Analysis** — Reverse calculator (input N → achieved power), interactive dashboard with real-time sliders, multi-scenario comparison.
 - **Hypothesis Builder** — PICO/PECO framework, study design decision tree, variable classification, analysis plan generator.
+- **Study Design Guide** — Interactive decision tree for selecting study designs, reference tables with Oxford CEBM evidence levels, design templates, bias & confounding quick reference.
+
+### Epidemiology
+- **Epidemiology Calculators** — 2×2 analysis, Mantel-Haenszel stratified analysis, additive/multiplicative interaction, Cochran-Armitage trend test, bias checklist.
+- **Risk Calculators** — Clinical stroke risk scores (CHA₂DS₂-VASc, HAS-BLED, ABCD², ESRS, SEDAN, DRAGON) plus epidemiological rate calculators (incidence rates, rate ratios, prevalence, SMR, age standardization, attributable risk, DALY/YLL).
+- **Epi Concepts** — Interactive reference for measures of disease frequency, association, impact, screening concepts, and study validity.
+- **Causal Inference** — Bradford Hill criteria assessment, DAG builder, counterfactual framework reference, causal inference methods comparison.
+
+### Biostatistics
+- **Effect Size Converter** — Bidirectional conversions: OR ↔ RR ↔ RD ↔ Cohen's d ↔ Hedge's g.
+- **NNT Calculator** — NNT/NNH from rates, 2×2 tables, or published OR/RR. Cates plot, fragility index, PEER-adjusted NNT.
+- **Diagnostic Accuracy** — Full 2×2 with Wilson CIs, Fagan nomogram, ROC curve with AUC, McNemar's test.
+- **Regression Helper** — Model selection wizard, events-per-variable calculator, DAG builder.
+- **Survival Analysis** — Kaplan-Meier with CI bands, log-rank test, hazard ratio, median survival, number-at-risk tables.
+- **Biostatistics Reference** — Statistical test selector, probability distributions, CI methods, effect size interpretation, multiple testing corrections.
+- **Results Interpreter** — Paste p-values, CIs, or effect sizes and get plain-English interpretation.
+
+### Clinical Trials
+- **Trial Database** — 200+ clinical trials with verified data, searchable and filterable. Sort by year/name/size, landmark filter, visual result indicators, side-by-side comparison, CSV export, citation paragraph generator, evidence summary, PubMed/DOI links.
+- **Critical Appraisal** — RoB 2.0, Newcastle-Ottawa, AMSTAR-2, QUADAS-2, GRADE.
+- **Reporting Guidelines** — Interactive CONSORT, STROBE, PRISMA checklists with progress tracking and export.
+
+### Meta-Analysis
+- **Meta-Analysis** — Fixed and random effects (DerSimonian-Laird with optional HKSJ), forest plots, funnel plots, Egger's test, leave-one-out sensitivity, cumulative meta-analysis, trim-and-fill.
+
+### ML & Prediction
+- **ML for Clinical Research** — Method selector, algorithm reference, validation guide, TRIPOD+AI checklist, common pitfalls in clinical ML.
+
+### Writing & Productivity
+- **Grant Assistant** — Specific aims page builder, study design section, power justification text, Gantt timeline, human subjects template, budget calculator.
+- **Methods Generator** — Auto-generate statistical methods paragraphs for manuscripts, common templates for RCTs, observational studies, meta-analyses.
+- **Project Planner** — Research timeline builder, milestone tracker, budget calculator, regulatory checklists.
 
 ### Technical Features
 - Complete statistical engine built from scratch (no dependencies)
-- Canvas-based charting with Retina support (forest plots, KM curves, ROC, funnel plots, Cates plots, heatmaps, DAGs)
+- Canvas-based charting with Retina support
 - Dark/light theme toggle
 - Responsive design (desktop, tablet, mobile)
 - Print-optimized CSS
 - localStorage persistence for saved calculations
 - Clipboard integration for all results
-- Keyboard navigation
 - Works fully offline
 
 ## Getting Started

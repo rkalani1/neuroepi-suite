@@ -1,5 +1,5 @@
 /**
- * NeuroEpi Suite — Regression Planning Helper Module
+ * Neuro-Epi — Regression Planning Helper Module
  * Features: Regression Wizard, EPV Calculator, DAG Builder, Model Building Strategy Guide
  */
 

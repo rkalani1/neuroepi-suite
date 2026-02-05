@@ -1,5 +1,5 @@
 /**
- * NeuroEpi Suite — Hypothesis Builder Module
+ * Neuro-Epi — Hypothesis Builder Module
  * Features: PICO/PECO Builder, Study Design Decision Tree, Variable Classification Tool
  */
 
@@ -42,15 +42,22 @@
             + '<option value="secondary_prevention">Secondary Prevention</option>'
             + '<option value="rehabilitation">Stroke Rehabilitation</option>'
             + '<option value="neurovascular">Neurovascular (Carotid / Aneurysm)</option>'
+            + '<option value="cardiology">Cardiology</option>'
+            + '<option value="oncology">Oncology</option>'
+            + '<option value="infectious_disease">Infectious Disease</option>'
+            + '<option value="critical_care">Critical Care / ICU</option>'
+            + '<option value="surgery">Surgery</option>'
+            + '<option value="psychiatry">Psychiatry</option>'
+            + '<option value="primary_care">Primary Care / Family Medicine</option>'
             + '<option value="other">Other</option>'
             + '</select></div>'
             + '</div>';
 
         html += '<div class="form-group"><label class="form-label">P - Population ' + App.tooltip('Who are the patients? Include age, sex, condition, setting.') + '</label>'
-            + '<input type="text" class="form-input" id="hb-population" name="hb_population" placeholder="e.g., Adults with acute ischemic stroke presenting within 6-24 hours of symptom onset"></div>';
+            + '<input type="text" class="form-input" id="hb-population" name="hb_population" placeholder="e.g., Adults with [condition] presenting within [timeframe] of [event]"></div>';
 
         html += '<div class="form-group"><label class="form-label" id="hb-ie-label">I - Intervention</label>'
-            + '<input type="text" class="form-input" id="hb-intervention" name="hb_intervention" placeholder="e.g., Endovascular thrombectomy plus medical therapy"></div>';
+            + '<input type="text" class="form-input" id="hb-intervention" name="hb_intervention" placeholder="e.g., [Intervention] plus standard of care"></div>';
 
         html += '<div class="form-group"><label class="form-label">C - Comparison ' + App.tooltip('What is the control or reference group?') + '</label>'
             + '<input type="text" class="form-input" id="hb-comparison" name="hb_comparison" placeholder="e.g., Medical therapy alone (standard of care)"></div>';
@@ -85,7 +92,7 @@
 
         // ===== TAB B: Study Design Decision Tree =====
         html += '<div class="tab-content" id="tab-design">';
-        html += '<div class="card-subtitle">Select your research question type to see the optimal study design, hierarchy of evidence, and practical guidance for stroke research.</div>';
+        html += '<div class="card-subtitle">Select your research question type to see the optimal study design, hierarchy of evidence, and practical guidance for clinical research.</div>';
 
         html += '<div class="form-group"><label class="form-label">What type of question are you asking?</label>'
             + '<select class="form-select" id="hb-question-type" onchange="HypothesisBuilder.showDesignTree()">'
@@ -214,7 +221,7 @@
         if (framework === 'pico') {
             if (direction === 'superiority' || direction === 'noninferiority' || direction === 'equivalence') {
                 designSuggestion = 'Randomized Controlled Trial (RCT)';
-                designNote = 'A parallel-group RCT is the gold standard for intervention questions. Consider adaptive designs for stroke trials where recruitment is challenging.';
+                designNote = 'A parallel-group RCT is the gold standard for intervention questions. Consider adaptive designs for trials where recruitment is challenging.';
             }
         } else {
             if (direction === 'harm') {
@@ -330,8 +337,8 @@
         });
         html += '</tbody></table>';
 
-        // Stroke-specific context
-        html += '<div class="card-title mt-2">Stroke Research Context</div>';
+        // Research context
+        html += '<div class="card-title mt-2">Research Context</div>';
         html += '<div class="result-grid">'
             + '<div class="result-item"><div class="result-item-value">' + data.typicalN + '</div><div class="result-item-label">Typical Sample Size</div></div>'
             + '<div class="result-item"><div class="result-item-value">' + data.timeline + '</div><div class="result-item-label">Typical Timeline</div></div>'
@@ -340,7 +347,7 @@
 
         // Example studies
         if (data.examples && data.examples.length > 0) {
-            html += '<div class="card-title mt-2">Landmark Examples in Stroke</div>';
+            html += '<div class="card-title mt-2">Landmark Examples</div>';
             html += '<ul style="margin:0;padding-left:20px;color:var(--text-secondary);font-size:0.85rem;line-height:1.8">';
             data.examples.forEach(function(ex) {
                 html += '<li><strong>' + ex.name + '</strong>: ' + ex.description + '</li>';

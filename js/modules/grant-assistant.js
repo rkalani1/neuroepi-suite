@@ -1,5 +1,5 @@
 /**
- * NeuroEpi Suite — Grant Assistant Module
+ * Neuro-Epi — Grant Assistant Module
  * Specific Aims builder, Study Design generator, Power justification,
  * Timeline (Gantt), Human Subjects template, Budget helper
  */
@@ -319,7 +319,7 @@
                 + result.n1 + ' participants per group (' + result.total + ' total). ';
             text += 'Accounting for ' + (dropout * 100).toFixed(0) + '% dropout, we plan to enroll '
                 + dropoutN + ' participants. ';
-            text += 'Sample size calculations were performed using NeuroEpi Suite.';
+            text += 'Sample size calculations were performed using Neuro-Epi.';
         } else if (design === 'ordinal') {
             var ctrlDist = [0.05, 0.07, 0.10, 0.10, 0.18, 0.20, 0.30];
             result = Statistics.sampleSizeOrdinalShift(ctrlDist, null, param1, alpha, power);

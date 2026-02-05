@@ -1,5 +1,5 @@
 /**
- * NeuroEpi Suite — Epidemiology Calculators Module
+ * Neuro-Epi — Epidemiology Calculators Module
  * Tab A: 2x2 Table Analyzer
  * Tab B: Stratified Analysis (Mantel-Haenszel)
  * Tab C: Interaction Assessment (additive & multiplicative)

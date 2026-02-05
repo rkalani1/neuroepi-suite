@@ -1,5 +1,5 @@
 /**
- * NeuroEpi Suite — Power Analysis Module
+ * Neuro-Epi — Power Analysis Module
  * Reverse of sample size: input N -> compute achieved power
  * Interactive power dashboard with real-time sliders
  */

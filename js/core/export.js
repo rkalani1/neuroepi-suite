@@ -1,5 +1,5 @@
 /**
- * NeuroEpi Suite — Export Utilities
+ * Neuro-Epi — Export Utilities
  * Clipboard, PNG export, text formatters, localStorage persistence
  */
 

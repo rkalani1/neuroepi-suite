@@ -1,5 +1,5 @@
 /**
- * NeuroEpi Suite — Sample Size Calculator Module
+ * Neuro-Epi — Sample Size Calculator Module
  * Tabs: Two Proportions, Two Means, Time-to-Event, mRS Ordinal Shift,
  *       Non-Inferiority, Cluster RCT, Stepped-Wedge, Multi-Arm
  */
@@ -12,7 +12,7 @@
     function render(container) {
         var html = App.createModuleLayout(
             'Sample Size Calculator',
-            'Calculate required sample sizes for clinical trials and observational studies. Includes stroke-specific presets and publication-ready text generation.'
+            'Calculate required sample sizes for clinical trials and observational studies. Includes presets for common clinical scenarios and publication-ready methods text.'
         );
 
         html += '<div class="card">';
@@ -29,15 +29,17 @@
 
         // ===== TAB A: Two Proportions =====
         html += '<div class="tab-content active" id="tab-proportions">';
-        html += '<div class="card-subtitle">Most commonly used design in stroke trials. Compare event rates between two groups.</div>';
+        html += '<div class="card-subtitle">Most commonly used design in clinical trials. Compare event rates between two groups.</div>';
 
-        html += '<div class="form-label">Presets ' + App.tooltip('Load common stroke trial scenarios with published event rates') + '</div>';
+        html += '<div class="form-label">Presets ' + App.tooltip('Load common clinical trial scenarios with typical event rates') + '</div>';
         html += '<div class="preset-group">'
-            + '<button class="preset-btn" onclick="SampleSizeModule.loadPreset(\'lvo\')">LVO mRS 0-2 (28% vs 46%)</button>'
-            + '<button class="preset-btn" onclick="SampleSizeModule.loadPreset(\'mortality\')">90-day Mortality (20% vs 14%)</button>'
-            + '<button class="preset-btn" onclick="SampleSizeModule.loadPreset(\'sich\')">sICH Rate (6% vs 3%)</button>'
-            + '<button class="preset-btn" onclick="SampleSizeModule.loadPreset(\'recurrent\')">Recurrent Stroke 1yr (5% vs 3.5%)</button>'
-            + '<button class="preset-btn" onclick="SampleSizeModule.loadPreset(\'ich\')">ICH Trial (38% vs 30%)</button>'
+            + '<button class="preset-btn" onclick="SampleSizeModule.loadPreset(\'lvo\')">Stroke: LVO mRS 0-2 (28% vs 46%)</button>'
+            + '<button class="preset-btn" onclick="SampleSizeModule.loadPreset(\'mortality\')">Mortality Trial (20% vs 14%)</button>'
+            + '<button class="preset-btn" onclick="SampleSizeModule.loadPreset(\'sich\')">AE Rate (6% vs 3%)</button>'
+            + '<button class="preset-btn" onclick="SampleSizeModule.loadPreset(\'recurrent\')">Event Prevention (5% vs 3.5%)</button>'
+            + '<button class="preset-btn" onclick="SampleSizeModule.loadPreset(\'ich\')">Moderate Effect (38% vs 30%)</button>'
+            + '<button class="preset-btn" onclick="SampleSizeModule.loadPreset(\'cardio\')">CV Events (12% vs 8%)</button>'
+            + '<button class="preset-btn" onclick="SampleSizeModule.loadPreset(\'onc\')">Oncology Response (30% vs 45%)</button>'
             + '</div>';
 
         html += '<div class="form-row form-row--3">'
@@ -84,7 +86,7 @@
 
         // ===== TAB C: Time-to-Event =====
         html += '<div class="tab-content" id="tab-survival">';
-        html += '<div class="card-subtitle">For trials with time-to-event primary outcomes (e.g., time to recurrent stroke).</div>';
+        html += '<div class="card-subtitle">For trials with time-to-event primary outcomes (e.g., survival, time to event).</div>';
         html += '<div class="form-row form-row--4">'
             + '<div class="form-group"><label class="form-label">Hazard Ratio ' + App.tooltip('Expected HR. <1 favors treatment.') + '</label>'
             + '<input type="number" class="form-input" name="ss_hr" id="ss_hr" step="0.05" min="0.1" value="0.70"></div>'
@@ -101,7 +103,7 @@
 
         // ===== TAB D: mRS Ordinal Shift =====
         html += '<div class="tab-content" id="tab-ordinal">';
-        html += '<div class="card-subtitle">Ordinal shift analysis using proportional odds model (Whitehead formula). The preferred analysis for mRS in modern stroke trials.</div>';
+        html += '<div class="card-subtitle">Ordinal shift analysis using proportional odds model (Whitehead formula). Common for mRS in stroke trials and other ordinal outcomes.</div>';
 
         html += '<div class="form-label">Load Distribution Preset</div>';
         html += '<div class="preset-group">';
@@ -154,7 +156,7 @@
         html += '<div class="form-row form-row--3">'
             + '<div class="form-group"><label class="form-label">Individual N (from standard calc)</label>'
             + '<input type="number" class="form-input" name="ss_cl_n" id="ss_cl_n" step="1" value="500"></div>'
-            + '<div class="form-group"><label class="form-label">ICC ' + App.tooltip('Intracluster correlation coefficient. Typically 0.01-0.05 in stroke research.') + '</label>'
+            + '<div class="form-group"><label class="form-label">ICC ' + App.tooltip('Intracluster correlation coefficient. Typically 0.01-0.05 in clinical research.') + '</label>'
             + '<input type="number" class="form-input" name="ss_cl_icc" id="ss_cl_icc" step="0.005" min="0" max="1" value="0.03"></div>'
             + '<div class="form-group"><label class="form-label">Cluster Size</label>'
             + '<input type="number" class="form-input" name="ss_cl_size" id="ss_cl_size" step="5" min="2" value="30"></div>'
@@ -233,7 +235,9 @@
             mortality: { p1: 0.20, p2: 0.14 },
             sich: { p1: 0.06, p2: 0.03 },
             recurrent: { p1: 0.05, p2: 0.035 },
-            ich: { p1: 0.38, p2: 0.30 }
+            ich: { p1: 0.38, p2: 0.30 },
+            cardio: { p1: 0.12, p2: 0.08 },
+            onc: { p1: 0.30, p2: 0.45 }
         };
         var p = presets[name];
         if (p) {

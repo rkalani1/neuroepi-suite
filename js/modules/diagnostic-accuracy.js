@@ -1,5 +1,5 @@
 /**
- * NeuroEpi Suite — Diagnostic Accuracy Module
+ * Neuro-Epi — Diagnostic Accuracy Module
  * 2x2 diagnostic table, sensitivity/specificity/LR/DOR with Wilson CIs,
  * Fagan nomogram (canvas), ROC curve, SPIN/SNOUT, two-test comparison.
  */

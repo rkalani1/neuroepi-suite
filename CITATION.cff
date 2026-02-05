@@ -1,12 +1,11 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 type: software
-title: "NeuroEpi Suite"
+title: "Neuro-Epi"
 abstract: >-
-  A production-quality, open-source stroke epidemiology and clinical research
-  toolkit for grant writing, manuscript preparation, study design, hypothesis
-  development, and critical appraisal. Built as a static web application with
-  no dependencies.
+  A comprehensive, open-source epidemiology, biostatistics, and clinical research
+  platform for study design, data analysis, grant writing, manuscript preparation,
+  and critical appraisal. Built as a static web application with no dependencies.
 authors:
   - family-names: "Kalani"
     given-names: "Rizwan"

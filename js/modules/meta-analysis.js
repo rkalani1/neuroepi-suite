@@ -1,5 +1,5 @@
 /**
- * NeuroEpi Suite — Meta-Analysis Module
+ * Neuro-Epi — Meta-Analysis Module
  * Fixed-effect (IV), DerSimonian-Laird random-effects, HKSJ adjustment,
  * forest plot, funnel plot, sensitivity analysis, results text generation.
  */

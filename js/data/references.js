@@ -1,5 +1,5 @@
 /**
- * NeuroEpi Suite — Reference Data
+ * Neuro-Epi — Reference Data
  * Clinical scales, presets, common parameters for stroke research
  */
 

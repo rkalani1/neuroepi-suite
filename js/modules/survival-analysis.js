@@ -1,5 +1,5 @@
 /**
- * NeuroEpi Suite — Survival Analysis Module
+ * Neuro-Epi — Survival Analysis Module
  * Kaplan-Meier estimator, log-rank test, hazard ratio, KM plot,
  * multi-group overlay, survival tables, results text generation.
  */

@@ -1,5 +1,5 @@
 /**
- * NeuroEpi Suite — Risk Calculators Module
+ * Neuro-Epi — Risk Calculators Module
  * Card 1: Clinical Stroke Risk Scores (CHA2DS2-VASc, HAS-BLED, ABCD2, ESRS, SEDAN, DRAGON)
  * Card 2: Epidemiological Rate Calculators
  *   Tabs: Incidence Rate, Rate Ratio, Prevalence, SMR,
