@@ -118,6 +118,52 @@
         html += '<div class="chart-container"><canvas id="pa-scenario-chart" width="700" height="350"></canvas></div>';
         html += '</div>';
 
+        // ===== LEARN SECTION =====
+        html += '<div class="card">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\');">'
+            + '\u25B6 Learn: Power Analysis Essentials</div>';
+        html += '<div class="learn-body hidden" style="font-size:0.9rem;line-height:1.7;">';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Key Formulas</div>';
+        html += '<div style="background:var(--bg-secondary);padding:12px;border-radius:8px;font-family:var(--font-mono);margin-bottom:12px;">'
+            + '<div><strong>Two Proportions:</strong> Power = \u03A6(|p\u2081 \u2212 p\u2082|\u00B7\u221A(n / (p\u0304q\u0304\u00B72)) \u2212 z<sub>\u03B1/2</sub>)</div>'
+            + '<div><strong>Two Means:</strong> Power = \u03A6(\u03B4\u00B7\u221An / (\u03C3\u221A2) \u2212 z<sub>\u03B1/2</sub>)</div>'
+            + '<div><strong>Survival (HR):</strong> Power = \u03A6(\u221AD\u00B7|ln(HR)|/2 \u2212 z<sub>\u03B1/2</sub>)</div>'
+            + '</div>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Assumptions</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li>Two-sided test unless otherwise specified</li>'
+            + '<li>Equal allocation ratio (1:1) for two-group comparisons</li>'
+            + '<li>Normally distributed test statistic (large-sample approximation)</li>'
+            + '<li>Independence of observations between and within groups</li>'
+            + '<li>Effect size is the true population parameter (no estimation uncertainty)</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Common Pitfalls</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li><strong>Overly optimistic effect sizes:</strong> Post-hoc power using the observed effect is misleading</li>'
+            + '<li><strong>Ignoring attrition:</strong> Inflate N by 10\u201320% to account for dropout</li>'
+            + '<li><strong>Multiple comparisons:</strong> Adjust \u03B1 (e.g., Bonferroni) when testing multiple outcomes</li>'
+            + '<li><strong>Non-compliance:</strong> ITT analysis dilutes treatment effect, reducing effective power</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">References</div>';
+        html += '<ul style="margin:0 0 0 16px;font-size:0.85rem;">'
+            + '<li>Chow SC, Shao J, Wang H. <em>Sample Size Calculations in Clinical Research</em>. 3rd ed. Chapman & Hall; 2017.</li>'
+            + '<li>Julious SA. <em>Sample Sizes for Clinical Trials</em>. Chapman & Hall; 2009.</li>'
+            + '</ul>';
+        html += '</div></div>';
+
+        // ===== METHODS TEXT =====
+        html += '<div class="card">';
+        html += '<div class="card-title">Generate Methods Text</div>';
+        html += '<div id="pa-methods-text" class="text-output" style="min-height:40px;">Click "Calculate Power" above, then generate methods text.</div>';
+        html += '<div class="btn-group mt-2">'
+            + '<button class="btn btn-secondary" onclick="PowerModule.generateMethods()">Generate Methods Text</button>'
+            + '<button class="btn btn-secondary" onclick="PowerModule.copyMethods()">Copy</button></div>';
+        html += '</div>';
+
         App.setTrustedHTML(container, html);
         App.autoSaveInputs(container, MODULE_ID);
     }
@@ -252,12 +298,57 @@
         }
     }
 
+    function generateMethods() {
+        var design = document.getElementById('pa-design').value;
+        var text = '';
+        if (design === 'proportions') {
+            var p1 = parseFloat(document.getElementById('pa-p1').value);
+            var p2 = parseFloat(document.getElementById('pa-p2').value);
+            var n = parseInt(document.getElementById('pa-n').value);
+            var alpha = parseFloat(document.getElementById('pa-alpha').value);
+            var power = Statistics.powerTwoProportions(p1, p2, n, alpha);
+            text = 'With ' + n + ' participants per group (total N = ' + (n * 2) + '), '
+                + 'the study has ' + (power * 100).toFixed(1) + '% power to detect '
+                + 'a difference in proportions from ' + (p1 * 100).toFixed(1) + '% to '
+                + (p2 * 100).toFixed(1) + '% (absolute risk reduction = '
+                + ((p1 - p2) * 100).toFixed(1) + ' percentage points) '
+                + 'using a two-sided test at the ' + alpha + ' significance level.';
+        } else if (design === 'means') {
+            var delta = parseFloat(document.getElementById('pa-delta').value);
+            var sd = parseFloat(document.getElementById('pa-sd').value);
+            var nM = parseInt(document.getElementById('pa-n-means').value);
+            var alphaM = parseFloat(document.getElementById('pa-alpha-means').value);
+            var powerM = Statistics.powerTwoMeans(delta, sd, nM, alphaM);
+            text = 'With ' + nM + ' participants per group, the study has '
+                + (powerM * 100).toFixed(1) + '% power to detect a mean difference of '
+                + delta + ' (SD = ' + sd + ', effect size d = ' + (delta / sd).toFixed(2) + ') '
+                + 'using a two-sided two-sample t-test at \u03B1 = ' + alphaM + '.';
+        } else {
+            var hr = parseFloat(document.getElementById('pa-hr').value);
+            var events = parseInt(document.getElementById('pa-events').value);
+            var alphaS = parseFloat(document.getElementById('pa-alpha-surv').value);
+            var powerS = Statistics.powerSurvival(hr, events, alphaS);
+            text = 'With ' + events + ' events, the study has '
+                + (powerS * 100).toFixed(1) + '% power to detect a hazard ratio of '
+                + hr + ' using a two-sided log-rank test at \u03B1 = ' + alphaS + '.';
+        }
+        var el = document.getElementById('pa-methods-text');
+        if (el) App.setTrustedHTML(el, text);
+    }
+
+    function copyMethods() {
+        var el = document.getElementById('pa-methods-text');
+        if (el) Export.copyText(el.textContent);
+    }
+
     App.registerModule(MODULE_ID, { render: render });
 
     window.PowerModule = {
         updateDesign: updateDesign,
         calculate: calculate,
         updateDashboard: updateDashboard,
-        compareScenarios: compareScenarios
+        compareScenarios: compareScenarios,
+        generateMethods: generateMethods,
+        copyMethods: copyMethods
     };
 })();

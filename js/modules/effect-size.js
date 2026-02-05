@@ -66,6 +66,45 @@
 
         html += '</div>'; // card
 
+        // ===== LEARN SECTION =====
+        html += '<div class="card">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\');">'
+            + '\u25B6 Learn: Effect Size Essentials</div>';
+        html += '<div class="learn-body hidden" style="font-size:0.9rem;line-height:1.7;">';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Key Formulas</div>';
+        html += '<div style="background:var(--bg-secondary);padding:12px;border-radius:8px;font-family:var(--font-mono);margin-bottom:12px;">'
+            + '<div><strong>Cohen\'s d:</strong> d = (M\u2081 \u2212 M\u2082) / SD<sub>pooled</sub></div>'
+            + '<div><strong>Hedge\'s g:</strong> g = d \u00D7 (1 \u2212 3/(4(n\u2081+n\u2082)\u22129))</div>'
+            + '<div><strong>OR \u2192 d:</strong> d = ln(OR) \u00D7 \u221A3 / \u03C0</div>'
+            + '<div><strong>d \u2192 OR:</strong> OR = exp(d \u00D7 \u03C0 / \u221A3)</div>'
+            + '<div><strong>OR \u2192 RR:</strong> RR = OR / (1 \u2212 P\u2080 + P\u2080 \u00D7 OR) [Zhang & Yu]</div>'
+            + '<div><strong>RD:</strong> P\u2081 \u2212 P\u2080 (= CER \u2212 EER)</div>'
+            + '</div>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Interpretation (Cohen Benchmarks)</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li><strong>Small:</strong> d = 0.2, OR \u2248 1.44</li>'
+            + '<li><strong>Medium:</strong> d = 0.5, OR \u2248 2.48</li>'
+            + '<li><strong>Large:</strong> d = 0.8, OR \u2248 4.27</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Common Pitfalls</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li><strong>OR \u2260 RR:</strong> When outcome prevalence >10%, OR overestimates RR</li>'
+            + '<li><strong>Baseline risk required:</strong> OR\u2194RR conversion needs the control group event rate</li>'
+            + '<li><strong>Cohen benchmarks are defaults:</strong> Always interpret effect sizes in clinical context</li>'
+            + '<li><strong>Small samples:</strong> Use Hedge\'s g (not d) for bias correction when n < 20</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">References</div>';
+        html += '<ul style="margin:0 0 0 16px;font-size:0.85rem;">'
+            + '<li>Cohen J. <em>Statistical Power Analysis for the Behavioral Sciences</em>. 2nd ed. 1988.</li>'
+            + '<li>Chinn S. A simple method for converting an OR to effect size. <em>Stat Med</em>. 2000;19:3127-31.</li>'
+            + '<li>Zhang J, Yu KF. What\'s the relative risk? <em>JAMA</em>. 1998;280:1690-1.</li>'
+            + '</ul>';
+        html += '</div></div>';
+
         App.setTrustedHTML(container, html);
         App.autoSaveInputs(container, MODULE_ID);
     }
@@ -162,15 +201,6 @@
         if (abs < 0.5) return 'Small';
         if (abs < 0.8) return 'Medium';
         return 'Large';
-    }
-
-    function strokeLabel(d) {
-        var abs = Math.abs(d);
-        // Stroke-specific benchmarks (empirical from stroke rehabilitation literature)
-        if (abs < 0.15) return 'Below clinically meaningful threshold';
-        if (abs < 0.4) return 'Small / exploratory benefit';
-        if (abs < 0.7) return 'Moderate / clinically relevant';
-        return 'Large / robust treatment effect';
     }
 
     function orInterpretation(or) {

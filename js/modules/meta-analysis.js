@@ -86,6 +86,47 @@
         html += '<div id="ma-results"></div>';
         html += '</div>'; // card
 
+        // ===== LEARN SECTION =====
+        html += '<div class="card">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\');">'
+            + '\u25B6 Learn: Meta-Analysis Essentials</div>';
+        html += '<div class="learn-body hidden" style="font-size:0.9rem;line-height:1.7;">';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Key Formulas</div>';
+        html += '<div style="background:var(--bg-secondary);padding:12px;border-radius:8px;font-family:var(--font-mono);margin-bottom:12px;">'
+            + '<div><strong>Fixed-Effect (IV):</strong> \u03B8\u0302 = \u03A3(w\u1D62\u03B8\u1D62) / \u03A3w\u1D62, w\u1D62 = 1/v\u1D62</div>'
+            + '<div><strong>DerSimonian-Laird \u03C4\u00B2:</strong> \u03C4\u00B2 = max(0, (Q \u2212 (k\u22121)) / (S\u2081 \u2212 S\u2082/S\u2081))</div>'
+            + '<div><strong>Cochran Q:</strong> Q = \u03A3 w\u1D62(\u03B8\u1D62 \u2212 \u03B8\u0302)\u00B2</div>'
+            + '<div><strong>I\u00B2:</strong> I\u00B2 = max(0, (Q \u2212 (k\u22121))/Q \u00D7 100%)</div>'
+            + '<div><strong>HKSJ:</strong> Uses t<sub>k\u22121</sub> with adjusted variance q* = \u03A3w*\u1D62(\u03B8\u1D62 \u2212 \u03B8\u0302*)\u00B2/(k\u22121)</div>'
+            + '</div>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Assumptions</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li>Studies are independent</li>'
+            + '<li>Fixed-effect: all studies share a common true effect</li>'
+            + '<li>Random-effects: true effects follow a normal distribution across studies</li>'
+            + '<li>Within-study variances are known (estimated with sufficient precision)</li>'
+            + '<li>No systematic publication bias (testable via funnel plot + Egger\'s)</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Common Pitfalls</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li><strong>Publication bias:</strong> Small positive studies are more likely to be published</li>'
+            + '<li><strong>Garbage in, garbage out:</strong> Meta-analysis cannot fix poor-quality primary studies</li>'
+            + '<li><strong>\u03C4\u00B2 underestimation:</strong> DL estimator can underestimate heterogeneity; consider REML or PM</li>'
+            + '<li><strong>I\u00B2 misinterpretation:</strong> I\u00B2 measures proportion of variability due to heterogeneity, not the magnitude</li>'
+            + '<li><strong>Few studies + HKSJ:</strong> HKSJ is preferred when k < 10 but can be conservative</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">References</div>';
+        html += '<ul style="margin:0 0 0 16px;font-size:0.85rem;">'
+            + '<li>Borenstein M, et al. <em>Introduction to Meta-Analysis</em>. 2nd ed. Wiley; 2021.</li>'
+            + '<li>Higgins JPT, et al. <em>Cochrane Handbook for Systematic Reviews of Interventions</em>. v6.4; 2023.</li>'
+            + '<li>IntHout J, et al. The Hartung-Knapp-Sidik-Jonkman method. <em>BMC Med Res Methodol</em>. 2014;14:25.</li>'
+            + '</ul>';
+        html += '</div></div>';
+
         App.setTrustedHTML(container, html);
         renderDataTable();
     }
@@ -361,8 +402,6 @@
         var cum = Statistics.cumulativeMA(prep.effects, prep.variances, prep.names);
 
         // Prepare study rows for forest plot
-        var feWeights = fe.weights;
-        var feSumW = feWeights.reduce(function(a, b) { return a + b; }, 0);
         var reWeights = re.weights; // already %
 
         var forestStudies = prep.names.map(function(name, i) {

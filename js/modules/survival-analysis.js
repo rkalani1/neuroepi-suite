@@ -77,6 +77,44 @@
         html += '<div id="sa-results"></div>';
         html += '</div>';
 
+        // ===== LEARN SECTION =====
+        html += '<div class="card">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\');">'
+            + '\u25B6 Learn: Survival Analysis Essentials</div>';
+        html += '<div class="learn-body hidden" style="font-size:0.9rem;line-height:1.7;">';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Key Formulas</div>';
+        html += '<div style="background:var(--bg-secondary);padding:12px;border-radius:8px;font-family:var(--font-mono);margin-bottom:12px;">'
+            + '<div><strong>Kaplan-Meier:</strong> S(t) = \u220F (1 \u2212 d\u1D62/n\u1D62) for each event time</div>'
+            + '<div><strong>Greenwood SE:</strong> SE[S(t)] = S(t) \u00D7 \u221A(\u03A3 d\u1D62/(n\u1D62(n\u1D62\u2212d\u1D62)))</div>'
+            + '<div><strong>Log-Rank Test:</strong> \u03C7\u00B2 = \u03A3(O\u1D62\u2212E\u1D62)\u00B2/E\u1D62, df = groups \u2212 1</div>'
+            + '<div><strong>Median Survival:</strong> Smallest t where S(t) \u2264 0.50</div>'
+            + '<div><strong>Hazard Ratio:</strong> HR = h\u2081(t)/h\u2082(t), estimated from Cox model</div>'
+            + '</div>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Assumptions</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li>Non-informative censoring (censored subjects have same prognosis as uncensored)</li>'
+            + '<li>Kaplan-Meier: no covariates, purely time-based estimation</li>'
+            + '<li>Log-rank test: proportional hazards (constant HR over time)</li>'
+            + '<li>Cox PH model: hazards proportional, log-linearity, no time-varying coefficients</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Common Pitfalls</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li><strong>Late crossing of KM curves:</strong> May indicate non-proportional hazards; consider restricted mean survival time (RMST)</li>'
+            + '<li><strong>Ignoring competing risks:</strong> Standard KM overestimates cumulative incidence; use Fine-Gray model</li>'
+            + '<li><strong>Median not reached:</strong> When <50% of subjects have events, report milestone rates instead</li>'
+            + '<li><strong>Landmark bias:</strong> Conditioning on survival to a specific time introduces bias</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">References</div>';
+        html += '<ul style="margin:0 0 0 16px;font-size:0.85rem;">'
+            + '<li>Collett D. <em>Modelling Survival Data in Medical Research</em>. 4th ed. CRC Press; 2023.</li>'
+            + '<li>Bland JM, Altman DG. Survival probabilities (the Kaplan-Meier method). <em>BMJ</em>. 1998;317:1572.</li>'
+            + '</ul>';
+        html += '</div></div>';
+
         App.setTrustedHTML(container, html);
         renderDataTable();
     }

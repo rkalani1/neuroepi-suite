@@ -93,6 +93,46 @@
 
         html += '</div>'; // end card
 
+        // ===== LEARN SECTION =====
+        html += '<div class="card">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\');">'
+            + '\u25B6 Learn: NNT / NNH Essentials</div>';
+        html += '<div class="learn-body hidden" style="font-size:0.9rem;line-height:1.7;">';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Key Formulas</div>';
+        html += '<div style="background:var(--bg-secondary);padding:12px;border-radius:8px;font-family:var(--font-mono);margin-bottom:12px;">'
+            + '<div><strong>ARR:</strong> CER \u2212 EER (absolute risk reduction)</div>'
+            + '<div><strong>RR:</strong> EER / CER</div>'
+            + '<div><strong>RRR:</strong> (CER \u2212 EER) / CER = 1 \u2212 RR</div>'
+            + '<div><strong>NNT:</strong> 1 / |ARR|</div>'
+            + '<div><strong>NNT CI:</strong> 1 / Newcombe CI for risk difference</div>'
+            + '<div><strong>Fragility Index:</strong> Minimum events to change to add/remove to lose significance</div>'
+            + '</div>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Assumptions</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li>Outcomes are binary (event / no event)</li>'
+            + '<li>NNT assumes constant baseline risk across populations</li>'
+            + '<li>PEER-adjusted NNT corrects for individual patient baseline risk</li>'
+            + '<li>Fragility index requires the original 2x2 table with integer counts</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Common Pitfalls</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li><strong>NNT \u2260 1/p:</strong> NNT is based on risk difference, not absolute risk</li>'
+            + '<li><strong>Extrapolating NNT:</strong> NNT depends on follow-up time and baseline risk</li>'
+            + '<li><strong>NNT from OR:</strong> Converting OR to NNT requires a baseline risk assumption</li>'
+            + '<li><strong>Infinite NNT CIs:</strong> When the CI for ARR crosses zero, NNT CI wraps through infinity</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">References</div>';
+        html += '<ul style="margin:0 0 0 16px;font-size:0.85rem;">'
+            + '<li>Altman DG. Confidence intervals for the number needed to treat. <em>BMJ</em>. 1998;317:1309-12.</li>'
+            + '<li>Walsh M, et al. The fragility index. <em>J Clin Epidemiol</em>. 2014;67:622-8.</li>'
+            + '<li>Newcombe RG. Interval estimation for the difference between independent proportions. <em>Stat Med</em>. 1998;17:873-90.</li>'
+            + '</ul>';
+        html += '</div></div>';
+
         App.setTrustedHTML(container, html);
         App.autoSaveInputs(container, MODULE_ID);
     }
@@ -180,11 +220,6 @@
         // Altman notation: when CI for RD spans zero the NNT CI goes through infinity
         // i.e. NNT = NNTB lower to infinity to NNTH upper
         if (rdLower <= 0 && rdUpper >= 0) {
-            // CI spans null
-            var nntFromLo = rdLower !== 0 ? Math.ceil(1 / Math.abs(rdLower)) : Infinity;
-            var nntFromHi = rdUpper !== 0 ? Math.ceil(1 / Math.abs(rdUpper)) : Infinity;
-            var labelLo = rdLower < 0 ? 'NNTH ' + nntFromLo : (rdLower === 0 ? '\u221E' : 'NNTB ' + nntFromLo);
-            var labelHi = rdUpper > 0 ? 'NNTH ' + nntFromHi : (rdUpper === 0 ? '\u221E' : 'NNTB ' + nntFromHi);
             // Correct ordering: the RD CI is (lower, upper). If both same side: straightforward.
             // If crossing zero: NNT_lower to ∞ to NNT_upper (Altman-Andersen notation)
             if (rdLower < 0 && rdUpper > 0) {
@@ -205,7 +240,7 @@
         return prefix + ' ' + nntLo + ' to ' + nntHi;
     }
 
-    function showResults(a, b, c, d, pubInfo) {
+    function showResults(a, b, c, d) {
         var res = Statistics.twoByTwo(a, b, c, d);
         var z = Statistics.normalQuantile(0.975);
 

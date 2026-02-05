@@ -140,6 +140,44 @@
 
         html += '</div>'; // end card
 
+        // ===== LEARN SECTION =====
+        html += '<div class="card">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\');">'
+            + '\u25B6 Learn: Regression Analysis Essentials</div>';
+        html += '<div class="learn-body hidden" style="font-size:0.9rem;line-height:1.7;">';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Key Formulas</div>';
+        html += '<div style="background:var(--bg-secondary);padding:12px;border-radius:8px;font-family:var(--font-mono);margin-bottom:12px;">'
+            + '<div><strong>Linear:</strong> Y = \u03B2\u2080 + \u03B2\u2081X\u2081 + \u2026 + \u03B5</div>'
+            + '<div><strong>Logistic:</strong> logit(P) = \u03B2\u2080 + \u03B2\u2081X\u2081 + \u2026, OR = exp(\u03B2)</div>'
+            + '<div><strong>Poisson:</strong> log(\u03BC) = \u03B2\u2080 + \u03B2\u2081X\u2081 + \u2026, IRR = exp(\u03B2)</div>'
+            + '<div><strong>Cox PH:</strong> h(t) = h\u2080(t) \u00D7 exp(\u03B2\u2081X\u2081 + \u2026), HR = exp(\u03B2)</div>'
+            + '<div><strong>Ordinal (cloglog):</strong> logit(P(Y\u2264j)) = \u03B1\u2081 \u2212 \u03B2X, common OR</div>'
+            + '</div>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Model Selection Rules of Thumb</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li>Events per variable (EPV) \u2265 10 for logistic/Cox regression</li>'
+            + '<li>Use AIC/BIC for non-nested models, LRT for nested models</li>'
+            + '<li>VIF > 5 suggests collinearity; VIF > 10 is severe</li>'
+            + '<li>Check linearity of continuous predictors with restricted cubic splines</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Common Pitfalls</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li><strong>Stepwise selection:</strong> Inflates Type I error and produces unstable models; use penalized methods instead</li>'
+            + '<li><strong>Ignoring interactions:</strong> Effect modification can mask true relationships</li>'
+            + '<li><strong>Overfitting:</strong> Too many predictors relative to events; validate with bootstrapping or cross-validation</li>'
+            + '<li><strong>Collider bias:</strong> Adjusting for a collider opens a spurious pathway; use DAG guidance</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">References</div>';
+        html += '<ul style="margin:0 0 0 16px;font-size:0.85rem;">'
+            + '<li>Harrell FE. <em>Regression Modeling Strategies</em>. 2nd ed. Springer; 2015.</li>'
+            + '<li>Vittinghoff E, et al. <em>Regression Methods in Biostatistics</em>. 2nd ed. Springer; 2012.</li>'
+            + '</ul>';
+        html += '</div></div>';
+
         App.setTrustedHTML(container, html);
         App.autoSaveInputs(container, MODULE_ID);
 

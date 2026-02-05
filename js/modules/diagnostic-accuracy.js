@@ -128,6 +128,60 @@
 
         html += '</div>'; // card
 
+        // ===== LEARN SECTION =====
+        html += '<div class="card">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\');">'
+            + '\u25B6 Learn: Diagnostic Accuracy Essentials</div>';
+        html += '<div class="learn-body hidden" style="font-size:0.9rem;line-height:1.7;">';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Key Formulas</div>';
+        html += '<div style="background:var(--bg-secondary);padding:12px;border-radius:8px;font-family:var(--font-mono);margin-bottom:12px;">'
+            + '<div><strong>Sensitivity:</strong> TP / (TP + FN)</div>'
+            + '<div><strong>Specificity:</strong> TN / (TN + FP)</div>'
+            + '<div><strong>PPV:</strong> TP / (TP + FP)</div>'
+            + '<div><strong>NPV:</strong> TN / (TN + FN)</div>'
+            + '<div><strong>+LR:</strong> Sensitivity / (1 \u2212 Specificity)</div>'
+            + '<div><strong>\u2212LR:</strong> (1 \u2212 Sensitivity) / Specificity</div>'
+            + '<div><strong>DOR:</strong> (+LR) / (\u2212LR)</div>'
+            + '<div><strong>Youden J:</strong> Sensitivity + Specificity \u2212 1</div>'
+            + '<div><strong>Post-test odds:</strong> Pre-test odds \u00D7 LR</div>'
+            + '</div>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Assumptions</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li>Reference standard is a true gold standard (no misclassification)</li>'
+            + '<li>Test and reference applied independently</li>'
+            + '<li>Cross-sectional sampling or case-control with representative spectrum</li>'
+            + '<li>PPV/NPV depend on disease prevalence in the tested population</li>'
+            + '<li>Likelihood ratios are prevalence-independent (preferred for clinical use)</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Common Pitfalls</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li><strong>Spectrum bias:</strong> Testing only high-suspicion cases inflates sensitivity</li>'
+            + '<li><strong>Verification bias:</strong> Only test-positive patients get the reference test</li>'
+            + '<li><strong>PPV/NPV generalizability:</strong> These depend heavily on prevalence; use LR instead</li>'
+            + '<li><strong>ROC threshold choice:</strong> Optimal threshold varies by clinical context (rule-in vs rule-out)</li>'
+            + '<li><strong>Ignoring inconclusive results:</strong> Report and handle indeterminate test results</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">References</div>';
+        html += '<ul style="margin:0 0 0 16px;font-size:0.85rem;">'
+            + '<li>Bossuyt PM, et al. STARD 2015: updated reporting for diagnostic accuracy studies. <em>BMJ</em>. 2015;351:h5527.</li>'
+            + '<li>McGee S. Simplifying likelihood ratios. <em>J Gen Intern Med</em>. 2002;17:647-52.</li>'
+            + '<li>Deeks JJ, Altman DG. Diagnostic tests 4: likelihood ratios. <em>BMJ</em>. 2004;329:168-9.</li>'
+            + '</ul>';
+        html += '</div></div>';
+
+        // ===== METHODS TEXT =====
+        html += '<div class="card">';
+        html += '<div class="card-title">Generate Methods Text</div>';
+        html += '<div id="da-methods-text" class="text-output" style="min-height:40px;">Run a calculation above, then generate methods text.</div>';
+        html += '<div class="btn-group mt-2">'
+            + '<button class="btn btn-secondary" onclick="DiagAccuracyModule.generateMethods()">Generate Methods Text</button>'
+            + '<button class="btn btn-secondary" onclick="DiagAccuracyModule.copyMethods()">Copy Methods</button></div>';
+        html += '</div>';
+
         App.setTrustedHTML(container, html);
         renderROCTable();
     }
@@ -728,6 +782,36 @@
         }
     });
 
+    function generateMethods() {
+        if (!lastDiagResults) {
+            Export.showToast('Run a calculation first', 'error');
+            return;
+        }
+        var da = lastDiagResults;
+        var tp = parseInt(document.getElementById('da-tp').value) || 0;
+        var fp = parseInt(document.getElementById('da-fp').value) || 0;
+        var fn = parseInt(document.getElementById('da-fn').value) || 0;
+        var tn = parseInt(document.getElementById('da-tn').value) || 0;
+        var n = tp + fp + fn + tn;
+        var text = 'Diagnostic accuracy was assessed in ' + n + ' subjects (' + (tp + fn) + ' disease-positive, '
+            + (fp + tn) + ' disease-negative). '
+            + 'Sensitivity was ' + (da.sensitivity.value * 100).toFixed(1) + '% '
+            + '(95% CI, ' + (da.sensitivity.ci.lower * 100).toFixed(1) + '\u2013' + (da.sensitivity.ci.upper * 100).toFixed(1) + '%) '
+            + 'and specificity was ' + (da.specificity.value * 100).toFixed(1) + '% '
+            + '(95% CI, ' + (da.specificity.ci.lower * 100).toFixed(1) + '\u2013' + (da.specificity.ci.upper * 100).toFixed(1) + '%). '
+            + 'The positive likelihood ratio was ' + da.plr.toFixed(2)
+            + ' and negative likelihood ratio was ' + da.nlr.toFixed(3) + '. '
+            + 'Confidence intervals were computed using the Wilson score method. '
+            + 'The diagnostic odds ratio was ' + da.dor.toFixed(1) + '.';
+        var el = document.getElementById('da-methods-text');
+        if (el) App.setTrustedHTML(el, text);
+    }
+
+    function copyMethods() {
+        var el = document.getElementById('da-methods-text');
+        if (el) Export.copyText(el.textContent);
+    }
+
     window.DiagAccuracyModule = {
         switchTab: switchTab,
         calculate: calculate,
@@ -738,6 +822,8 @@
         updateROCPoint: updateROCPoint,
         loadROCExample: loadROCExample,
         plotROC: plotROC,
-        compareMcNemar: compareMcNemar
+        compareMcNemar: compareMcNemar,
+        generateMethods: generateMethods,
+        copyMethods: copyMethods
     };
 })();
