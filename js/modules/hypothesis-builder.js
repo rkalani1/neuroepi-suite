@@ -138,6 +138,36 @@
 
         html += '</div>'; // end card
 
+        // ===== LEARN SECTION =====
+        html += '<div class="card">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\');">'
+            + '\u25B6 Learn: Hypothesis Building Essentials</div>';
+        html += '<div class="learn-body hidden" style="font-size:0.9rem;line-height:1.7;">';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">PICO/FINER Frameworks</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li><strong>PICO:</strong> Population, Intervention, Comparison, Outcome</li>'
+            + '<li><strong>FINER:</strong> Feasible, Interesting, Novel, Ethical, Relevant</li>'
+            + '<li>A well-formed hypothesis specifies the expected direction and magnitude of effect</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Variable Classification</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li><strong>Primary exposure:</strong> The main independent variable of interest</li>'
+            + '<li><strong>Primary outcome:</strong> The main dependent variable (determines sample size)</li>'
+            + '<li><strong>Confounders:</strong> Variables associated with both exposure and outcome</li>'
+            + '<li><strong>Effect modifiers:</strong> Variables that change the magnitude/direction of the association</li>'
+            + '<li><strong>Mediators:</strong> Variables on the causal pathway (do NOT adjust for these)</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Common Pitfalls</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li><strong>Vague outcomes:</strong> Always pre-specify how the outcome will be measured and at what time point</li>'
+            + '<li><strong>Multiple primaries:</strong> More than one primary outcome requires multiplicity correction</li>'
+            + '<li><strong>Post-hoc hypotheses:</strong> Hypotheses generated from data should be labeled as exploratory</li>'
+            + '</ul>';
+        html += '</div></div>';
+
         App.setTrustedHTML(container, html);
         App.autoSaveInputs(container, MODULE_ID);
 

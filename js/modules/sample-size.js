@@ -209,6 +209,36 @@
 
         html += '</div>'; // end card
 
+        // ===== LEARN SECTION =====
+        html += '<div class="card">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\');">'
+            + '\u25B6 Learn: Sample Size Essentials</div>';
+        html += '<div class="learn-body hidden" style="font-size:0.9rem;line-height:1.7;">';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Key Formulas</div>';
+        html += '<div style="background:var(--bg-secondary);padding:12px;border-radius:8px;font-family:var(--font-mono);margin-bottom:12px;">'
+            + '<div><strong>Two Proportions:</strong> N/group = (z<sub>\u03B1/2</sub> + z<sub>\u03B2</sub>)\u00B2 \u00D7 2p\u0304q\u0304 / (p\u2081 \u2212 p\u2082)\u00B2</div>'
+            + '<div><strong>Two Means:</strong> N/group = (z<sub>\u03B1/2</sub> + z<sub>\u03B2</sub>)\u00B2 \u00D7 2\u03C3\u00B2 / \u03B4\u00B2</div>'
+            + '<div><strong>Time-to-Event:</strong> Events = 4(z<sub>\u03B1/2</sub> + z<sub>\u03B2</sub>)\u00B2 / (ln HR)\u00B2</div>'
+            + '<div><strong>Cluster RCT:</strong> N\u2019 = N \u00D7 [1 + (m\u22121)\u03C1] (design effect)</div>'
+            + '</div>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Key Considerations</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li>Always inflate for anticipated dropout (typically 10\u201320%)</li>'
+            + '<li>Non-inferiority trials need a pre-specified margin (\u0394)</li>'
+            + '<li>Multi-arm trials require multiplicity adjustment (\u03B1 correction)</li>'
+            + '<li>Cluster trials: ICC (\u03C1) and cluster size (m) drive the design effect</li>'
+            + '<li>Group sequential designs allow interim analyses that save overall N</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">References</div>';
+        html += '<ul style="margin:0 0 0 16px;font-size:0.85rem;">'
+            + '<li>Chow SC, Shao J, Wang H. <em>Sample Size Calculations in Clinical Research</em>. 3rd ed. 2017.</li>'
+            + '<li>Donner A, Klar N. <em>Design and Analysis of Cluster Randomization Trials</em>. 2000.</li>'
+            + '</ul>';
+        html += '</div></div>';
+
         App.setTrustedHTML(container, html);
         App.autoSaveInputs(container, MODULE_ID);
     }

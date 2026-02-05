@@ -220,6 +220,35 @@
 
         html += '</div>'; // end card
 
+        // ===== LEARN SECTION =====
+        html += '<div class="card">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\');">'
+            + '\u25B6 Learn: Grant Writing Essentials</div>';
+        html += '<div class="learn-body hidden" style="font-size:0.9rem;line-height:1.7;">';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">NIH Grant Structure</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li><strong>Specific Aims (1 page):</strong> The most critical page \u2014 hook, gap, hypothesis, aims</li>'
+            + '<li><strong>Significance:</strong> Why does this matter? What gap does it fill?</li>'
+            + '<li><strong>Innovation:</strong> What is new about your approach?</li>'
+            + '<li><strong>Approach:</strong> Detailed methods, preliminary data, timeline, pitfalls</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Common Pitfalls</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li><strong>Aims not independent:</strong> If Aim 1 fails, Aims 2-3 should still be doable</li>'
+            + '<li><strong>Overpromising:</strong> Be realistic about scope and timeline</li>'
+            + '<li><strong>Weak preliminary data:</strong> Show feasibility for each aim</li>'
+            + '<li><strong>Ignoring reviewers:</strong> Address potential criticisms proactively in "Pitfalls & Alternatives"</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">References</div>';
+        html += '<ul style="margin:0 0 0 16px;font-size:0.85rem;">'
+            + '<li>Inouye SK, Fiellin DA. An evidence-based guide to writing grant proposals. <em>Ann Intern Med</em>. 2005;142:274-82.</li>'
+            + '<li>NIH Office of Extramural Research. <a href="https://grants.nih.gov/grants/how-to-apply-application-guide.html" target="_blank" rel="noopener">Application Guide</a></li>'
+            + '</ul>';
+        html += '</div></div>';
+
         App.setTrustedHTML(container, html);
         App.autoSaveInputs(container, MODULE_ID);
     }

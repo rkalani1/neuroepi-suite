@@ -92,6 +92,35 @@
 
         html += '</div>';
 
+        // ===== LEARN SECTION =====
+        html += '<div class="card">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\');">'
+            + '\u25B6 Learn: Critical Appraisal Essentials</div>';
+        html += '<div class="learn-body hidden" style="font-size:0.9rem;line-height:1.7;">';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Appraisal Tools Overview</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li><strong>Cochrane RoB 2:</strong> Risk of bias in randomized trials (5 domains)</li>'
+            + '<li><strong>Newcastle-Ottawa Scale:</strong> Non-randomized studies (selection, comparability, outcome)</li>'
+            + '<li><strong>GRADE:</strong> Overall evidence certainty (high/moderate/low/very low)</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">GRADE Domains</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li>Risk of bias \u2192 downgrade if serious limitations</li>'
+            + '<li>Inconsistency \u2192 downgrade if I\u00B2 > 50% or conflicting results</li>'
+            + '<li>Indirectness \u2192 downgrade if PICO differs from evidence</li>'
+            + '<li>Imprecision \u2192 downgrade if CI crosses clinical threshold</li>'
+            + '<li>Publication bias \u2192 downgrade if funnel plot asymmetry or selective reporting</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">References</div>';
+        html += '<ul style="margin:0 0 0 16px;font-size:0.85rem;">'
+            + '<li>Sterne JAC, et al. RoB 2: revised tool for assessing risk of bias. <em>BMJ</em>. 2019;366:l4898.</li>'
+            + '<li>Guyatt GH, et al. GRADE guidelines. <em>J Clin Epidemiol</em>. 2011;64:383-94.</li>'
+            + '</ul>';
+        html += '</div></div>';
+
         App.setTrustedHTML(container, html);
     }
 

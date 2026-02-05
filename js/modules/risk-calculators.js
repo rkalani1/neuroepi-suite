@@ -542,6 +542,37 @@
 
         html += '</div>'; // end card 2 (Epi calculators)
 
+        // ===== LEARN SECTION =====
+        html += '<div class="card">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\');">'
+            + '\u25B6 Learn: Clinical Risk Scores</div>';
+        html += '<div class="learn-body hidden" style="font-size:0.9rem;line-height:1.7;">';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Score Selection Guide</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li><strong>CHA\u2082DS\u2082-VASc:</strong> Annual stroke risk in AF \u2192 guides anticoagulation decision</li>'
+            + '<li><strong>HAS-BLED:</strong> Annual major bleeding risk \u2192 risk-benefit of anticoagulation</li>'
+            + '<li><strong>ABCD\u00B2:</strong> 2-day/7-day stroke risk after TIA \u2192 urgency of workup</li>'
+            + '<li><strong>ESRS:</strong> Recurrent stroke risk \u2192 identifies high-risk patients for aggressive prevention</li>'
+            + '<li><strong>SEDAN:</strong> sICH risk after IV tPA \u2192 shared decision-making</li>'
+            + '<li><strong>DRAGON:</strong> Functional outcome prediction after IV tPA</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Cautions</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li>Risk scores provide population-level estimates, not individual predictions</li>'
+            + '<li>Scores validated in specific populations may not generalize to all settings</li>'
+            + '<li>Always combine scores with clinical judgment and shared decision-making</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">References</div>';
+        html += '<ul style="margin:0 0 0 16px;font-size:0.85rem;">'
+            + '<li>Lip GY, et al. Refining clinical risk stratification for AF: CHA\u2082DS\u2082-VASc. <em>Chest</em>. 2010;137:263-72.</li>'
+            + '<li>Pisters R, et al. HAS-BLED. <em>Chest</em>. 2010;138:1093-100.</li>'
+            + '<li>Johnston SC, et al. ABCD\u00B2 score. <em>Lancet</em>. 2007;369:283-92.</li>'
+            + '</ul>';
+        html += '</div></div>';
+
         App.setTrustedHTML(container, html);
         App.autoSaveInputs(container, MODULE_ID);
 

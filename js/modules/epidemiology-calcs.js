@@ -119,6 +119,37 @@
 
         html += '</div>'; // end card
 
+        // ===== LEARN SECTION =====
+        html += '<div class="card">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\');">'
+            + '\u25B6 Learn: Epidemiology Calculations</div>';
+        html += '<div class="learn-body hidden" style="font-size:0.9rem;line-height:1.7;">';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Key Measures</div>';
+        html += '<div style="background:var(--bg-secondary);padding:12px;border-radius:8px;font-family:var(--font-mono);margin-bottom:12px;">'
+            + '<div><strong>Incidence Rate:</strong> Events / Person-time at risk</div>'
+            + '<div><strong>Prevalence:</strong> Cases / Total population at a point in time</div>'
+            + '<div><strong>OR (case-control):</strong> (a \u00D7 d) / (b \u00D7 c)</div>'
+            + '<div><strong>RR (cohort):</strong> [a/(a+b)] / [c/(c+d)]</div>'
+            + '<div><strong>AR%:</strong> (RR \u2212 1) / RR \u00D7 100% (in exposed)</div>'
+            + '<div><strong>PAR%:</strong> p(RR \u2212 1) / [1 + p(RR \u2212 1)] (population)</div>'
+            + '</div>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Common Pitfalls</div>';
+        html += '<ul style="margin:0 0 12px 16px;">'
+            + '<li><strong>Prevalence vs incidence:</strong> Prevalence includes old and new cases; incidence counts only new cases</li>'
+            + '<li><strong>OR \u2248 RR only when outcome is rare:</strong> When prevalence >10%, OR overestimates RR</li>'
+            + '<li><strong>Person-time denominators:</strong> Require knowing exact follow-up per individual</li>'
+            + '<li><strong>PAR depends on prevalence:</strong> A strong association with a rare exposure has small population impact</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">References</div>';
+        html += '<ul style="margin:0 0 0 16px;font-size:0.85rem;">'
+            + '<li>Rothman KJ, et al. <em>Modern Epidemiology</em>. 4th ed. Wolters Kluwer; 2021.</li>'
+            + '<li>Szklo M, Nieto FJ. <em>Epidemiology: Beyond the Basics</em>. 4th ed. Jones & Bartlett; 2019.</li>'
+            + '</ul>';
+        html += '</div></div>';
+
         App.setTrustedHTML(container, html);
         App.autoSaveInputs(container, MODULE_ID);
 
