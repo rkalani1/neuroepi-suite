@@ -914,6 +914,120 @@ const Statistics = (() => {
         return boundaries;
     }
 
+    // Crossover design sample size
+    function sampleSizeCrossover(delta, sdWithin, alpha, power, nPeriods) {
+        alpha = alpha || 0.05;
+        power = power || 0.80;
+        nPeriods = nPeriods || 2;
+
+        const za = normalQuantile(1 - alpha / 2);
+        const zb = normalQuantile(power);
+
+        // For a 2x2 crossover: N = 2*(za+zb)^2 * sd_within^2 / delta^2
+        // For higher-order crossovers, efficiency gain ~ sqrt(nPeriods/2)
+        var n = 2 * Math.pow(za + zb, 2) * sdWithin * sdWithin / (delta * delta);
+        if (nPeriods > 2) {
+            n = n * (2 / nPeriods);
+        }
+        return { n: Math.ceil(n), total: Math.ceil(n), nPeriods: nPeriods, sdWithin: sdWithin };
+    }
+
+    // Diagnostic accuracy study sample size (based on expected sensitivity or specificity)
+    function sampleSizeDiagnosticAccuracy(expectedProp, ciWidth, alpha, prevalence) {
+        alpha = alpha || 0.05;
+        var za = normalQuantile(1 - alpha / 2);
+
+        // N for the specific metric (sensitivity or specificity)
+        var nMetric = Math.ceil(4 * za * za * expectedProp * (1 - expectedProp) / (ciWidth * ciWidth));
+
+        var totalN = null;
+        if (prevalence && prevalence > 0) {
+            // If estimating sensitivity, we need nMetric diseased subjects
+            // total N = nMetric / prevalence (for sensitivity)
+            // total N = nMetric / (1 - prevalence) (for specificity)
+            // Return both
+            totalN = {
+                forSensitivity: Math.ceil(nMetric / prevalence),
+                forSpecificity: Math.ceil(nMetric / (1 - prevalence))
+            };
+        }
+
+        return { nMetric: nMetric, totalN: totalN, expectedProp: expectedProp, ciWidth: ciWidth };
+    }
+
+    // Group sequential sample size with alpha spending inflation factor
+    function sampleSizeGroupSequential(nFixed, nLooks, spendingType) {
+        spendingType = spendingType || 'obf';
+        // Inflation factor for group sequential designs
+        // OBF: very small inflation (~1.015 for 3 looks)
+        // Pocock: larger inflation
+        var inflationFactor;
+        if (spendingType === 'obf') {
+            // Approximate OBF inflation factors
+            var obfFactors = { 2: 1.008, 3: 1.015, 4: 1.020, 5: 1.025 };
+            inflationFactor = obfFactors[nLooks] || (1 + 0.005 * nLooks);
+        } else {
+            // Pocock inflation factors
+            var pocockFactors = { 2: 1.17, 3: 1.23, 4: 1.27, 5: 1.30 };
+            inflationFactor = pocockFactors[nLooks] || (1 + 0.06 * Math.log(nLooks) + 0.05);
+        }
+
+        var nAdjusted = Math.ceil(nFixed * inflationFactor);
+        return {
+            nFixed: nFixed,
+            nAdjusted: nAdjusted,
+            inflationFactor: inflationFactor,
+            nLooks: nLooks,
+            spendingType: spendingType,
+            maxNPerLook: Math.ceil(nAdjusted / nLooks)
+        };
+    }
+
+    // Minimum detectable effect size given N, alpha, power (proportions)
+    function mdeProportions(p1, nPerGroup, alpha, power) {
+        alpha = alpha || 0.05;
+        power = power || 0.80;
+        var za = normalQuantile(1 - alpha / 2);
+        var zb = normalQuantile(power);
+
+        // Binary search for p2
+        var lo = 0.001, hi = p1 - 0.001;
+        if (hi <= lo) { lo = p1 + 0.001; hi = 0.999; }
+        for (var iter = 0; iter < 100; iter++) {
+            var mid = (lo + hi) / 2;
+            var pw = powerTwoProportions(p1, mid, nPerGroup, alpha);
+            if (pw < power) {
+                // Need bigger effect (mid closer to p1 is smaller effect for hi side)
+                if (mid < p1) hi = mid; else lo = mid;
+            } else {
+                if (mid < p1) lo = mid; else hi = mid;
+            }
+            if (Math.abs(hi - lo) < 0.0001) break;
+        }
+        var p2 = (lo + hi) / 2;
+        return { p2: p2, arr: Math.abs(p1 - p2), rr: p2 / p1 };
+    }
+
+    // Minimum detectable effect size given N, alpha, power (means)
+    function mdeMeans(sd, nPerGroup, alpha, power) {
+        alpha = alpha || 0.05;
+        power = power || 0.80;
+        var za = normalQuantile(1 - alpha / 2);
+        var zb = normalQuantile(power);
+        var delta = (za + zb) * sd * Math.sqrt(2 / nPerGroup);
+        return { delta: delta, cohensD: delta / sd };
+    }
+
+    // Minimum detectable effect size given N events, alpha, power (survival)
+    function mdeSurvival(events, alpha, power) {
+        alpha = alpha || 0.05;
+        power = power || 0.80;
+        var za = normalQuantile(1 - alpha / 2);
+        var zb = normalQuantile(power);
+        var lnHR = (za + zb) / Math.sqrt(events / 4);
+        return { hr: Math.exp(-lnHR), hrUpper: Math.exp(lnHR), lnHR: lnHR };
+    }
+
     // Power calculation (reverse: given N, compute power)
     function powerTwoProportions(p1, p2, n1, alpha, ratio) {
         alpha = alpha || 0.05;
@@ -1672,8 +1786,15 @@ const Statistics = (() => {
         sampleSizeOrdinalShift, sampleSizeMultiArm,
         groupSequentialBoundaries,
 
+        // Additional sample size
+        sampleSizeCrossover, sampleSizeDiagnosticAccuracy,
+        sampleSizeGroupSequential,
+
         // Power
         powerTwoProportions, powerTwoMeans, powerSurvival,
+
+        // Minimum detectable effect
+        mdeProportions, mdeMeans, mdeSurvival,
 
         // Meta-analysis
         metaAnalysisFixedEffect, metaAnalysisRandomEffects,

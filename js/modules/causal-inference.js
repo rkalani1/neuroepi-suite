@@ -1,7 +1,9 @@
 /**
  * Neuro-Epi — Causal Inference Module
  * Interactive tools for causal reasoning in epidemiological research.
- * Bradford Hill criteria, DAG builder, counterfactual framework, methods comparison.
+ * Bradford Hill criteria, DAG builder, counterfactual framework, methods comparison,
+ * propensity score guide, instrumental variables, Mendelian randomization,
+ * difference-in-differences, target trial emulation.
  */
 (function() {
     'use strict';
@@ -15,6 +17,7 @@
     var dagEdges = [];
     var dagExposure = '';
     var dagOutcome = '';
+    var dagNodeTypes = {};
 
     // ================================================================
     // RENDER
@@ -35,6 +38,7 @@
             + '<li><strong>Bradford Hill criteria (1965):</strong> Nine viewpoints for assessing causation (strength, consistency, specificity, temporality, biological gradient, plausibility, coherence, experiment, analogy). These support arguments for association, not definitive proof of causation.</li>'
             + '<li><strong>Counterfactual / potential outcomes (Rubin):</strong> Defines causal effects as the contrast between what happened and what would have happened under an alternative treatment. Individual causal effects are unobservable; we estimate average effects.</li>'
             + '<li><strong>Directed Acyclic Graphs (Pearl, Greenland):</strong> Graphical tools to encode causal assumptions, identify confounders, mediators, and colliders, and determine the correct adjustment set for estimating causal effects.</li>'
+            + '<li><strong>Structural Causal Models (Pearl):</strong> Formal mathematical framework that uses structural equations and DAGs together to define causal quantities (interventional and counterfactual) and derive identification results.</li>'
             + '</ul>';
 
         html += '<div class="card-subtitle" style="font-weight:600;">Core Concepts</div>';
@@ -43,6 +47,8 @@
             + '<li><strong>Collider bias:</strong> Conditioning on (adjusting for) a common effect of two variables creates a spurious association between them. Do NOT adjust for colliders.</li>'
             + '<li><strong>Effect modification &ne; confounding:</strong> Effect modification (interaction) is a biological finding to be reported (stratum-specific estimates differ). Confounding is a nuisance to be removed (crude vs. adjusted estimates differ).</li>'
             + '<li><strong>Mediation:</strong> A variable on the causal pathway between exposure and outcome. Adjusting for mediators blocks the indirect effect.</li>'
+            + '<li><strong>Selection bias:</strong> Occurs when the selection of subjects into the study (or the analysis) depends on both the exposure and the outcome, often equivalent to conditioning on a collider.</li>'
+            + '<li><strong>Immortal time bias:</strong> A period of follow-up during which the outcome cannot occur. Misclassifying this time inflates the apparent benefit of treatment. Addressed by target trial emulation.</li>'
             + '</ul>';
 
         html += '<div class="card-subtitle" style="font-weight:600;">Methods Overview</div>';
@@ -51,6 +57,22 @@
             + '<li><strong>Analysis phase:</strong> Stratification, multivariable regression, IP weighting, standardization</li>'
             + '<li><strong>Quasi-experimental:</strong> Instrumental variables, difference-in-differences, regression discontinuity, interrupted time series</li>'
             + '<li><strong>Advanced:</strong> Marginal structural models, g-estimation, target trial emulation, Mendelian randomization</li>'
+            + '<li><strong>Propensity-based:</strong> Propensity score matching, stratification, IPTW, doubly robust estimation</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Causal Identification Strategies</div>';
+        html += '<ul style="margin:0 0 12px 16px; font-size:0.9rem; line-height:1.7;">'
+            + '<li><strong>Backdoor criterion (Pearl):</strong> A set Z satisfies the backdoor criterion if (i) no node in Z is a descendant of treatment, and (ii) Z blocks every path between treatment and outcome that contains an arrow into treatment.</li>'
+            + '<li><strong>Frontdoor criterion:</strong> When confounders are unmeasured but a mediator M fully mediates the effect of X on Y, and M is not directly confounded with Y given X.</li>'
+            + '<li><strong>Instrumental variable identification:</strong> Exploits an exogenous source of variation that affects treatment but has no direct effect on the outcome.</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Target Trial Emulation Framework</div>';
+        html += '<ul style="margin:0 0 12px 16px; font-size:0.9rem; line-height:1.7;">'
+            + '<li><strong>Step 1:</strong> Specify the protocol of the target trial (eligibility, treatment strategies, assignment, follow-up start, outcomes, causal contrast, analysis plan).</li>'
+            + '<li><strong>Step 2:</strong> Emulate each component using observational data.</li>'
+            + '<li><strong>Step 3:</strong> Explicitly state which components can and cannot be emulated.</li>'
+            + '<li><strong>Key benefit:</strong> Prevents immortal time bias, prevalent user bias, and other common pitfalls by forcing explicit alignment of observational analysis with trial logic.</li>'
             + '</ul>';
 
         html += '<div class="card-subtitle" style="font-weight:600;">References</div>';
@@ -58,6 +80,9 @@
             + '<li>Hern&aacute;n MA, Robins JM. <em>Causal Inference: What If</em>. Chapman &amp; Hall/CRC, 2020.</li>'
             + '<li>Pearl J. <em>Causality: Models, Reasoning, and Inference</em>, 2nd ed. Cambridge University Press, 2009.</li>'
             + '<li>VanderWeele TJ. <em>Explanation in Causal Inference: Methods for Mediation and Interaction</em>. Oxford University Press, 2015.</li>'
+            + '<li>Hern&aacute;n MA, Robins JM. Using Big Data to Emulate a Target Trial When a Randomized Trial Is Not Available. Am J Epidemiol. 2016;183(8):758-764.</li>'
+            + '<li>Davey Smith G, Hemani G. Mendelian randomization: genetic anchors for causal inference in epidemiological studies. Hum Mol Genet. 2014;23(R1):R89-R98.</li>'
+            + '<li>Rosenbaum PR, Rubin DB. The central role of the propensity score in observational studies for causal effects. Biometrika. 1983;70(1):41-55.</li>'
             + '</ul>';
 
         html += '</div></div>';
@@ -73,6 +98,18 @@
 
         // ===== CARD 4: Causal Methods Comparison =====
         html += renderMethodsComparison();
+
+        // ===== CARD 5: Propensity Score Guide =====
+        html += renderPropensityScoreGuide();
+
+        // ===== CARD 6: Instrumental Variables & MR =====
+        html += renderIVandMR();
+
+        // ===== CARD 7: Difference-in-Differences =====
+        html += renderDiD();
+
+        // ===== CARD 8: Target Trial Emulation =====
+        html += renderTargetTrial();
 
         App.setTrustedHTML(container, html);
         App.autoSaveInputs(container, MODULE_ID);
@@ -321,13 +358,13 @@
     }
 
     // ================================================================
-    // CARD 2: DAG Builder (Text-Based)
+    // CARD 2: DAG Builder (Text-Based) with Node Types
     // ================================================================
     function renderDAGBuilder() {
         var html = '<div class="card">';
         html += '<div class="card-title">DAG Builder (Text-Based)</div>';
         html += '<div class="card-subtitle">Build a directed acyclic graph to identify confounders, mediators, and colliders. '
-            + 'Define variables, specify directed edges, and get adjustment set recommendations.</div>';
+            + 'Define variables with types, specify directed edges, and get adjustment set recommendations.</div>';
 
         html += '<div class="form-row form-row--2">';
         html += '<div class="form-group"><label class="form-label">Variables (one per line)</label>'
@@ -340,6 +377,25 @@
             + '<select class="form-select" id="dag-outcome" name="dag-outcome"><option value="">-- Parse variables first --</option></select>'
             + '<div class="btn-group mt-1"><button class="btn btn-secondary" onclick="CausalInference.parseVariables()">Parse Variables</button></div>'
             + '</div>';
+        html += '</div>';
+
+        // Node type assignment
+        html += '<div style="border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:12px;">';
+        html += '<div style="font-weight:600;margin-bottom:8px;">Assign Node Types (optional)</div>';
+        html += '<div class="form-row form-row--2">';
+        html += '<div class="form-group"><label class="form-label">Variable</label>'
+            + '<select class="form-select" id="dag-nodetype-var"><option value="">-- Select --</option></select></div>';
+        html += '<div class="form-group"><label class="form-label">Node Type</label>'
+            + '<select class="form-select" id="dag-nodetype-type">'
+            + '<option value="measured">Measured</option>'
+            + '<option value="unmeasured">Unmeasured / Latent</option>'
+            + '<option value="time-varying">Time-varying</option>'
+            + '<option value="selection">Selection node</option>'
+            + '<option value="instrument">Instrument</option>'
+            + '</select></div>';
+        html += '</div>';
+        html += '<div class="btn-group"><button class="btn btn-xs btn-secondary" onclick="CausalInference.assignNodeType()">Assign Type</button></div>';
+        html += '<div id="dag-nodetypes-list" style="margin-top:8px;"></div>';
         html += '</div>';
 
         html += '<div style="border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:12px;">';
@@ -356,6 +412,17 @@
         html += '</div>';
 
         html += '<div id="dag-edges-list" style="margin-bottom:12px;"></div>';
+
+        // Common DAG templates
+        html += '<div style="border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:12px;">';
+        html += '<div style="font-weight:600;margin-bottom:8px;">Quick Templates</div>';
+        html += '<div class="btn-group">';
+        html += '<button class="btn btn-xs btn-secondary" onclick="CausalInference.loadDAGTemplate(\'confounding\')">Confounding</button>';
+        html += '<button class="btn btn-xs btn-secondary" onclick="CausalInference.loadDAGTemplate(\'mediation\')">Mediation</button>';
+        html += '<button class="btn btn-xs btn-secondary" onclick="CausalInference.loadDAGTemplate(\'collider\')">Collider</button>';
+        html += '<button class="btn btn-xs btn-secondary" onclick="CausalInference.loadDAGTemplate(\'iv\')">Instrumental Variable</button>';
+        html += '<button class="btn btn-xs btn-secondary" onclick="CausalInference.loadDAGTemplate(\'mdag\')">M-bias</button>';
+        html += '</div></div>';
 
         html += '<div class="btn-group">'
             + '<button class="btn btn-primary" onclick="CausalInference.analyzeDAG()">Analyze DAG</button>'
@@ -375,7 +442,7 @@
 
         dagVariables = text.split('\n').map(function(v) { return v.trim(); }).filter(function(v) { return v.length > 0; });
 
-        var selectors = ['dag-exposure', 'dag-outcome', 'dag-edge-from', 'dag-edge-to'];
+        var selectors = ['dag-exposure', 'dag-outcome', 'dag-edge-from', 'dag-edge-to', 'dag-nodetype-var'];
         for (var s = 0; s < selectors.length; s++) {
             var sel = document.getElementById(selectors[s]);
             var currentVal = sel.value;
@@ -388,6 +455,103 @@
                 sel.value = currentVal;
             }
         }
+    }
+
+    function assignNodeType() {
+        var varName = document.getElementById('dag-nodetype-var').value;
+        var nodeType = document.getElementById('dag-nodetype-type').value;
+        if (!varName) return;
+        dagNodeTypes[varName] = nodeType;
+        renderNodeTypesList();
+    }
+
+    function renderNodeTypesList() {
+        var el = document.getElementById('dag-nodetypes-list');
+        if (!el) return;
+        var keys = Object.keys(dagNodeTypes);
+        if (keys.length === 0) {
+            App.setTrustedHTML(el, '');
+            return;
+        }
+        var html = '';
+        var typeColors = {
+            'measured': 'var(--success)',
+            'unmeasured': 'var(--danger)',
+            'time-varying': 'var(--warning)',
+            'selection': 'var(--primary)',
+            'instrument': '#9b59b6'
+        };
+        for (var i = 0; i < keys.length; i++) {
+            var c = typeColors[dagNodeTypes[keys[i]]] || 'var(--text-secondary)';
+            html += '<span style="display:inline-block;margin:2px 4px;padding:2px 8px;border-radius:12px;font-size:0.8rem;'
+                + 'border:1px solid ' + c + ';color:' + c + ';">'
+                + keys[i] + ' (' + dagNodeTypes[keys[i]] + ')</span>';
+        }
+        App.setTrustedHTML(el, html);
+    }
+
+    function loadDAGTemplate(template) {
+        var vars = '';
+        dagEdges = [];
+        dagNodeTypes = {};
+
+        if (template === 'confounding') {
+            vars = 'Exposure\nOutcome\nConfounder';
+            dagEdges = [
+                { from: 'Confounder', to: 'Exposure' },
+                { from: 'Confounder', to: 'Outcome' },
+                { from: 'Exposure', to: 'Outcome' }
+            ];
+        } else if (template === 'mediation') {
+            vars = 'Exposure\nMediator\nOutcome';
+            dagEdges = [
+                { from: 'Exposure', to: 'Mediator' },
+                { from: 'Mediator', to: 'Outcome' },
+                { from: 'Exposure', to: 'Outcome' }
+            ];
+        } else if (template === 'collider') {
+            vars = 'Exposure\nOutcome\nCollider';
+            dagEdges = [
+                { from: 'Exposure', to: 'Collider' },
+                { from: 'Outcome', to: 'Collider' },
+                { from: 'Exposure', to: 'Outcome' }
+            ];
+        } else if (template === 'iv') {
+            vars = 'Instrument\nExposure\nOutcome\nUnmeasured Confounder';
+            dagEdges = [
+                { from: 'Instrument', to: 'Exposure' },
+                { from: 'Exposure', to: 'Outcome' },
+                { from: 'Unmeasured Confounder', to: 'Exposure' },
+                { from: 'Unmeasured Confounder', to: 'Outcome' }
+            ];
+            dagNodeTypes['Unmeasured Confounder'] = 'unmeasured';
+            dagNodeTypes['Instrument'] = 'instrument';
+        } else if (template === 'mdag') {
+            vars = 'Exposure\nOutcome\nU1\nU2\nM';
+            dagEdges = [
+                { from: 'U1', to: 'Exposure' },
+                { from: 'U1', to: 'M' },
+                { from: 'U2', to: 'Outcome' },
+                { from: 'U2', to: 'M' },
+                { from: 'Exposure', to: 'Outcome' }
+            ];
+            dagNodeTypes['U1'] = 'unmeasured';
+            dagNodeTypes['U2'] = 'unmeasured';
+        }
+
+        document.getElementById('dag-variables').value = vars;
+        parseVariables();
+
+        // Set exposure/outcome
+        if (dagVariables.indexOf('Exposure') !== -1) {
+            document.getElementById('dag-exposure').value = 'Exposure';
+        }
+        if (dagVariables.indexOf('Outcome') !== -1) {
+            document.getElementById('dag-outcome').value = 'Outcome';
+        }
+
+        renderEdgesList();
+        renderNodeTypesList();
     }
 
     function addEdge() {
@@ -435,13 +599,15 @@
         dagEdges = [];
         dagExposure = '';
         dagOutcome = '';
+        dagNodeTypes = {};
         document.getElementById('dag-variables').value = '';
-        var selectors = ['dag-exposure', 'dag-outcome', 'dag-edge-from', 'dag-edge-to'];
+        var selectors = ['dag-exposure', 'dag-outcome', 'dag-edge-from', 'dag-edge-to', 'dag-nodetype-var'];
         for (var s = 0; s < selectors.length; s++) {
             App.setTrustedHTML(document.getElementById(selectors[s]), '<option value="">-- Select --</option>');
         }
         App.setTrustedHTML(document.getElementById('dag-edges-list'), '');
         App.setTrustedHTML(document.getElementById('dag-results'), '');
+        App.setTrustedHTML(document.getElementById('dag-nodetypes-list'), '');
     }
 
     function analyzeDAG() {
@@ -517,6 +683,14 @@
             if (doNotAdjustUnique.indexOf(doNotAdjust[u]) === -1) doNotAdjustUnique.push(doNotAdjust[u]);
         }
 
+        // Check for unmeasured confounders
+        var unmeasuredConfounders = [];
+        for (var uc = 0; uc < confounders.length; uc++) {
+            if (dagNodeTypes[confounders[uc]] === 'unmeasured') {
+                unmeasuredConfounders.push(confounders[uc]);
+            }
+        }
+
         // Text-based DAG visualization
         var dagText = generateDAGText();
 
@@ -530,26 +704,32 @@
 
         // Variable roles
         html += '<div class="table-container">';
-        html += '<table class="data-table"><thead><tr><th>Variable</th><th>Role</th><th>Action</th></tr></thead><tbody>';
+        html += '<table class="data-table"><thead><tr><th>Variable</th><th>Role</th><th>Node Type</th><th>Action</th></tr></thead><tbody>';
 
-        html += '<tr><td><strong>' + dagExposure + '</strong></td><td>Exposure</td><td>-</td></tr>';
-        html += '<tr><td><strong>' + dagOutcome + '</strong></td><td>Outcome</td><td>-</td></tr>';
+        html += '<tr><td><strong>' + dagExposure + '</strong></td><td>Exposure</td><td>' + (dagNodeTypes[dagExposure] || 'measured') + '</td><td>-</td></tr>';
+        html += '<tr><td><strong>' + dagOutcome + '</strong></td><td>Outcome</td><td>' + (dagNodeTypes[dagOutcome] || 'measured') + '</td><td>-</td></tr>';
 
         for (var ci = 0; ci < confounders.length; ci++) {
-            html += '<tr style="background:rgba(255,193,7,0.1);"><td>' + confounders[ci] + '</td><td>Confounder</td>'
-                + '<td style="color:var(--warning);font-weight:600;">Adjust</td></tr>';
+            var isUnmeas = dagNodeTypes[confounders[ci]] === 'unmeasured';
+            html += '<tr style="background:rgba(255,193,7,0.1);"><td>' + confounders[ci] + '</td><td>Confounder' + (isUnmeas ? ' (unmeasured)' : '') + '</td>'
+                + '<td>' + (dagNodeTypes[confounders[ci]] || 'measured') + '</td>'
+                + '<td style="color:' + (isUnmeas ? 'var(--danger)' : 'var(--warning)') + ';font-weight:600;">'
+                + (isUnmeas ? 'Cannot adjust (unmeasured)' : 'Adjust') + '</td></tr>';
         }
         for (var mi = 0; mi < mediators.length; mi++) {
             html += '<tr style="background:rgba(220,53,69,0.1);"><td>' + mediators[mi] + '</td><td>Mediator</td>'
+                + '<td>' + (dagNodeTypes[mediators[mi]] || 'measured') + '</td>'
                 + '<td style="color:var(--danger);font-weight:600;">Do NOT adjust (for total effect)</td></tr>';
         }
         for (var co = 0; co < colliders.length; co++) {
             html += '<tr style="background:rgba(220,53,69,0.1);"><td>' + colliders[co] + '</td><td>Collider</td>'
+                + '<td>' + (dagNodeTypes[colliders[co]] || 'measured') + '</td>'
                 + '<td style="color:var(--danger);font-weight:600;">Do NOT adjust</td></tr>';
         }
         if (instruments.length > 0) {
             for (var iv = 0; iv < instruments.length; iv++) {
                 html += '<tr style="background:rgba(13,110,253,0.1);"><td>' + instruments[iv] + '</td><td>Potential Instrument</td>'
+                    + '<td>' + (dagNodeTypes[instruments[iv]] || 'measured') + '</td>'
                     + '<td style="color:var(--primary);">Consider for IV analysis</td></tr>';
             }
         }
@@ -561,7 +741,8 @@
         html += '<div>To estimate the <strong>total causal effect</strong> of <strong>' + dagExposure + '</strong> on <strong>' + dagOutcome + '</strong>:</div>';
 
         if (adjustFor.length > 0) {
-            html += '<div style="margin-top:8px;"><strong style="color:var(--success);">Adjust for:</strong> ' + adjustFor.join(', ') + '</div>';
+            var measuredAdj = adjustFor.filter(function(a) { return dagNodeTypes[a] !== 'unmeasured'; });
+            html += '<div style="margin-top:8px;"><strong style="color:var(--success);">Adjust for:</strong> ' + (measuredAdj.length > 0 ? measuredAdj.join(', ') : 'No measured confounders identified.') + '</div>';
         } else {
             html += '<div style="margin-top:8px;"><strong style="color:var(--success);">Adjust for:</strong> No confounders identified in this DAG.</div>';
         }
@@ -569,6 +750,15 @@
             html += '<div style="margin-top:4px;"><strong style="color:var(--danger);">Do NOT adjust for:</strong> ' + doNotAdjustUnique.join(', ')
                 + ' (adjusting for colliders opens biasing paths; adjusting for mediators blocks the causal path)</div>';
         }
+
+        // Warn about unmeasured confounding
+        if (unmeasuredConfounders.length > 0) {
+            html += '<div style="margin-top:12px;padding:10px;background:rgba(220,53,69,0.1);border-radius:6px;border-left:3px solid var(--danger);">'
+                + '<strong style="color:var(--danger);">Warning:</strong> Unmeasured confounders detected: ' + unmeasuredConfounders.join(', ')
+                + '. The causal effect is not identifiable by standard adjustment. Consider instrumental variables, '
+                + 'sensitivity analysis for unmeasured confounding (e.g., E-value), or other approaches.</div>';
+        }
+
         html += '</div>';
 
         html += '<div style="margin-top:12px;font-size:0.8rem;color:var(--text-tertiary);">'
@@ -614,6 +804,16 @@
             lines.push('  ' + dagEdges[i].from + ' --> ' + dagEdges[i].to);
         }
         lines.push('');
+
+        // Show node types if any
+        var typeKeys = Object.keys(dagNodeTypes);
+        if (typeKeys.length > 0) {
+            lines.push('Node Types:');
+            for (var t = 0; t < typeKeys.length; t++) {
+                lines.push('  ' + typeKeys[t] + ': ' + dagNodeTypes[typeKeys[t]]);
+            }
+            lines.push('');
+        }
 
         // Show adjacency as a simple list
         lines.push('Adjacency:');
@@ -871,6 +1071,427 @@
     }
 
     // ================================================================
+    // CARD 5: Propensity Score Calculator Guide
+    // ================================================================
+    function renderPropensityScoreGuide() {
+        var html = '<div class="card">';
+        html += '<div class="card-title">Propensity Score Analysis Guide</div>';
+        html += '<div class="card-subtitle">Step-by-step guide to conducting propensity score analysis for causal inference in observational studies.</div>';
+
+        // Step-by-step guide
+        var steps = [
+            {
+                num: 1,
+                title: 'Define the Research Question',
+                detail: 'Clearly specify the exposure (treatment), outcome, and the causal contrast of interest (ATE vs ATT). '
+                    + 'Consider: What is the target trial you are trying to emulate? What intervention is being compared to what?'
+            },
+            {
+                num: 2,
+                title: 'Select Covariates for the Propensity Score Model',
+                detail: 'Include all variables that are (a) related to both treatment and outcome (confounders), or (b) related to the outcome only (prognostic factors, which improve precision). '
+                    + 'Do NOT include: (a) instruments (related only to treatment), (b) variables on the causal pathway (mediators), (c) colliders. '
+                    + 'Use a DAG to guide covariate selection.'
+            },
+            {
+                num: 3,
+                title: 'Estimate the Propensity Score',
+                detail: 'Fit a logistic regression (or machine learning model: GBM, random forest, LASSO) predicting treatment assignment from selected covariates. '
+                    + 'The propensity score PS(X) = P(A=1 | X) is the predicted probability of receiving treatment given covariates X.'
+            },
+            {
+                num: 4,
+                title: 'Choose a Propensity Score Method',
+                detail: '<strong>Matching:</strong> Match treated to untreated subjects with similar PS (nearest neighbor, caliper, optimal). Estimates ATT. '
+                    + '<strong>Stratification:</strong> Divide into PS quintiles and estimate within-stratum effects. '
+                    + '<strong>IPTW:</strong> Weight each observation by 1/PS (treated) or 1/(1-PS) (untreated). Estimates ATE. '
+                    + '<strong>Covariate adjustment:</strong> Include PS as a covariate in outcome regression. '
+                    + '<strong>Doubly robust:</strong> Combine PS weighting with outcome regression for protection against misspecification of either model.'
+            },
+            {
+                num: 5,
+                title: 'Assess Covariate Balance',
+                detail: 'After PS adjustment, check that covariates are balanced between groups. Use standardized mean differences (SMD). '
+                    + 'Threshold: SMD < 0.1 (or < 0.25 for less strict balance). Also compare variance ratios (target: 0.5 to 2.0). '
+                    + 'If balance is poor: refit the PS model, add interactions/polynomials, or try a different matching algorithm.'
+            },
+            {
+                num: 6,
+                title: 'Estimate the Treatment Effect',
+                detail: 'Apply the outcome model to the matched/weighted/stratified sample. Report the point estimate, 95% CI, and p-value. '
+                    + 'For IPTW: use robust (sandwich) standard errors or bootstrap. For matching: account for the matched design (paired analysis or cluster-robust SE).'
+            },
+            {
+                num: 7,
+                title: 'Sensitivity Analysis',
+                detail: 'Assess robustness to unmeasured confounding. Report the <strong>E-value</strong> (VanderWeele & Ding, 2017): the minimum strength of association '
+                    + 'an unmeasured confounder would need to have with both treatment and outcome to explain away the observed effect. '
+                    + 'Also consider: Rosenbaum bounds, negative control outcomes, quantitative bias analysis.'
+            }
+        ];
+
+        for (var i = 0; i < steps.length; i++) {
+            var s = steps[i];
+            html += '<div style="border-left:4px solid var(--primary);padding:12px 16px;margin-bottom:12px;background:var(--bg-tertiary);border-radius:0 8px 8px 0;">';
+            html += '<div style="font-weight:700;font-size:0.95rem;margin-bottom:6px;">Step ' + s.num + ': ' + s.title + '</div>';
+            html += '<div style="font-size:0.88rem;line-height:1.7;">' + s.detail + '</div>';
+            html += '</div>';
+        }
+
+        // PS method comparison table
+        html += '<div class="card-subtitle mt-2">Propensity Score Methods Comparison</div>';
+        html += '<div class="table-container">';
+        html += '<table class="data-table"><thead><tr><th>Method</th><th>Estimand</th><th>Pros</th><th>Cons</th></tr></thead><tbody>';
+        html += '<tr><td><strong>Matching</strong></td><td>ATT (usually)</td><td>Intuitive; mimics RCT; good balance checking</td>'
+            + '<td>Discards unmatched; order-dependent; sensitive to caliper</td></tr>';
+        html += '<tr><td><strong>IPTW</strong></td><td>ATE or ATT</td><td>Uses full sample; flexible; handles time-varying</td>'
+            + '<td>Extreme weights; variance inflation</td></tr>';
+        html += '<tr><td><strong>Stratification</strong></td><td>ATE</td><td>Simple; reduces ~90% of confounding with 5 strata</td>'
+            + '<td>Residual confounding within strata; less precise</td></tr>';
+        html += '<tr><td><strong>Covariate adjustment</strong></td><td>Conditional effect</td><td>Simple to implement</td>'
+            + '<td>Relies on correct outcome model; not marginal effect</td></tr>';
+        html += '<tr><td><strong>Doubly robust</strong></td><td>ATE</td><td>Consistent if either PS or outcome model correct</td>'
+            + '<td>More complex; still needs at least one model correct</td></tr>';
+        html += '</tbody></table></div>';
+
+        html += '<div style="margin-top:12px;font-size:0.8rem;color:var(--text-tertiary);">'
+            + 'References: Rosenbaum PR, Rubin DB. Biometrika. 1983;70(1):41-55. Austin PC. Multivariate Behav Res. 2011;46(3):399-424. '
+            + 'VanderWeele TJ, Ding P. Sensitivity Analysis in Observational Research. Ann Intern Med. 2017;167(4):268-274.'
+            + '</div>';
+
+        html += '</div>';
+        return html;
+    }
+
+    // ================================================================
+    // CARD 6: Instrumental Variables & Mendelian Randomization
+    // ================================================================
+    function renderIVandMR() {
+        var html = '<div class="card">';
+        html += '<div class="card-title">Instrumental Variables &amp; Mendelian Randomization</div>';
+        html += '<div class="card-subtitle">Guide to using instrumental variables for causal inference when unmeasured confounding is present, '
+            + 'including the special case of Mendelian randomization using genetic variants.</div>';
+
+        // IV section
+        html += '<div style="border-left:4px solid var(--primary);padding:12px 16px;margin-bottom:16px;background:var(--bg-tertiary);border-radius:0 8px 8px 0;">';
+        html += '<div style="font-weight:700;font-size:1.05rem;margin-bottom:8px;">Instrumental Variable Assumptions</div>';
+        html += '<div style="font-size:0.9rem;line-height:1.7;">';
+        html += '<p>An instrumental variable Z for the effect of exposure X on outcome Y must satisfy:</p>';
+        html += '<ol style="margin:8px 0 8px 20px;">';
+        html += '<li><strong>Relevance:</strong> Z is associated with X (Z &#8594; X). Testable via the first-stage F-statistic. F > 10 suggests adequate instrument strength (Staiger & Stock, 1997).</li>';
+        html += '<li><strong>Independence (Exchangeability):</strong> Z is not associated with unmeasured confounders U of the X-Y relationship (Z &#10980; U). Not directly testable but can be supported by design.</li>';
+        html += '<li><strong>Exclusion restriction:</strong> Z affects Y only through X (no direct Z &#8594; Y path). Untestable from data; must be argued from subject-matter knowledge.</li>';
+        html += '</ol>';
+        html += '<p style="margin-top:8px;"><strong>Caution:</strong> IV estimates the Local Average Treatment Effect (LATE) -- the effect among "compliers" '
+            + '(those whose treatment status is changed by the instrument). This may differ from the ATE if treatment effects are heterogeneous.</p>';
+        html += '</div></div>';
+
+        // Common instruments in epi
+        html += '<div style="font-weight:600;margin-bottom:8px;">Common Instruments in Epidemiology</div>';
+        html += '<div class="table-container">';
+        html += '<table class="data-table"><thead><tr><th>Instrument</th><th>Exposure</th><th>Rationale</th><th>Potential Violations</th></tr></thead><tbody>';
+        html += '<tr><td>Physician prescribing preference</td><td>Drug use</td><td>Varies across physicians for non-clinical reasons</td><td>Confounding by indication if not well-defined</td></tr>';
+        html += '<tr><td>Distance to specialty center</td><td>Receiving specialized treatment</td><td>Geographic variation in access</td><td>Distance may correlate with SES, urbanicity</td></tr>';
+        html += '<tr><td>Calendar time / policy change</td><td>Treatment adoption</td><td>Exogenous change in treatment availability</td><td>Co-occurring temporal trends</td></tr>';
+        html += '<tr><td>Randomization with non-compliance</td><td>Actual treatment received</td><td>Intent-to-treat as instrument</td><td>Rarely violated (strongest instrument)</td></tr>';
+        html += '<tr><td>Genetic variants (MR)</td><td>Modifiable risk factor</td><td>Randomly allocated at conception</td><td>Pleiotropy, linkage disequilibrium, population stratification</td></tr>';
+        html += '</tbody></table></div>';
+
+        // MR section
+        html += '<div style="border-left:4px solid var(--success);padding:12px 16px;margin:16px 0;background:var(--bg-tertiary);border-radius:0 8px 8px 0;">';
+        html += '<div style="font-weight:700;font-size:1.05rem;margin-bottom:8px;">Mendelian Randomization (MR)</div>';
+        html += '<div style="font-size:0.9rem;line-height:1.7;">';
+        html += '<p>MR uses genetic variants as instrumental variables. Because genotypes are randomly assigned at meiosis (Mendel\'s second law), '
+            + 'they are generally not confounded by environmental/behavioral factors and are not subject to reverse causation.</p>';
+
+        html += '<p style="margin-top:8px;font-weight:600;">Key MR Methods:</p>';
+        html += '<ul style="margin:8px 0 8px 20px;">';
+        html += '<li><strong>Wald ratio:</strong> Single SNP estimate = beta_ZY / beta_ZX. Simplest MR estimator.</li>';
+        html += '<li><strong>Two-stage least squares (2SLS):</strong> Classical IV approach using multiple instruments. First stage: regress X on Z; second stage: regress Y on predicted X.</li>';
+        html += '<li><strong>IVW (Inverse-variance weighted):</strong> Meta-analysis of individual Wald ratios across multiple SNPs. Assumes all instruments are valid.</li>';
+        html += '<li><strong>MR-Egger:</strong> Tests and corrects for directional pleiotropy (InSIDE assumption). Non-zero intercept suggests pleiotropy.</li>';
+        html += '<li><strong>Weighted median:</strong> Consistent if at least 50% of the weight comes from valid instruments. Robust to up to 50% invalid instruments.</li>';
+        html += '<li><strong>MR-PRESSO:</strong> Detects and removes outlier SNPs that may be pleiotropic.</li>';
+        html += '<li><strong>Multivariable MR:</strong> Estimates direct effects of multiple exposures simultaneously, using genetic variants for each.</li>';
+        html += '</ul>';
+
+        html += '<p style="margin-top:8px;font-weight:600;">MR Assumptions and Threats:</p>';
+        html += '<ul style="margin:8px 0 8px 20px;">';
+        html += '<li><strong>Pleiotropy:</strong> The genetic variant affects the outcome through pathways other than the exposure. Horizontal pleiotropy violates the exclusion restriction.</li>';
+        html += '<li><strong>Linkage disequilibrium:</strong> The variant is correlated with another causal variant. Use LD-clumped, independent SNPs.</li>';
+        html += '<li><strong>Population stratification:</strong> Allele frequencies correlate with ancestry, which may confound. Control with principal components or use family-based designs.</li>';
+        html += '<li><strong>Canalization:</strong> Developmental compensation for lifelong genetic differences may attenuate MR estimates.</li>';
+        html += '<li><strong>Weak instruments:</strong> F-statistic < 10 suggests weak instrument bias (toward confounded observational estimate in two-sample MR).</li>';
+        html += '</ul>';
+
+        html += '</div></div>';
+
+        html += '<div style="margin-top:12px;font-size:0.8rem;color:var(--text-tertiary);">'
+            + 'References: Angrist JD, Imbens GW, Rubin DB. JASA. 1996;91(434):444-455. '
+            + 'Davey Smith G, Ebrahim S. Int J Epidemiol. 2003;32(1):1-22. '
+            + 'Burgess S, Thompson SG. Mendelian Randomization: Methods for Using Genetic Variants in Causal Estimation. Chapman & Hall/CRC, 2015.'
+            + '</div>';
+
+        html += '</div>';
+        return html;
+    }
+
+    // ================================================================
+    // CARD 7: Difference-in-Differences Visual Explainer
+    // ================================================================
+    function renderDiD() {
+        var html = '<div class="card">';
+        html += '<div class="card-title">Difference-in-Differences (DiD) Explainer</div>';
+        html += '<div class="card-subtitle">Interactive guide to the difference-in-differences design for evaluating the causal effect of interventions.</div>';
+
+        // Visual explanation
+        html += '<div style="border-left:4px solid var(--primary);padding:12px 16px;margin-bottom:16px;background:var(--bg-tertiary);border-radius:0 8px 8px 0;">';
+        html += '<div style="font-weight:700;font-size:1.05rem;margin-bottom:8px;">The DiD Logic</div>';
+        html += '<div style="font-size:0.9rem;line-height:1.7;">';
+        html += '<p>DiD compares the change in outcomes over time between a group that receives an intervention (treated) and a group that does not (control).</p>';
+        html += '<p style="margin-top:8px;font-family:monospace;font-size:0.85rem;">'
+            + 'DiD = (Y<sub>treated,post</sub> - Y<sub>treated,pre</sub>) - (Y<sub>control,post</sub> - Y<sub>control,pre</sub>)</p>';
+        html += '<p style="margin-top:8px;">The first difference removes time-invariant confounders within each group. '
+            + 'The second difference removes common time trends shared by both groups.</p>';
+        html += '</div></div>';
+
+        // ASCII visual
+        html += '<div style="background:var(--bg-primary);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px;'
+            + 'font-family:monospace;font-size:0.82rem;white-space:pre;line-height:1.5;">';
+        html += 'Outcome                                              \n';
+        html += '  |                                                   \n';
+        html += '  |                          * Treated (observed)     \n';
+        html += '  |                        /                          \n';
+        html += '  |                      /    Causal                  \n';
+        html += '  |                    /      Effect                  \n';
+        html += '  |                  /        (DiD)                   \n';
+        html += '  |                * ........ o Treated (counterfact.)\n';
+        html += '  |              / .         /                        \n';
+        html += '  |            / .         /  * Control (observed)    \n';
+        html += '  |          / .         /  /                         \n';
+        html += '  |        *           * /    Parallel trends         \n';
+        html += '  |      Treated     Control                          \n';
+        html += '  |      (pre)       (pre)                            \n';
+        html += '  |__________|_________|____________________________  \n';
+        html += '          Pre      Intervention     Post    Time      \n';
+        html += '</div>';
+
+        // DiD calculator
+        html += '<div class="card-subtitle">DiD Calculator</div>';
+        html += '<div class="form-row form-row--4">';
+        html += '<div class="form-group"><label class="form-label">Treated Pre</label>'
+            + '<input type="number" class="form-input" id="did-t-pre" step="0.1" value="50"></div>';
+        html += '<div class="form-group"><label class="form-label">Treated Post</label>'
+            + '<input type="number" class="form-input" id="did-t-post" step="0.1" value="65"></div>';
+        html += '<div class="form-group"><label class="form-label">Control Pre</label>'
+            + '<input type="number" class="form-input" id="did-c-pre" step="0.1" value="48"></div>';
+        html += '<div class="form-group"><label class="form-label">Control Post</label>'
+            + '<input type="number" class="form-input" id="did-c-post" step="0.1" value="55"></div>';
+        html += '</div>';
+        html += '<div class="btn-group"><button class="btn btn-primary" onclick="CausalInference.calcDiD()">Calculate DiD</button></div>';
+        html += '<div id="did-results"></div>';
+
+        // Assumptions
+        html += '<div style="border-left:4px solid var(--warning);padding:12px 16px;margin:16px 0;background:var(--bg-tertiary);border-radius:0 8px 8px 0;">';
+        html += '<div style="font-weight:700;margin-bottom:8px;">Key Assumptions</div>';
+        html += '<div style="font-size:0.88rem;line-height:1.7;">';
+        html += '<ol style="margin:0 0 0 20px;">';
+        html += '<li><strong>Parallel trends:</strong> In the absence of treatment, the treated and control groups would have followed the same trend over time. This is the central, untestable assumption. '
+            + 'Pre-intervention trends can provide supporting evidence but do not guarantee post-intervention parallel trends.</li>';
+        html += '<li><strong>No anticipation:</strong> The treatment group does not change behavior before the intervention begins.</li>';
+        html += '<li><strong>Stable composition:</strong> The composition of the treated and control groups does not change differentially over time.</li>';
+        html += '<li><strong>No spillover:</strong> The treatment of the treated group does not affect the control group (SUTVA).</li>';
+        html += '</ol>';
+        html += '</div></div>';
+
+        // Extensions
+        html += '<div style="border-left:4px solid var(--success);padding:12px 16px;margin-bottom:16px;background:var(--bg-tertiary);border-radius:0 8px 8px 0;">';
+        html += '<div style="font-weight:700;margin-bottom:8px;">Modern Extensions</div>';
+        html += '<div style="font-size:0.88rem;line-height:1.7;">';
+        html += '<ul style="margin:0 0 0 20px;">';
+        html += '<li><strong>Staggered DiD:</strong> When different groups receive treatment at different times. Requires care -- TWFE (two-way fixed effects) can give biased estimates. '
+            + 'Use methods by Callaway & Sant\'Anna (2021) or Sun & Abraham (2021).</li>';
+        html += '<li><strong>Synthetic control:</strong> Constructs a weighted combination of control units to match the treated unit\'s pre-intervention trend. Useful with few treated units.</li>';
+        html += '<li><strong>Triple differences (DDD):</strong> Adds a third differencing dimension (e.g., within-group variation) to address potential parallel trends violations.</li>';
+        html += '<li><strong>Event study design:</strong> Estimates treatment effects at each time period relative to the intervention, providing a visual test of parallel trends and dynamic effects.</li>';
+        html += '</ul>';
+        html += '</div></div>';
+
+        html += '<div style="margin-top:12px;font-size:0.8rem;color:var(--text-tertiary);">'
+            + 'References: Angrist JD, Pischke J-S. Mostly Harmless Econometrics. Princeton University Press, 2009. '
+            + 'Wing C et al. Designing Difference in Difference Studies. Annu Rev Public Health. 2018;39:453-469. '
+            + 'Callaway B, Sant\'Anna PHC. J Econometrics. 2021;225(2):200-230.'
+            + '</div>';
+
+        html += '</div>';
+        return html;
+    }
+
+    function calcDiD() {
+        var tPre = parseFloat(document.getElementById('did-t-pre').value);
+        var tPost = parseFloat(document.getElementById('did-t-post').value);
+        var cPre = parseFloat(document.getElementById('did-c-pre').value);
+        var cPost = parseFloat(document.getElementById('did-c-post').value);
+
+        if (isNaN(tPre) || isNaN(tPost) || isNaN(cPre) || isNaN(cPost)) return;
+
+        var tChange = tPost - tPre;
+        var cChange = cPost - cPre;
+        var did = tChange - cChange;
+        var counterfactual = tPre + cChange;
+
+        var html = '<div class="result-panel mt-2">';
+        html += '<div class="card-title">DiD Estimate</div>';
+        html += '<div class="form-row form-row--4">';
+        html += '<div class="result-value">' + tChange.toFixed(2) + '<div class="result-label">Treated Change</div></div>';
+        html += '<div class="result-value">' + cChange.toFixed(2) + '<div class="result-label">Control Change</div></div>';
+        html += '<div class="result-value" style="color:var(--primary);font-weight:700;">' + did.toFixed(2) + '<div class="result-label">DiD Estimate</div></div>';
+        html += '<div class="result-value">' + counterfactual.toFixed(2) + '<div class="result-label">Counterfactual (Treated)</div></div>';
+        html += '</div>';
+
+        html += '<div class="result-detail mt-1" style="font-size:0.9rem;">';
+        html += 'The treated group changed by <strong>' + tChange.toFixed(2) + '</strong> while the control group changed by <strong>' + cChange.toFixed(2) + '</strong>. ';
+        html += 'The DiD estimate of the causal effect is <strong>' + did.toFixed(2) + '</strong>. ';
+        html += 'The counterfactual outcome for the treated group (absent treatment) is estimated as <strong>' + counterfactual.toFixed(2) + '</strong> vs. observed <strong>' + tPost.toFixed(2) + '</strong>.';
+        html += '</div>';
+        html += '<div class="btn-group mt-2">'
+            + '<button class="btn btn-xs r-script-btn" '
+            + 'onclick="RGenerator.showScript(RGenerator.causalInferenceDiD({tPre:' + tPre + ',tPost:' + tPost + ',cPre:' + cPre + ',cPost:' + cPost + '}), &quot;Difference-in-Differences Analysis&quot;)">'
+            + '&#129513; Generate R Script</button></div>';
+        html += '</div>';
+
+        App.setTrustedHTML(document.getElementById('did-results'), html);
+    }
+
+    // ================================================================
+    // CARD 8: Target Trial Emulation Framework
+    // ================================================================
+    function renderTargetTrial() {
+        var html = '<div class="card">';
+        html += '<div class="card-title">Target Trial Emulation Framework</div>';
+        html += '<div class="card-subtitle">Structured framework for designing observational studies that emulate a hypothetical randomized trial, '
+            + 'following Hernan &amp; Robins (2016).</div>';
+
+        // Protocol components
+        var components = [
+            {
+                name: 'Eligibility Criteria',
+                trial: 'Specify inclusion/exclusion criteria',
+                emulation: 'Apply the same criteria to observational data at time zero (baseline). Ensure subjects are eligible at cohort entry.',
+                pitfall: 'Including prevalent users who started treatment before time zero leads to prevalent user bias.'
+            },
+            {
+                name: 'Treatment Strategies',
+                trial: 'Define treatment arms (e.g., Drug A vs. Drug B)',
+                emulation: 'Define the same strategies. Use new-user (incident user) design. Specify grace periods if applicable.',
+                pitfall: 'Comparing "ever users" vs "never users" introduces immortal time bias.'
+            },
+            {
+                name: 'Treatment Assignment',
+                trial: 'Random assignment at baseline',
+                emulation: 'Assign based on treatment received at time zero. Use PS weighting/matching to achieve conditional exchangeability.',
+                pitfall: 'Confounding by indication if not properly addressed.'
+            },
+            {
+                name: 'Start of Follow-up (Time Zero)',
+                trial: 'Randomization date',
+                emulation: 'Must align eligibility, treatment assignment, and start of follow-up at the same time point.',
+                pitfall: 'Misalignment creates immortal time bias. This is the single most important design element.'
+            },
+            {
+                name: 'Outcome',
+                trial: 'Define primary outcome and timing',
+                emulation: 'Same outcome definition. Ensure outcome assessment is comparable.',
+                pitfall: 'Different outcome definitions or ascertainment methods between groups.'
+            },
+            {
+                name: 'Causal Contrast',
+                trial: 'Intention-to-treat (ITT) or per-protocol',
+                emulation: 'ITT: compare groups as assigned at time zero. Per-protocol: use IP-censoring weights to adjust for post-baseline deviations.',
+                pitfall: 'Per-protocol analysis without IP-censoring weights introduces selection bias.'
+            },
+            {
+                name: 'Statistical Analysis',
+                trial: 'Pre-specified analysis plan',
+                emulation: 'Clone-censor-weight approach for per-protocol. Parametric g-formula for complex strategies. IP weighting for time-varying confounding.',
+                pitfall: 'Using standard Cox regression for per-protocol analysis without accounting for informative censoring.'
+            }
+        ];
+
+        html += '<div class="table-container">';
+        html += '<table class="data-table"><thead><tr>'
+            + '<th>Protocol Component</th><th>Target Trial</th><th>Observational Emulation</th><th>Common Pitfall</th>'
+            + '</tr></thead><tbody>';
+        for (var i = 0; i < components.length; i++) {
+            var c = components[i];
+            html += '<tr><td><strong>' + c.name + '</strong></td>'
+                + '<td style="font-size:0.82rem;">' + c.trial + '</td>'
+                + '<td style="font-size:0.82rem;">' + c.emulation + '</td>'
+                + '<td style="font-size:0.82rem;color:var(--danger);">' + c.pitfall + '</td></tr>';
+        }
+        html += '</tbody></table></div>';
+
+        // Biases prevented
+        html += '<div style="border-left:4px solid var(--success);padding:12px 16px;margin:16px 0;background:var(--bg-tertiary);border-radius:0 8px 8px 0;">';
+        html += '<div style="font-weight:700;margin-bottom:8px;">Biases Prevented by Target Trial Emulation</div>';
+        html += '<div style="font-size:0.88rem;line-height:1.7;">';
+        html += '<ul style="margin:0 0 0 20px;">';
+        html += '<li><strong>Immortal time bias:</strong> Eliminated by aligning time zero with treatment assignment and eligibility.</li>';
+        html += '<li><strong>Prevalent user bias:</strong> Eliminated by using new-user (incident user) design.</li>';
+        html += '<li><strong>Selection bias from loss to follow-up:</strong> Addressed by IP-censoring weights in per-protocol analysis.</li>';
+        html += '<li><strong>Lead-time bias:</strong> Addressed by aligning the start of follow-up across comparison groups.</li>';
+        html += '<li><strong>Depletion of susceptibles:</strong> Mitigated by new-user design and proper time zero alignment.</li>';
+        html += '</ul>';
+        html += '</div></div>';
+
+        // Interactive template
+        html += '<div class="card-subtitle mt-2">Target Trial Protocol Template</div>';
+        html += '<div style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:12px;">'
+            + 'Fill in your target trial protocol. This helps structure your observational study design.</div>';
+
+        var fields = [
+            { id: 'tte-eligibility', label: 'Eligibility Criteria', placeholder: 'e.g., Adults aged 50+ with new diagnosis of atrial fibrillation, no prior anticoagulation' },
+            { id: 'tte-treatment', label: 'Treatment Strategies', placeholder: 'e.g., Strategy A: Initiate DOAC within 30 days. Strategy B: Initiate warfarin within 30 days.' },
+            { id: 'tte-assignment', label: 'Treatment Assignment', placeholder: 'e.g., Assign at the date of first prescription (new-user design)' },
+            { id: 'tte-followup', label: 'Start of Follow-up', placeholder: 'e.g., Date of first anticoagulant prescription (time zero)' },
+            { id: 'tte-outcome', label: 'Outcome', placeholder: 'e.g., First ischemic stroke or systemic embolism within 2 years' },
+            { id: 'tte-contrast', label: 'Causal Contrast', placeholder: 'e.g., Per-protocol effect with 60-day grace period' },
+            { id: 'tte-analysis', label: 'Analysis Plan', placeholder: 'e.g., Pooled logistic regression with IP weights for confounding and censoring' }
+        ];
+
+        for (var f = 0; f < fields.length; f++) {
+            html += '<div class="form-group"><label class="form-label">' + fields[f].label + '</label>'
+                + '<input type="text" class="form-input" id="' + fields[f].id + '" name="' + fields[f].id + '" placeholder="' + fields[f].placeholder + '"></div>';
+        }
+
+        html += '<div class="btn-group mt-2">'
+            + '<button class="btn btn-primary" onclick="CausalInference.exportTargetTrial()">Export Protocol</button>'
+            + '</div>';
+
+        html += '<div style="margin-top:16px;font-size:0.8rem;color:var(--text-tertiary);">'
+            + 'References: Hernan MA, Robins JM. Using Big Data to Emulate a Target Trial When a Randomized Trial Is Not Available. '
+            + 'Am J Epidemiol. 2016;183(8):758-764. Hernan MA. The C-Word: Scientific Euphemisms Do Not Improve Causal Inference. '
+            + 'Am J Public Health. 2018;108(5):616-619.'
+            + '</div>';
+
+        html += '</div>';
+        return html;
+    }
+
+    function exportTargetTrial() {
+        var fields = ['tte-eligibility', 'tte-treatment', 'tte-assignment', 'tte-followup', 'tte-outcome', 'tte-contrast', 'tte-analysis'];
+        var labels = ['Eligibility Criteria', 'Treatment Strategies', 'Treatment Assignment', 'Start of Follow-up', 'Outcome', 'Causal Contrast', 'Analysis Plan'];
+        var lines = ['Target Trial Emulation Protocol', '================================', ''];
+        for (var i = 0; i < fields.length; i++) {
+            var val = document.getElementById(fields[i]).value || '[Not specified]';
+            lines.push(labels[i] + ': ' + val);
+        }
+        lines.push('');
+        lines.push('Generated: ' + new Date().toLocaleDateString());
+        Export.copyText(lines.join('\n'));
+    }
+
+    // ================================================================
     // REGISTER
     // ================================================================
     App.registerModule(MODULE_ID, { render: render });
@@ -880,11 +1501,15 @@
         exportBH: exportBH,
         resetBH: resetBH,
         parseVariables: parseVariables,
+        assignNodeType: assignNodeType,
         addEdge: addEdge,
         removeEdge: removeEdge,
         analyzeDAG: analyzeDAG,
         clearDAG: clearDAG,
         exportDAG: exportDAG,
-        exportMethods: exportMethods
+        exportMethods: exportMethods,
+        loadDAGTemplate: loadDAGTemplate,
+        calcDiD: calcDiD,
+        exportTargetTrial: exportTargetTrial
     };
 })();

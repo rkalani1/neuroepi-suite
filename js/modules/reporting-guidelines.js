@@ -111,33 +111,33 @@
     ];
 
     checklists['PRISMA'] = [
-        { num: '1',  section: 'Title', text: 'Identify the report as a systematic review, meta-analysis, or both' },
-        { num: '2',  section: 'Abstract', text: 'Provide a structured summary including background, objectives, data sources, study eligibility criteria, participants, interventions, study appraisal and synthesis methods, results, limitations, conclusions, and implications' },
+        { num: '1',  section: 'Title', text: 'Identify the report as a systematic review' },
+        { num: '2',  section: 'Abstract', text: 'Provide a structured summary per the PRISMA 2020 for Abstracts checklist (background, objectives, eligibility, sources, synthesis methods, results, limitations, conclusions, registration)' },
         { num: '3',  section: 'Introduction', text: 'Describe the rationale for the review in the context of existing knowledge' },
-        { num: '4',  section: 'Introduction', text: 'Provide an explicit statement of the review question(s) using PICO or similar framework' },
-        { num: '5',  section: 'Methods', text: 'Indicate whether a review protocol exists, where it can be accessed, and if available provide registration information' },
-        { num: '6',  section: 'Methods', text: 'Specify eligibility criteria including study characteristics and report characteristics used as criteria for including and excluding studies' },
-        { num: '7',  section: 'Methods', text: 'Describe all information sources (databases, registers, websites, organisations, reference lists) and date last searched' },
-        { num: '8',  section: 'Methods', text: 'Present the full search strategies for all databases, registers, and websites, including any filters and limits used' },
-        { num: '9',  section: 'Methods', text: 'State the process for selecting studies (i.e., screening, eligibility, included in systematic review, and if applicable included in meta-analysis)' },
-        { num: '10', section: 'Methods', text: 'Describe method of data extraction from reports and any processes for obtaining and confirming data from investigators' },
-        { num: '11', section: 'Methods', text: 'List and define all variables for which data were sought and any assumptions and simplifications made' },
-        { num: '12', section: 'Methods', text: 'Describe methods used for assessing risk of bias of individual studies and how this information is to be used in data synthesis' },
-        { num: '13', section: 'Methods', text: 'State the principal summary measures (e.g., risk ratio, difference in means)' },
-        { num: '14', section: 'Methods', text: 'Describe the methods of handling data and combining results of studies including measures of consistency (e.g., I2) for each meta-analysis' },
-        { num: '15', section: 'Methods', text: 'Specify any assessment of risk of bias that may affect the cumulative evidence (e.g., publication bias, selective reporting)' },
-        { num: '16', section: 'Methods', text: 'Describe methods of additional analyses (sensitivity, subgroup, meta-regression), if done, indicating which were pre-specified' },
-        { num: '17', section: 'Results', text: 'Give numbers of studies screened, assessed for eligibility, and included in the review, with reasons for exclusions at each stage, ideally with a flow diagram' },
-        { num: '18', section: 'Results', text: 'For each study, present characteristics for which data were extracted and provide the citations' },
-        { num: '19', section: 'Results', text: 'Present data on risk of bias of each study and, if available, any outcome-level assessment' },
-        { num: '20', section: 'Results', text: 'For all outcomes considered (benefits or harms), present for each study simple summary data, effect estimates and confidence intervals' },
-        { num: '21', section: 'Results', text: 'Present results of each meta-analysis done, including confidence intervals and measures of consistency' },
-        { num: '22', section: 'Results', text: 'Present results of any assessment of risk of bias across studies' },
-        { num: '23', section: 'Results', text: 'Give results of additional analyses, if done (e.g., sensitivity or subgroup analyses, meta-regression)' },
-        { num: '24', section: 'Discussion', text: 'Summarise the main findings including the strength of evidence for each main outcome; consider their relevance to key groups' },
-        { num: '25', section: 'Discussion', text: 'Discuss limitations at study and outcome level (e.g., risk of bias) and at review level (e.g., incomplete retrieval, reporting bias)' },
-        { num: '26', section: 'Discussion', text: 'Provide a general interpretation of the results in the context of other evidence and implications for future research' },
-        { num: '27', section: 'Funding', text: 'Describe sources of funding for the systematic review and other support; role of funders' }
+        { num: '4',  section: 'Introduction', text: 'Provide an explicit statement of the objective(s) or question(s) the review addresses' },
+        { num: '5',  section: 'Methods', text: 'Indicate whether a review protocol exists, if and where it can be accessed, and provide registration information including registration number' },
+        { num: '6',  section: 'Methods', text: 'Specify the inclusion and exclusion criteria for the review and how studies were grouped for the syntheses' },
+        { num: '7',  section: 'Methods', text: 'Specify all databases, registers, websites, organisations, reference lists and other sources searched or consulted to identify studies; specify date when each source was last searched' },
+        { num: '8',  section: 'Methods', text: 'Present the full search strategies for all databases, registers and websites, including any filters and limits used' },
+        { num: '9',  section: 'Methods', text: 'Specify methods used to decide whether a study met inclusion criteria, including how many reviewers screened each record, whether they worked independently, and details of any automation tools used' },
+        { num: '10', section: 'Methods', text: 'Specify methods used to collect data from reports, including how many reviewers collected data, whether they worked independently, and any processes for obtaining or confirming data from investigators' },
+        { num: '11', section: 'Methods', text: 'List and define all outcomes for which data were sought; specify whether all results compatible with each outcome domain were sought, and if not, methods used to decide which results to collect' },
+        { num: '12', section: 'Methods', text: 'Specify for each outcome the effect measure(s) (e.g., risk ratio, mean difference) used in the synthesis or presentation of results' },
+        { num: '13', section: 'Methods', text: 'Describe the processes used to decide which studies were eligible for each synthesis; methods to prepare data for presentation or synthesis; methods to tabulate or visually display results; methods to synthesize results; methods to explore heterogeneity; and any sensitivity analyses' },
+        { num: '14', section: 'Methods', text: 'Describe any methods used to assess risk of bias due to missing results in a synthesis (arising from reporting biases)' },
+        { num: '15', section: 'Methods', text: 'Describe any methods used to assess certainty (or confidence) in the body of evidence for an outcome' },
+        { num: '16', section: 'Results', text: 'Describe the results of the search and selection process, from the number of records identified to the number of studies included, ideally using a PRISMA flow diagram' },
+        { num: '17', section: 'Results', text: 'Cite each included study and present its characteristics' },
+        { num: '18', section: 'Results', text: 'Present assessments of risk of bias for each included study' },
+        { num: '19', section: 'Results', text: 'For all outcomes, present for each study: summary statistics for each group (where appropriate) and an effect estimate and its precision (e.g., confidence interval)' },
+        { num: '20', section: 'Results', text: 'For each synthesis, briefly summarise the characteristics and risk of bias among contributing studies; present results of all statistical syntheses conducted; present results of any investigations of heterogeneity; present results of sensitivity analyses' },
+        { num: '21', section: 'Results', text: 'Present results of all assessments of risk of bias due to missing results (reporting biases) in syntheses' },
+        { num: '22', section: 'Results', text: 'Present assessments of certainty (or confidence) in the body of evidence for each outcome assessed' },
+        { num: '23', section: 'Discussion', text: 'Provide a general interpretation of the results in the context of other evidence' },
+        { num: '24', section: 'Discussion', text: 'Discuss any limitations of the evidence included in the review' },
+        { num: '25', section: 'Discussion', text: 'Discuss any limitations of the review processes used' },
+        { num: '26', section: 'Discussion', text: 'Provide implications of the results for practice, policy, and future research' },
+        { num: '27', section: 'Other Information', text: 'Provide registration information for the review including register name and registration number; indicate where the review protocol can be accessed; describe sources of financial or non-financial support and the role of funders; declare any competing interests' }
     ];
 
     checklists['PRISMA-ScR'] = [
@@ -466,43 +466,79 @@
         html += '<div style="margin-bottom:1.2rem;">';
         html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">When to Use Which Guideline</div>';
         html += '<ul style="margin:0;padding-left:1.5rem;font-size:0.9rem;line-height:1.7;">';
-        html += '<li><strong>CONSORT</strong> &rarr; RCTs</li>';
-        html += '<li><strong>STROBE</strong> &rarr; Observational studies</li>';
-        html += '<li><strong>PRISMA</strong> &rarr; Systematic reviews / meta-analyses</li>';
-        html += '<li><strong>SPIRIT</strong> &rarr; Trial protocols</li>';
-        html += '<li><strong>TRIPOD</strong> &rarr; Prediction models</li>';
-        html += '<li><strong>ARRIVE</strong> &rarr; Animal studies</li>';
-        html += '<li><strong>STARD</strong> &rarr; Diagnostic accuracy</li>';
+        html += '<li><strong>CONSORT</strong> &rarr; RCTs (parallel, cluster, non-inferiority, equivalence)</li>';
+        html += '<li><strong>STROBE</strong> &rarr; Observational studies (cohort, case-control, cross-sectional)</li>';
+        html += '<li><strong>PRISMA</strong> &rarr; Systematic reviews and meta-analyses</li>';
+        html += '<li><strong>PRISMA-ScR</strong> &rarr; Scoping reviews</li>';
+        html += '<li><strong>SPIRIT</strong> &rarr; Clinical trial protocols</li>';
+        html += '<li><strong>STARD</strong> &rarr; Diagnostic / prognostic accuracy studies</li>';
+        html += '<li><strong>TRIPOD</strong> &rarr; Prediction model development and validation</li>';
+        html += '<li><strong>CARE</strong> &rarr; Case reports and case series</li>';
+        html += '<li><strong>CHEERS</strong> &rarr; Health economic evaluations</li>';
+        html += '<li><strong>ARRIVE</strong> &rarr; Animal research</li>';
+        html += '<li><strong>AGREE II</strong> &rarr; Clinical practice guidelines appraisal</li>';
+        html += '<li><strong>RECORD</strong> &rarr; Studies using routinely collected health data</li>';
+        html += '<li><strong>MOOSE</strong> &rarr; Meta-analyses of observational studies</li>';
         html += '</ul>';
         html += '</div>';
 
         html += '<div style="margin-bottom:1.2rem;">';
-        html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">Key Principles</div>';
+        html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">Key Principles of Research Reporting</div>';
         html += '<ul style="margin:0;padding-left:1.5rem;font-size:0.9rem;line-height:1.7;">';
-        html += '<li>Complete reporting improves reproducibility.</li>';
-        html += '<li>Checklists &ne; quality assessment.</li>';
-        html += '<li>All items should be addressed (even if &ldquo;not applicable&rdquo;).</li>';
-        html += '<li>Page/section numbers should be included.</li>';
+        html += '<li>Complete reporting improves reproducibility and reduces research waste.</li>';
+        html += '<li>Checklists are reporting aids, <strong>not quality assessment tools</strong>. A well-reported study can still be poorly designed.</li>';
+        html += '<li>All checklist items should be addressed, even if &ldquo;not applicable&rdquo; &mdash; state why it does not apply.</li>';
+        html += '<li>Include page/section numbers for each item when submitting to journals.</li>';
+        html += '<li>Many journals now <strong>require</strong> completed checklists at submission (BMJ, Lancet, JAMA, PLOS Medicine).</li>';
+        html += '<li>The EQUATOR Network (equator-network.org) maintains the definitive library of reporting guidelines.</li>';
+        html += '</ul>';
+        html += '</div>';
+
+        html += '<div style="margin-bottom:1.2rem;">';
+        html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">Reporting Guideline Extensions</div>';
+        html += '<ul style="margin:0;padding-left:1.5rem;font-size:0.9rem;line-height:1.7;">';
+        html += '<li><strong>CONSORT extensions:</strong> Cluster trials, non-inferiority, pragmatic trials, harms, pilot/feasibility, N-of-1, PRO, herbal interventions</li>';
+        html += '<li><strong>STROBE extensions:</strong> STROBE-ME (molecular epidemiology), STROBE-Vet (veterinary), STROBE-NI (neonatal infections), RECORD (routinely collected data)</li>';
+        html += '<li><strong>PRISMA extensions:</strong> PRISMA-P (protocols), PRISMA-IPD (individual patient data), PRISMA-NMA (network meta-analysis), PRISMA-DTA (diagnostic test accuracy), PRISMA-S (search reporting)</li>';
+        html += '<li><strong>Other notable:</strong> SQUIRE 2.0 (quality improvement), TIDieR (intervention description), SRQR (qualitative research), COREQ (qualitative interviews/focus groups)</li>';
         html += '</ul>';
         html += '</div>';
 
         html += '<div style="margin-bottom:1.2rem;">';
         html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">Common Pitfalls</div>';
         html += '<ul style="margin:0;padding-left:1.5rem;font-size:0.9rem;line-height:1.7;">';
-        html += '<li>Treating checklists as quality scores</li>';
-        html += '<li>Omitting negative/null results</li>';
-        html += '<li>Inadequate flow diagrams</li>';
-        html += '<li>Not registering protocols prospectively</li>';
+        html += '<li>Treating checklists as quality scores or risk-of-bias tools</li>';
+        html += '<li>Omitting negative/null results or unfavorable secondary outcomes</li>';
+        html += '<li>Inadequate flow diagrams (CONSORT, PRISMA, STARD all require flow diagrams)</li>';
+        html += '<li>Not registering protocols prospectively (ClinicalTrials.gov, PROSPERO, OSF)</li>';
+        html += '<li>Using the wrong guideline for your study type (e.g., STROBE for an RCT)</li>';
+        html += '<li>Completing the checklist <em>after</em> writing the paper instead of using it during drafting</li>';
+        html += '<li>Not specifying primary vs secondary outcomes clearly</li>';
+        html += '<li>Inadequate reporting of missing data handling</li>';
         html += '</ul>';
         html += '</div>';
 
+        html += '<div style="margin-bottom:1.2rem;">';
+        html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">How to Use Checklists Effectively</div>';
+        html += '<ol style="margin:0;padding-left:1.5rem;font-size:0.9rem;line-height:1.7;">';
+        html += '<li><strong>Before writing:</strong> Review the checklist to ensure your study design and data collection will support complete reporting.</li>';
+        html += '<li><strong>During writing:</strong> Use the checklist as an outline. Address each item as you draft each section.</li>';
+        html += '<li><strong>Before submission:</strong> Complete the checklist formally with page numbers. Upload as supplementary material.</li>';
+        html += '<li><strong>During peer review:</strong> Use reviewer comments to fill gaps identified by the checklist.</li>';
+        html += '</ol>';
+        html += '</div>';
+
         html += '<div>';
-        html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">References</div>';
+        html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">Key References</div>';
         html += '<ul style="margin:0;padding-left:1.5rem;font-size:0.85rem;line-height:1.7;">';
-        html += '<li>EQUATOR Network (equator-network.org)</li>';
-        html += '<li>Moher D et al. CONSORT 2010</li>';
-        html += '<li>von Elm E et al. STROBE</li>';
-        html += '<li>Page MJ et al. PRISMA 2020</li>';
+        html += '<li>EQUATOR Network: equator-network.org (Enhancing the QUAlity and Transparency Of health Research)</li>';
+        html += '<li>Schulz KF et al. CONSORT 2010 Statement. BMJ. 2010;340:c332</li>';
+        html += '<li>von Elm E et al. STROBE Statement. Lancet. 2007;370(9596):1453-1457</li>';
+        html += '<li>Page MJ et al. PRISMA 2020 Statement. BMJ. 2021;372:n71</li>';
+        html += '<li>Chan AW et al. SPIRIT 2013 Statement. Ann Intern Med. 2013;158(3):200-207</li>';
+        html += '<li>Bossuyt PM et al. STARD 2015 Updated Reporting Guidelines. BMJ. 2015;351:h5527</li>';
+        html += '<li>Collins GS et al. TRIPOD Statement. Ann Intern Med. 2015;162(1):55-63</li>';
+        html += '<li>Glasziou P et al. Reducing waste from incomplete or unusable reports. Lancet. 2014;383(9913):267-276</li>';
         html += '</ul>';
         html += '</div>';
 
@@ -549,7 +585,16 @@
         html += '</div>';
         html += '</div>';
 
-        /* Card 2: Interactive Checklist */
+        /* Card 2: Guideline Comparison Tool */
+        html += renderGuidelineComparison();
+
+        /* Card 3: Auto-Fill Study Design */
+        html += renderAutoFillStudyDesign();
+
+        /* Card 4: Checklist Notes & Page Numbers */
+        html += renderChecklistNotes();
+
+        /* Card 5: Interactive Checklist */
         html += '<div class="card">';
         html += '<div class="card-title" id="rg-checklist-title">Checklist: ' + guidelines[currentGuideline].name + '</div>';
 
@@ -589,6 +634,420 @@
         App.autoSaveInputs(container, MODULE_ID);
 
         buildChecklist();
+    }
+
+    /* ------------------------------------------------------------------ */
+    /*  Card 2: Guideline Comparison Tool                                  */
+    /* ------------------------------------------------------------------ */
+    function renderGuidelineComparison() {
+        var html = '<div class="card">';
+        html += '<div class="card-title">Guideline Finder: Which Guideline Do I Need?</div>';
+        html += '<div class="card-subtitle">Select your study design and we will recommend the appropriate reporting guideline(s).</div>';
+
+        html += '<div class="form-group">';
+        html += '<label class="form-label">What type of study are you reporting?</label>';
+        html += '<select class="form-select" id="rg-study-type" name="rg-study-type" onchange="ReportingGuide.findGuideline()">';
+        html += '<option value="">-- Select study type --</option>';
+        html += '<option value="rct">Randomised Controlled Trial (RCT)</option>';
+        html += '<option value="rct_cluster">Cluster RCT</option>';
+        html += '<option value="rct_noninferiority">Non-inferiority / Equivalence Trial</option>';
+        html += '<option value="rct_pilot">Pilot / Feasibility Trial</option>';
+        html += '<option value="cohort">Cohort Study</option>';
+        html += '<option value="case_control">Case-Control Study</option>';
+        html += '<option value="cross_sectional">Cross-Sectional Study</option>';
+        html += '<option value="systematic_review">Systematic Review / Meta-Analysis</option>';
+        html += '<option value="scoping_review">Scoping Review</option>';
+        html += '<option value="meta_obs">Meta-Analysis of Observational Studies</option>';
+        html += '<option value="trial_protocol">Clinical Trial Protocol</option>';
+        html += '<option value="diagnostic">Diagnostic Accuracy Study</option>';
+        html += '<option value="prediction">Prediction Model Study</option>';
+        html += '<option value="case_report">Case Report / Case Series</option>';
+        html += '<option value="economic">Health Economic Evaluation</option>';
+        html += '<option value="animal">Animal Research</option>';
+        html += '<option value="guideline_appraisal">Clinical Practice Guideline Appraisal</option>';
+        html += '<option value="routinely_collected">Study Using Routinely Collected Data</option>';
+        html += '<option value="quality_improvement">Quality Improvement Study</option>';
+        html += '<option value="qualitative">Qualitative Research</option>';
+        html += '</select>';
+        html += '</div>';
+
+        html += '<div id="rg-finder-results"></div>';
+
+        /* Comprehensive comparison table */
+        html += '<div style="margin-top:16px;border-top:1px solid var(--border);padding-top:16px;">';
+        html += '<div style="font-weight:700;margin-bottom:8px;">Guideline Comparison Matrix</div>';
+        html += '<div class="table-container"><table class="data-table" style="font-size:0.82rem;">';
+        html += '<thead><tr><th>Feature</th><th>CONSORT</th><th>STROBE</th><th>PRISMA</th><th>SPIRIT</th><th>STARD</th><th>TRIPOD</th></tr></thead>';
+        html += '<tbody>';
+        html += '<tr><td>Study type</td><td>RCT</td><td>Observational</td><td>Syst. review</td><td>Trial protocol</td><td>Diagnostic</td><td>Prediction</td></tr>';
+        html += '<tr><td>Total items</td><td>25</td><td>22</td><td>27</td><td>33</td><td>30</td><td>22</td></tr>';
+        html += '<tr><td>Flow diagram</td><td>Required</td><td>Recommended</td><td>Required</td><td>SPIRIT figure</td><td>Required</td><td>Required</td></tr>';
+        html += '<tr><td>Registration</td><td>Required</td><td>Not required</td><td>PROSPERO</td><td>Required</td><td>Recommended</td><td>Recommended</td></tr>';
+        html += '<tr><td>Protocol</td><td>Referenced</td><td>Not required</td><td>Required (if exists)</td><td>Is the protocol</td><td>Referenced</td><td>Referenced</td></tr>';
+        html += '<tr><td>Sample size justification</td><td>Required</td><td>Explained</td><td>N/A</td><td>Required</td><td>Required</td><td>Required</td></tr>';
+        html += '<tr><td>Blinding details</td><td>Required</td><td>N/A</td><td>N/A</td><td>Required</td><td>Required</td><td>N/A</td></tr>';
+        html += '<tr><td>Effect size + CI</td><td>Required</td><td>Required</td><td>Required</td><td>Pre-specified</td><td>Required</td><td>Required</td></tr>';
+        html += '<tr><td>Harms / adverse events</td><td>Required</td><td>N/A</td><td>N/A</td><td>SAE reporting plan</td><td>Required</td><td>N/A</td></tr>';
+        html += '<tr><td>Funding source</td><td>Required</td><td>Required</td><td>Required</td><td>Required</td><td>Required</td><td>Required</td></tr>';
+        html += '</tbody></table></div>';
+        html += '</div>';
+
+        html += '</div>';
+        return html;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /*  Guideline finder logic                                             */
+    /* ------------------------------------------------------------------ */
+    var guidelineMap = {
+        'rct':                { primary: 'CONSORT', secondary: ['SPIRIT'], notes: 'Use CONSORT 2010 for standard parallel-group RCTs. Also submit the protocol (SPIRIT) and register on ClinicalTrials.gov.' },
+        'rct_cluster':        { primary: 'CONSORT', secondary: ['SPIRIT'], notes: 'Use the CONSORT extension for cluster randomised trials. Key additions: rationale for cluster design, ICC, adjusted analysis.' },
+        'rct_noninferiority': { primary: 'CONSORT', secondary: ['SPIRIT'], notes: 'Use the CONSORT extension for non-inferiority and equivalence trials. Key: pre-specify non-inferiority margin, ITT and per-protocol analyses.' },
+        'rct_pilot':          { primary: 'CONSORT', secondary: ['SPIRIT'], notes: 'Use the CONSORT extension for pilot and feasibility studies. Focus on feasibility outcomes, not efficacy. Do not use p-values for primary outcomes.' },
+        'cohort':             { primary: 'STROBE', secondary: ['RECORD'], notes: 'Use STROBE for cohort studies. If using routinely collected data (e.g., EHR, claims), also use the RECORD extension.' },
+        'case_control':       { primary: 'STROBE', secondary: [], notes: 'Use STROBE for case-control studies. Note: items 6b, 12d, 14c, 15 have case-control-specific wording.' },
+        'cross_sectional':    { primary: 'STROBE', secondary: [], notes: 'Use STROBE for cross-sectional studies. Items 6c, 12d, 14c, 15 have cross-sectional-specific wording.' },
+        'systematic_review':  { primary: 'PRISMA', secondary: [], notes: 'Use PRISMA 2020 for systematic reviews with or without meta-analysis. Register protocol on PROSPERO. Include PRISMA flow diagram.' },
+        'scoping_review':     { primary: 'PRISMA-ScR', secondary: [], notes: 'Use PRISMA-ScR for scoping reviews. Key differences from PRISMA: no meta-analysis, charting data instead of extraction, broader scope.' },
+        'meta_obs':           { primary: 'MOOSE', secondary: ['PRISMA'], notes: 'Use MOOSE for meta-analyses of observational studies. MOOSE emphasizes assessment of confounding and heterogeneity. Also consider PRISMA items.' },
+        'trial_protocol':     { primary: 'SPIRIT', secondary: [], notes: 'Use SPIRIT 2013 for clinical trial protocols. Include the SPIRIT figure (schedule of enrolment, interventions, assessments). Register the trial before recruitment.' },
+        'diagnostic':         { primary: 'STARD', secondary: [], notes: 'Use STARD 2015 for diagnostic accuracy studies. Include the STARD flow diagram. Report sensitivity, specificity, predictive values, and likelihood ratios.' },
+        'prediction':         { primary: 'TRIPOD', secondary: [], notes: 'Use TRIPOD for prediction model development, validation, or both. Report full model equation, discrimination (AUC), calibration (calibration plot), and internal/external validation.' },
+        'case_report':        { primary: 'CARE', secondary: [], notes: 'Use CARE for case reports. Include timeline figure. Obtain patient consent for publication. Focus on diagnostic reasoning and clinical decision-making.' },
+        'economic':           { primary: 'CHEERS', secondary: [], notes: 'Use CHEERS 2022 for health economic evaluations (cost-effectiveness, cost-utility, cost-benefit). Report perspective, time horizon, discount rates, sensitivity analyses.' },
+        'animal':             { primary: 'ARRIVE', secondary: [], notes: 'Use ARRIVE 2.0 for animal research. Essential 10 items are mandatory; recommended 11 items improve completeness. Report species, strain, sample size justification, blinding.' },
+        'guideline_appraisal': { primary: 'AGREE-II', secondary: [], notes: 'Use AGREE II to appraise clinical practice guidelines. Six domains, 23 items scored 1-7. Calculate domain scores as percentages. Minimum 2 appraisers recommended.' },
+        'routinely_collected': { primary: 'RECORD', secondary: ['STROBE'], notes: 'Use RECORD for studies using routinely collected health data (EHR, claims, registries). RECORD extends STROBE with 13 additional items specific to these data sources.' },
+        'quality_improvement': { primary: 'CONSORT', secondary: [], notes: 'Consider SQUIRE 2.0 (Standards for QUality Improvement Reporting Excellence) for quality improvement studies. Not included in this tool but available at squire-statement.org.' },
+        'qualitative':        { primary: 'STROBE', secondary: [], notes: 'Consider SRQR (Standards for Reporting Qualitative Research) or COREQ (Consolidated criteria for reporting qualitative research). Not included in this tool but available at equator-network.org.' }
+    };
+
+    function findGuideline() {
+        var studyType = document.getElementById('rg-study-type').value;
+        if (!studyType) {
+            App.setTrustedHTML(document.getElementById('rg-finder-results'), '');
+            return;
+        }
+
+        var match = guidelineMap[studyType];
+        if (!match) {
+            App.setTrustedHTML(document.getElementById('rg-finder-results'), '<p style="color:var(--text-secondary);margin-top:12px;">No specific guideline mapped for this study type. Check EQUATOR Network.</p>');
+            return;
+        }
+
+        var rhtml = '<div class="result-panel mt-2">';
+        rhtml += '<div style="border-left:4px solid var(--success);padding:12px 16px;margin-bottom:12px;background:var(--bg-tertiary);border-radius:0 8px 8px 0;">';
+        rhtml += '<div style="font-weight:700;font-size:1.1rem;color:var(--success);margin-bottom:4px;">Primary: ' + match.primary + '</div>';
+        if (guidelines[match.primary]) {
+            rhtml += '<div style="font-size:0.9rem;">' + guidelines[match.primary].name + ' &mdash; ' + guidelines[match.primary].use + '</div>';
+            rhtml += '<div style="margin-top:8px;"><button class="btn btn-primary btn-sm" onclick="document.getElementById(\'rg-guideline-select\').value=\'' + match.primary + '\';ReportingGuide.selectGuideline();">Load This Checklist</button></div>';
+        }
+        rhtml += '</div>';
+
+        if (match.secondary && match.secondary.length > 0) {
+            rhtml += '<div style="border-left:4px solid var(--primary);padding:12px 16px;margin-bottom:12px;background:var(--bg-tertiary);border-radius:0 8px 8px 0;">';
+            rhtml += '<div style="font-weight:600;margin-bottom:4px;">Also Consider</div>';
+            for (var s = 0; s < match.secondary.length; s++) {
+                var sec = match.secondary[s];
+                rhtml += '<div style="font-size:0.9rem;margin-bottom:4px;"><strong>' + sec + '</strong>';
+                if (guidelines[sec]) rhtml += ' &mdash; ' + guidelines[sec].use;
+                rhtml += '</div>';
+            }
+            rhtml += '</div>';
+        }
+
+        rhtml += '<div style="border-left:4px solid var(--warning);padding:12px 16px;background:var(--bg-tertiary);border-radius:0 8px 8px 0;">';
+        rhtml += '<div style="font-weight:600;margin-bottom:4px;">Notes</div>';
+        rhtml += '<div style="font-size:0.9rem;line-height:1.6;">' + match.notes + '</div>';
+        rhtml += '</div>';
+
+        rhtml += '</div>';
+        App.setTrustedHTML(document.getElementById('rg-finder-results'), rhtml);
+    }
+
+    /* ------------------------------------------------------------------ */
+    /*  Card 3: Auto-Fill Study Design Checklist                           */
+    /* ------------------------------------------------------------------ */
+    function renderAutoFillStudyDesign() {
+        var html = '<div class="card">';
+        html += '<div class="card-title">Auto-Fill Reporting Checklist</div>';
+        html += '<div class="card-subtitle">Enter basic study details and we will pre-populate a reporting checklist template for your manuscript.</div>';
+
+        html += '<div class="form-row form-row--2">';
+        html += '<div class="form-group"><label class="form-label">Study Title</label>'
+            + '<input type="text" class="form-input" id="af-title" name="af-title" placeholder="e.g., Effect of X on Y in patients with Z"></div>';
+        html += '<div class="form-group"><label class="form-label">Study Design</label>'
+            + '<select class="form-select" id="af-design" name="af-design">'
+            + '<option value="rct">Randomised Controlled Trial</option>'
+            + '<option value="cohort">Prospective Cohort</option>'
+            + '<option value="retrospective_cohort">Retrospective Cohort</option>'
+            + '<option value="case_control">Case-Control</option>'
+            + '<option value="cross_sectional">Cross-Sectional</option>'
+            + '<option value="systematic_review">Systematic Review / Meta-Analysis</option>'
+            + '<option value="diagnostic">Diagnostic Accuracy Study</option>'
+            + '<option value="prediction">Prediction Model Study</option>'
+            + '<option value="case_report">Case Report</option>'
+            + '</select></div>';
+        html += '</div>';
+
+        html += '<div class="form-row form-row--3">';
+        html += '<div class="form-group"><label class="form-label">Setting</label>'
+            + '<input type="text" class="form-input" id="af-setting" name="af-setting" placeholder="e.g., Single-center, tertiary hospital"></div>';
+        html += '<div class="form-group"><label class="form-label">Sample Size</label>'
+            + '<input type="text" class="form-input" id="af-n" name="af-n" placeholder="e.g., n = 250"></div>';
+        html += '<div class="form-group"><label class="form-label">Primary Outcome</label>'
+            + '<input type="text" class="form-input" id="af-outcome" name="af-outcome" placeholder="e.g., 90-day mortality"></div>';
+        html += '</div>';
+
+        html += '<div class="form-row form-row--3">';
+        html += '<div class="form-group"><label class="form-label">Intervention / Exposure</label>'
+            + '<input type="text" class="form-input" id="af-intervention" name="af-intervention" placeholder="e.g., Alteplase vs placebo"></div>';
+        html += '<div class="form-group"><label class="form-label">Follow-up Duration</label>'
+            + '<input type="text" class="form-input" id="af-followup" name="af-followup" placeholder="e.g., 12 months"></div>';
+        html += '<div class="form-group"><label class="form-label">Registration Number</label>'
+            + '<input type="text" class="form-input" id="af-reg" name="af-reg" placeholder="e.g., NCT01234567"></div>';
+        html += '</div>';
+
+        html += '<div class="btn-group">';
+        html += '<button class="btn btn-primary" onclick="ReportingGuide.autoFill()">Generate Template</button>';
+        html += '<button class="btn btn-secondary" onclick="ReportingGuide.copyAutoFill()">Copy Template</button>';
+        html += '</div>';
+
+        html += '<div id="af-results"></div>';
+        html += '</div>';
+        return html;
+    }
+
+    function autoFill() {
+        var title = document.getElementById('af-title').value || '[Study Title]';
+        var design = document.getElementById('af-design').value;
+        var setting = document.getElementById('af-setting').value || '[Setting]';
+        var n = document.getElementById('af-n').value || '[Sample size]';
+        var outcome = document.getElementById('af-outcome').value || '[Primary outcome]';
+        var intervention = document.getElementById('af-intervention').value || '[Intervention/Exposure]';
+        var followup = document.getElementById('af-followup').value || '[Follow-up duration]';
+        var reg = document.getElementById('af-reg').value || '[Not registered]';
+
+        var designLabel = {
+            'rct': 'Randomised Controlled Trial',
+            'cohort': 'Prospective Cohort Study',
+            'retrospective_cohort': 'Retrospective Cohort Study',
+            'case_control': 'Case-Control Study',
+            'cross_sectional': 'Cross-Sectional Study',
+            'systematic_review': 'Systematic Review / Meta-Analysis',
+            'diagnostic': 'Diagnostic Accuracy Study',
+            'prediction': 'Prediction Model Study',
+            'case_report': 'Case Report'
+        }[design] || design;
+
+        var guidelineName = {
+            'rct': 'CONSORT', 'cohort': 'STROBE', 'retrospective_cohort': 'STROBE',
+            'case_control': 'STROBE', 'cross_sectional': 'STROBE',
+            'systematic_review': 'PRISMA', 'diagnostic': 'STARD',
+            'prediction': 'TRIPOD', 'case_report': 'CARE'
+        }[design] || 'STROBE';
+
+        var lines = [];
+        lines.push(guidelineName + ' Reporting Checklist');
+        lines.push('='.repeat(50));
+        lines.push('');
+        lines.push('Study: ' + title);
+        lines.push('Design: ' + designLabel);
+        lines.push('Setting: ' + setting);
+        lines.push('Sample size: ' + n);
+        lines.push('Primary outcome: ' + outcome);
+        lines.push('Intervention/Exposure: ' + intervention);
+        lines.push('Follow-up: ' + followup);
+        lines.push('Registration: ' + reg);
+        lines.push('Guideline: ' + guidelineName);
+        lines.push('');
+        lines.push('='.repeat(50));
+        lines.push('');
+
+        var items = checklists[guidelineName];
+        if (items) {
+            var lastSection = '';
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                if (item.section !== lastSection) {
+                    if (lastSection !== '') lines.push('');
+                    lines.push('--- ' + item.section + ' ---');
+                    lastSection = item.section;
+                }
+
+                var autoText = '';
+                // Pre-fill certain items with user input
+                if ((item.num === '1a' || item.num === '1' || item.num === '1') && item.section.indexOf('Title') >= 0) {
+                    autoText = ' >> "' + title + '"';
+                }
+                if (item.text.toLowerCase().indexOf('setting') >= 0 && item.text.toLowerCase().indexOf('location') >= 0) {
+                    autoText = ' >> ' + setting;
+                }
+                if (item.text.toLowerCase().indexOf('sample size') >= 0 || item.text.toLowerCase().indexOf('study size') >= 0) {
+                    autoText = ' >> ' + n;
+                }
+                if (item.text.toLowerCase().indexOf('registration') >= 0 || item.text.toLowerCase().indexOf('registry') >= 0) {
+                    autoText = ' >> ' + reg;
+                }
+                if (item.text.toLowerCase().indexOf('primary') >= 0 && item.text.toLowerCase().indexOf('outcome') >= 0) {
+                    autoText = ' >> ' + outcome;
+                }
+                if (item.text.toLowerCase().indexOf('intervention') >= 0 && !autoText) {
+                    autoText = ' >> ' + intervention;
+                }
+                if (item.text.toLowerCase().indexOf('follow-up') >= 0 && !autoText) {
+                    autoText = ' >> ' + followup;
+                }
+
+                lines.push('[ ] ' + item.num + '. ' + item.text + autoText);
+                lines.push('    Page/Section: ____');
+            }
+        }
+
+        lines.push('');
+        lines.push('Generated: ' + new Date().toLocaleDateString());
+        lines.push('Prepared with Neuro-Epi Suite Reporting Guidelines Hub');
+
+        var text = lines.join('\n');
+
+        var rhtml = '<div class="result-panel mt-2">';
+        rhtml += '<div class="card-title">Generated ' + guidelineName + ' Template for: ' + title + '</div>';
+        rhtml += '<div style="font-size:0.85rem;margin-bottom:12px;color:var(--text-secondary);">';
+        rhtml += 'Design: ' + designLabel + ' | Guideline: ' + guidelineName + ' | Items: ' + (items ? items.length : '?');
+        rhtml += ' | Items with auto-fill data are marked with ">>"';
+        rhtml += '</div>';
+        rhtml += '<pre id="af-text" style="background:var(--bg-primary);border:1px solid var(--border);padding:16px;border-radius:8px;font-size:0.78rem;line-height:1.5;max-height:400px;overflow-y:auto;white-space:pre-wrap;font-family:monospace;">' + text + '</pre>';
+        rhtml += '</div>';
+
+        App.setTrustedHTML(document.getElementById('af-results'), rhtml);
+    }
+
+    function copyAutoFill() {
+        var el = document.getElementById('af-text');
+        if (el) Export.copyText(el.textContent);
+    }
+
+    /* ------------------------------------------------------------------ */
+    /*  Card 4: Checklist Notes & Page Numbers                             */
+    /* ------------------------------------------------------------------ */
+    function renderChecklistNotes() {
+        var html = '<div class="card">';
+        html += '<div class="card-title">Checklist Completion Tracker with Notes</div>';
+        html += '<div class="card-subtitle">For formal submission: track completion status, add page numbers, and add reviewer notes for each major section.</div>';
+
+        html += '<div class="form-group"><label class="form-label">Select Guideline for Tracking</label>';
+        html += '<select class="form-select" id="cn-guideline" name="cn-guideline">';
+        var keys = Object.keys(guidelines);
+        for (var i = 0; i < keys.length; i++) {
+            html += '<option value="' + keys[i] + '"' + (keys[i] === 'CONSORT' ? ' selected' : '') + '>' + guidelines[keys[i]].name + '</option>';
+        }
+        html += '</select></div>';
+
+        html += '<button class="btn btn-primary" onclick="ReportingGuide.generateNotes()">Generate Section Notes</button>';
+        html += '<div id="cn-results"></div>';
+
+        html += '<div style="margin-top:16px;border-top:1px solid var(--border);padding-top:16px;">';
+        html += '<div style="font-weight:700;margin-bottom:8px;">Journal Requirements Quick Reference</div>';
+        html += '<div class="table-container"><table class="data-table" style="font-size:0.82rem;">';
+        html += '<thead><tr><th>Journal</th><th>Required Checklists</th><th>Flow Diagram</th><th>Registration</th><th>Protocol</th></tr></thead>';
+        html += '<tbody>';
+        html += '<tr><td><strong>BMJ</strong></td><td>All relevant (mandatory)</td><td>Required</td><td>Required (RCT)</td><td>Encouraged</td></tr>';
+        html += '<tr><td><strong>Lancet</strong></td><td>CONSORT, STROBE, PRISMA</td><td>Required</td><td>Required (RCT)</td><td>Referenced</td></tr>';
+        html += '<tr><td><strong>JAMA</strong></td><td>All relevant (mandatory)</td><td>Required</td><td>Required (RCT)</td><td>Referenced</td></tr>';
+        html += '<tr><td><strong>NEJM</strong></td><td>CONSORT (RCT)</td><td>Required</td><td>Required</td><td>Required</td></tr>';
+        html += '<tr><td><strong>PLOS Medicine</strong></td><td>All relevant (mandatory)</td><td>Required</td><td>Required</td><td>Encouraged</td></tr>';
+        html += '<tr><td><strong>Stroke</strong></td><td>CONSORT, STROBE</td><td>Required</td><td>Required (RCT)</td><td>Referenced</td></tr>';
+        html += '<tr><td><strong>Neurology</strong></td><td>CONSORT, STROBE, STARD</td><td>Required</td><td>Required (RCT)</td><td>Referenced</td></tr>';
+        html += '<tr><td><strong>Ann Neurol</strong></td><td>Relevant guidelines</td><td>Recommended</td><td>Required (RCT)</td><td>Referenced</td></tr>';
+        html += '</tbody></table></div>';
+        html += '</div>';
+
+        html += '</div>';
+        return html;
+    }
+
+    function generateNotes() {
+        var gl = document.getElementById('cn-guideline').value;
+        var items = checklists[gl];
+        if (!items) {
+            App.setTrustedHTML(document.getElementById('cn-results'), '<p style="color:var(--text-secondary);margin-top:12px;">No checklist data available.</p>');
+            return;
+        }
+
+        // Group by section
+        var sections = [];
+        var sectionMap = {};
+        for (var i = 0; i < items.length; i++) {
+            if (!sectionMap[items[i].section]) {
+                sectionMap[items[i].section] = true;
+                sections.push(items[i].section);
+            }
+        }
+
+        var rhtml = '<div class="result-panel mt-2">';
+        rhtml += '<div class="card-title">' + guidelines[gl].name + ' Section-by-Section Notes</div>';
+        rhtml += '<div style="font-size:0.85rem;margin-bottom:12px;color:var(--text-secondary);">Add page numbers and notes for each section. This helps during journal submission.</div>';
+
+        for (var si = 0; si < sections.length; si++) {
+            var sec = sections[si];
+            var sectionItems = [];
+            for (var j = 0; j < items.length; j++) {
+                if (items[j].section === sec) sectionItems.push(items[j]);
+            }
+
+            rhtml += '<div style="border:1px solid var(--border);border-radius:8px;margin-bottom:8px;padding:12px;">';
+            rhtml += '<div style="font-weight:700;color:var(--accent);margin-bottom:6px;">' + sec + ' (' + sectionItems.length + ' items)</div>';
+            rhtml += '<div style="font-size:0.82rem;line-height:1.6;margin-bottom:8px;color:var(--text-secondary);">';
+            for (var k = 0; k < sectionItems.length; k++) {
+                rhtml += '<div>' + sectionItems[k].num + '. ' + sectionItems[k].text.substring(0, 80) + (sectionItems[k].text.length > 80 ? '...' : '') + '</div>';
+            }
+            rhtml += '</div>';
+            rhtml += '<div class="form-row form-row--2">';
+            rhtml += '<div class="form-group"><label class="form-label" style="font-size:0.8rem;">Page Number(s)</label>'
+                + '<input type="text" class="form-input" id="cn-page-' + si + '" placeholder="e.g., pp. 3-5"></div>';
+            rhtml += '<div class="form-group"><label class="form-label" style="font-size:0.8rem;">Notes / Status</label>'
+                + '<input type="text" class="form-input" id="cn-note-' + si + '" placeholder="e.g., Complete, Needs revision"></div>';
+            rhtml += '</div>';
+            rhtml += '</div>';
+        }
+
+        rhtml += '<div class="btn-group mt-1">';
+        rhtml += '<button class="btn btn-secondary" onclick="ReportingGuide.copyNotes(' + sections.length + ')">Copy Notes Summary</button>';
+        rhtml += '</div>';
+
+        rhtml += '</div>';
+        App.setTrustedHTML(document.getElementById('cn-results'), rhtml);
+    }
+
+    function copyNotes(numSections) {
+        var gl = document.getElementById('cn-guideline').value;
+        var lines = [];
+        lines.push(guidelines[gl].name + ' Completion Notes');
+        lines.push('='.repeat(40));
+        lines.push('');
+
+        // Gather sections again
+        var items = checklists[gl];
+        var sections = [];
+        var sectionMap = {};
+        for (var i = 0; i < items.length; i++) {
+            if (!sectionMap[items[i].section]) {
+                sectionMap[items[i].section] = true;
+                sections.push(items[i].section);
+            }
+        }
+
+        for (var si = 0; si < sections.length; si++) {
+            var pageEl = document.getElementById('cn-page-' + si);
+            var noteEl = document.getElementById('cn-note-' + si);
+            var page = pageEl ? pageEl.value : '';
+            var note = noteEl ? noteEl.value : '';
+            lines.push(sections[si] + ': ' + (page ? 'Pages ' + page : 'Page: __') + ' | ' + (note || 'No notes'));
+        }
+
+        lines.push('');
+        lines.push('Generated: ' + new Date().toLocaleDateString());
+        Export.copyText(lines.join('\n'));
     }
 
     /* ------------------------------------------------------------------ */
@@ -811,6 +1270,11 @@
         copyChecklist: copyChecklist,
         downloadChecklist: downloadChecklist,
         exportChecklist: exportChecklist,
-        resetChecklist: resetChecklist
+        resetChecklist: resetChecklist,
+        findGuideline: findGuideline,
+        autoFill: autoFill,
+        copyAutoFill: copyAutoFill,
+        generateNotes: generateNotes,
+        copyNotes: copyNotes
     };
 })();

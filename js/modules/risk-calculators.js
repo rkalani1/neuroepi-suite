@@ -573,6 +573,146 @@
             + '</ul>';
         html += '</div></div>';
 
+        // ===================================================================
+        // CARD 3: Additional Clinical Scores
+        // ===================================================================
+        html += '<div class="card">';
+        html += '<div class="card-title">Additional Clinical Risk Scores</div>';
+        html += '<div class="card-subtitle">Framingham Risk Score, ASCVD 10-year risk, ICH Score, and modified Rankin Scale (mRS) assessment.</div>';
+
+        html += '<div class="tabs" id="extra-tabs">'
+            + '<button class="tab active" data-tab="framingham" onclick="RiskCalc.switchExtraTab(\'framingham\')">Framingham</button>'
+            + '<button class="tab" data-tab="ascvd" onclick="RiskCalc.switchExtraTab(\'ascvd\')">ASCVD</button>'
+            + '<button class="tab" data-tab="ichscore" onclick="RiskCalc.switchExtraTab(\'ichscore\')">ICH Score</button>'
+            + '<button class="tab" data-tab="mrs" onclick="RiskCalc.switchExtraTab(\'mrs\')">mRS Assessment</button>'
+            + '</div>';
+
+        // ----- Framingham -----
+        html += '<div class="tab-content active" id="tab-extra-framingham">';
+        html += '<div class="card-subtitle">Framingham 10-year cardiovascular disease risk. Simplified estimation.</div>';
+        html += '<div class="form-row form-row--2">';
+        html += '<div class="form-group"><label class="form-label">Sex</label><select class="form-select" id="rc-fram-sex"><option value="male">Male</option><option value="female">Female</option></select></div>';
+        html += '<div class="form-group"><label class="form-label">Age (30-79)</label><input type="number" class="form-input" id="rc-fram-age" value="55" min="30" max="79"></div>';
+        html += '</div>';
+        html += '<div class="form-row form-row--2">';
+        html += '<div class="form-group"><label class="form-label">Total Cholesterol (mg/dL)</label><input type="number" class="form-input" id="rc-fram-chol" value="220" min="100" max="400"></div>';
+        html += '<div class="form-group"><label class="form-label">HDL (mg/dL)</label><input type="number" class="form-input" id="rc-fram-hdl" value="50" min="20" max="120"></div>';
+        html += '</div>';
+        html += '<div class="form-row form-row--2">';
+        html += '<div class="form-group"><label class="form-label">Systolic BP (mmHg)</label><input type="number" class="form-input" id="rc-fram-sbp" value="140" min="90" max="200"></div>';
+        html += '<div class="form-group"><label class="form-label">BP Treatment</label><select class="form-select" id="rc-fram-bptx"><option value="no">Not treated</option><option value="yes">On BP medication</option></select></div>';
+        html += '</div>';
+        html += '<div style="margin-bottom:12px">';
+        html += '<label class="form-label" style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:6px 0"><input type="checkbox" id="rc-fram-smoker"><span>Current smoker</span></label>';
+        html += '<label class="form-label" style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:6px 0"><input type="checkbox" id="rc-fram-diabetes"><span>Diabetes mellitus</span></label>';
+        html += '</div>';
+        html += '<div class="btn-group mt-2"><button class="btn btn-primary" onclick="RiskCalc.calcFramingham()">Calculate 10-Year Risk</button></div>';
+        html += '<div id="rc-framingham-results"></div>';
+        html += '</div>';
+
+        // ----- ASCVD -----
+        html += '<div class="tab-content" id="tab-extra-ascvd">';
+        html += '<div class="card-subtitle">Pooled Cohort Equations (PCE) for 10-year ASCVD risk. Per 2013 ACC/AHA guidelines.</div>';
+        html += '<div class="form-row form-row--2">';
+        html += '<div class="form-group"><label class="form-label">Sex</label><select class="form-select" id="rc-ascvd-sex"><option value="male">Male</option><option value="female">Female</option></select></div>';
+        html += '<div class="form-group"><label class="form-label">Race</label><select class="form-select" id="rc-ascvd-race"><option value="white">White / Other</option><option value="aa">African American</option></select></div>';
+        html += '</div>';
+        html += '<div class="form-row form-row--3">';
+        html += '<div class="form-group"><label class="form-label">Age (40-79)</label><input type="number" class="form-input" id="rc-ascvd-age" value="55" min="40" max="79"></div>';
+        html += '<div class="form-group"><label class="form-label">Total Cholesterol</label><input type="number" class="form-input" id="rc-ascvd-chol" value="220" min="100" max="400"></div>';
+        html += '<div class="form-group"><label class="form-label">HDL (mg/dL)</label><input type="number" class="form-input" id="rc-ascvd-hdl" value="50" min="20" max="120"></div>';
+        html += '</div>';
+        html += '<div class="form-row form-row--2">';
+        html += '<div class="form-group"><label class="form-label">Systolic BP</label><input type="number" class="form-input" id="rc-ascvd-sbp" value="140" min="90" max="200"></div>';
+        html += '<div class="form-group"><label class="form-label">BP Treatment</label><select class="form-select" id="rc-ascvd-bptx"><option value="no">Not treated</option><option value="yes">On BP medication</option></select></div>';
+        html += '</div>';
+        html += '<div style="margin-bottom:12px">';
+        html += '<label class="form-label" style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:6px 0"><input type="checkbox" id="rc-ascvd-smoker"><span>Current smoker</span></label>';
+        html += '<label class="form-label" style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:6px 0"><input type="checkbox" id="rc-ascvd-diabetes"><span>Diabetes</span></label>';
+        html += '</div>';
+        html += '<div class="btn-group mt-2"><button class="btn btn-primary" onclick="RiskCalc.calcASCVD()">Calculate 10-Year ASCVD Risk</button></div>';
+        html += '<div id="rc-ascvd-results"></div>';
+        html += '</div>';
+
+        // ----- ICH Score -----
+        html += '<div class="tab-content" id="tab-extra-ichscore">';
+        html += '<div class="card-subtitle">ICH Score for 30-day mortality after intracerebral hemorrhage (Hemphill 2001). Score: 0-6.</div>';
+        html += '<div style="margin-bottom:12px">';
+        html += '<label class="form-label" style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:6px 0"><input type="checkbox" id="rc-ich-infratentorial"><span>Infratentorial origin (+1)</span></label>';
+        html += '<label class="form-label" style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:6px 0"><input type="checkbox" id="rc-ich-ivh"><span>Intraventricular hemorrhage present (+1)</span></label>';
+        html += '</div>';
+        html += '<div class="form-group"><label class="form-label">GCS Score</label><select class="form-select" id="rc-ich-gcs" style="max-width:280px"><option value="0">13-15 (0 pts)</option><option value="1">5-12 (+1 pt)</option><option value="2">3-4 (+2 pts)</option></select></div>';
+        html += '<div class="form-group"><label class="form-label">Age</label><select class="form-select" id="rc-ich-age" style="max-width:280px"><option value="0">&lt;80 (0 pts)</option><option value="1">&ge;80 (+1 pt)</option></select></div>';
+        html += '<div class="form-group"><label class="form-label">ICH Volume</label><select class="form-select" id="rc-ich-volume" style="max-width:280px"><option value="0">&lt;30 cm&sup3; (0 pts)</option><option value="1">&ge;30 cm&sup3; (+1 pt)</option></select></div>';
+        html += '<div class="btn-group mt-2"><button class="btn btn-primary" onclick="RiskCalc.calcICH()">Calculate ICH Score</button></div>';
+        html += '<div id="rc-ich-results"></div>';
+        html += '</div>';
+
+        // ----- mRS -----
+        html += '<div class="tab-content" id="tab-extra-mrs">';
+        html += '<div class="card-subtitle">Modified Rankin Scale (mRS) -- standard functional outcome measure for stroke.</div>';
+        var mrsDesc = [
+            { s: 0, l: 'No symptoms', d: 'No symptoms at all.' },
+            { s: 1, l: 'No significant disability', d: 'Despite symptoms, able to carry out all usual duties and activities.' },
+            { s: 2, l: 'Slight disability', d: 'Unable to carry out all previous activities but able to look after own affairs without assistance.' },
+            { s: 3, l: 'Moderate disability', d: 'Requiring some help, but able to walk without assistance.' },
+            { s: 4, l: 'Moderately severe disability', d: 'Unable to walk without assistance; unable to attend to own bodily needs without assistance.' },
+            { s: 5, l: 'Severe disability', d: 'Bedridden, incontinent, requiring constant nursing care.' },
+            { s: 6, l: 'Dead', d: 'Deceased.' }
+        ];
+        for (var mri = 0; mri < mrsDesc.length; mri++) {
+            html += '<label style="display:flex;align-items:flex-start;gap:0.6rem;padding:0.5rem;cursor:pointer;border:1px solid var(--border);border-radius:6px;margin-bottom:0.4rem;">';
+            html += '<input type="radio" name="rc-mrs-score" value="' + mrsDesc[mri].s + '" style="margin-top:3px;flex-shrink:0;"' + (mri === 0 ? ' checked' : '') + '>';
+            html += '<div><strong>mRS ' + mrsDesc[mri].s + ': ' + mrsDesc[mri].l + '</strong><div style="font-size:0.8rem;color:var(--text-tertiary)">' + mrsDesc[mri].d + '</div></div></label>';
+        }
+        html += '<div class="btn-group mt-2"><button class="btn btn-primary" onclick="RiskCalc.assessMRS()">Generate Assessment</button></div>';
+        html += '<div id="rc-mrs-results"></div>';
+        html += '</div>';
+
+        html += '</div>'; // end card 3
+
+        // ===================================================================
+        // CARD 4: Multi-Score Comparison
+        // ===================================================================
+        html += '<div class="card">';
+        html += '<div class="card-title">Multi-Score Comparison Tool</div>';
+        html += '<div class="card-subtitle">Calculate multiple risk scores simultaneously for the same patient.</div>';
+        html += '<div class="form-row form-row--3">';
+        html += '<div class="form-group"><label class="form-label">Age</label><input type="number" class="form-input" id="rc-multi-age" value="72" min="18" max="100"></div>';
+        html += '<div class="form-group"><label class="form-label">Sex</label><select class="form-select" id="rc-multi-sex"><option value="male">Male</option><option value="female">Female</option></select></div>';
+        html += '<div class="form-group"><label class="form-label">Systolic BP</label><input type="number" class="form-input" id="rc-multi-sbp" value="150" min="90" max="250"></div>';
+        html += '</div>';
+        html += '<div style="margin-bottom:12px">';
+        var mChk = [['rc-multi-htn','Hypertension'],['rc-multi-dm','Diabetes'],['rc-multi-chf','Heart failure'],['rc-multi-stroke','Prior stroke/TIA'],['rc-multi-vasc','Vascular disease'],['rc-multi-smoker','Current smoker'],['rc-multi-af','Atrial fibrillation']];
+        for (var mci = 0; mci < mChk.length; mci++) {
+            html += '<label class="form-label" style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:4px 0"><input type="checkbox" id="' + mChk[mci][0] + '"><span>' + mChk[mci][1] + '</span></label>';
+        }
+        html += '</div>';
+        html += '<div class="btn-group mt-2"><button class="btn btn-primary" onclick="RiskCalc.calcMultiScore()">Calculate All Scores</button><button class="btn btn-secondary" onclick="RiskCalc.copyMultiScore()">Copy Results</button></div>';
+        html += '<div id="rc-multi-results"></div>';
+        html += '</div>';
+
+        // ===================================================================
+        // Expanded Learn
+        // ===================================================================
+        html += '<div class="card" style="background: var(--bg-secondary); border-left: 4px solid var(--accent-color);">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\')">&#128218; Extended Clinical Score Reference <span style="font-size:0.8em; color: var(--text-muted);">(click to expand)</span></div>';
+        html += '<div class="learn-body hidden" style="font-size:0.9rem;line-height:1.7;">';
+        html += '<div style="margin-bottom:1rem;"><strong style="color:var(--accent);">Cardiovascular Risk Assessment</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;"><li><strong>Framingham:</strong> Original 10-yr CVD risk; validated in Framingham Heart Study</li><li><strong>ASCVD (PCE):</strong> 2013 ACC/AHA; race/sex-specific pooled cohort equations</li><li><strong>SCORE2:</strong> European cardiovascular risk (ESC guidelines)</li></ul></div>';
+        html += '<div style="margin-bottom:1rem;"><strong style="color:var(--accent);">ICH Scores</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;"><li><strong>ICH Score:</strong> 30-day mortality; score 0 = 0%, score 5 = 100%</li><li><strong>FUNC Score:</strong> Functional independence at 90 days post-ICH</li></ul></div>';
+        html += '<div style="margin-bottom:1rem;"><strong style="color:var(--accent);">Modified Rankin Scale</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;"><li>Most widely used stroke outcome measure</li><li>mRS 0-2 = functional independence (good outcome)</li><li>Structured interview improves reliability</li><li>Shift analysis (ordinal) preferred in clinical trials</li></ul></div>';
+        html += '<div style="margin-bottom:0;"><strong style="color:var(--accent);">References</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;font-size:0.85rem;">';
+        html += '<li>Hemphill JC et al. ICH Score. <em>Stroke</em>. 2001;32:891-897.</li>';
+        html += '<li>Goff DC et al. PCE for ASCVD Risk. <em>JACC</em>. 2014;63:2935-59.</li>';
+        html += '<li>Wilson PWF et al. Framingham. <em>Circulation</em>. 1998;97:1837-47.</li>';
+        html += '<li>van Swieten JC et al. mRS. <em>Stroke</em>. 1988;19:604-607.</li>';
+        html += '</ul></div>';
+        html += '</div></div>';
+
         App.setTrustedHTML(container, html);
         App.autoSaveInputs(container, MODULE_ID);
 
@@ -633,14 +773,14 @@
                 recommendation = 'Low risk (sole point from female sex) \u2014 no anticoagulation needed.';
                 recColor = 'var(--success)';
             } else {
-                recommendation = 'Consider anticoagulation (OAC or aspirin). Discuss risk-benefit with patient.';
+                recommendation = 'Consider oral anticoagulation (DOAC preferred). Discuss risk-benefit with patient.';
                 recColor = 'var(--warning)';
             }
         } else if (score === 1) {
-            recommendation = 'Consider anticoagulation (OAC or aspirin). Discuss risk-benefit with patient.';
+            recommendation = 'Consider oral anticoagulation (DOAC preferred). Discuss risk-benefit with patient.';
             recColor = 'var(--warning)';
         } else {
-            recommendation = 'Anticoagulation recommended (OAC preferred over antiplatelet therapy).';
+            recommendation = 'Oral anticoagulation recommended (DOAC preferred over warfarin).';
             recColor = 'var(--danger)';
         }
 
@@ -654,12 +794,12 @@
 
         // Risk table
         html += '<div class="card-title mt-2">Annual Stroke Risk by Score</div>';
-        html += '<table class="data-table"><thead><tr><th>Score</th><th>Annual Stroke Risk</th></tr></thead><tbody>';
+        html += '<div class="table-scroll-wrap"><table class="data-table"><thead><tr><th>Score</th><th>Annual Stroke Risk</th></tr></thead><tbody>';
         for (var i = 0; i <= 9; i++) {
             var rowStyle = i === score ? ' style="background:var(--accent-muted);font-weight:600"' : '';
             html += '<tr' + rowStyle + '><td>' + i + '</td><td class="num">' + chadsVascRisk[i] + '%</td></tr>';
         }
-        html += '</tbody></table>';
+        html += '</tbody></table></div>';
 
         html += '<div class="btn-group mt-2">'
             + '<button class="btn btn-xs btn-secondary" onclick="Export.copyText(\'CHA2DS2-VASc Score: ' + score + '/9. Annual stroke risk: ' + annualRisk + '%. ' + recommendation.replace(/'/g, "\\'") + '\')">Copy Result</button>'
@@ -706,14 +846,14 @@
 
         // Risk table
         html += '<div class="card-title mt-2">Bleeding Risk by Score</div>';
-        html += '<table class="data-table"><thead><tr><th>Score</th><th>Bleeds per 100 patient-years</th></tr></thead><tbody>';
+        html += '<div class="table-scroll-wrap"><table class="data-table"><thead><tr><th>Score</th><th>Bleeds per 100 patient-years</th></tr></thead><tbody>';
         var hasBledKeys = [0, 1, 2, 3, 4, 5];
         hasBledKeys.forEach(function(k) {
             var label = k === 5 ? '\u22655' : String(k);
             var rowStyle = (k === score || (score >= 5 && k === 5)) ? ' style="background:var(--accent-muted);font-weight:600"' : '';
             html += '<tr' + rowStyle + '><td>' + label + '</td><td class="num">' + hasBledRisk[k].toFixed(2) + '</td></tr>';
         });
-        html += '</tbody></table>';
+        html += '</tbody></table></div>';
 
         html += '<div style="font-size:0.8rem;color:var(--text-tertiary);margin-top:8px">A high HAS-BLED score is not a reason to withhold anticoagulation. It identifies patients who need closer follow-up and modification of reversible risk factors (e.g., uncontrolled HTN, labile INR, concomitant drugs, alcohol).</div>';
 
@@ -771,7 +911,7 @@
 
         // Risk table
         html += '<div class="card-title mt-2">Stroke Risk by Score Category</div>';
-        html += '<table class="data-table"><thead><tr><th>Score</th><th>Risk Level</th><th>2-Day Stroke Risk</th><th>7-Day Stroke Risk</th></tr></thead><tbody>';
+        html += '<div class="table-scroll-wrap"><table class="data-table"><thead><tr><th>Score</th><th>Risk Level</th><th>2-Day Stroke Risk</th><th>7-Day Stroke Risk</th></tr></thead><tbody>';
         var abcdRows = [
             { range: '0\u20133', level: 'Low', d2: abcd2TwoDayRisk.low, d7: abcd2SevenDayRisk.low, match: score <= 3 },
             { range: '4\u20135', level: 'Moderate', d2: abcd2TwoDayRisk.moderate, d7: abcd2SevenDayRisk.moderate, match: score >= 4 && score <= 5 },
@@ -781,7 +921,7 @@
             var rowStyle = r.match ? ' style="background:var(--accent-muted);font-weight:600"' : '';
             html += '<tr' + rowStyle + '><td>' + r.range + '</td><td>' + r.level + '</td><td class="num">' + r.d2 + '%</td><td class="num">' + r.d7 + '%</td></tr>';
         });
-        html += '</tbody></table>';
+        html += '</tbody></table></div>';
 
         html += '<div style="font-size:0.8rem;color:var(--text-tertiary);margin-top:8px">The ABCD\u00B2 score helps triage TIA patients for urgency of evaluation. Patients with scores \u22654 should be considered for urgent workup and possible hospitalization.</div>';
 
@@ -830,7 +970,7 @@
             + '</div>';
 
         html += '<div class="card-title mt-2">Risk Stratification</div>';
-        html += '<table class="data-table"><thead><tr><th>Score</th><th>Risk Level</th><th>Annual Recurrence Rate</th></tr></thead><tbody>';
+        html += '<div class="table-scroll-wrap"><table class="data-table"><thead><tr><th>Score</th><th>Risk Level</th><th>Annual Recurrence Rate</th></tr></thead><tbody>';
         var esrsRows = [
             { range: '0\u20132', level: 'Low', rate: '<4%', match: score <= 2 },
             { range: '\u22653', level: 'High', rate: '\u22654%', match: score >= 3 }
@@ -839,7 +979,7 @@
             var rowStyle = r.match ? ' style="background:var(--accent-muted);font-weight:600"' : '';
             html += '<tr' + rowStyle + '><td>' + r.range + '</td><td>' + r.level + '</td><td class="num">' + r.rate + '</td></tr>';
         });
-        html += '</tbody></table>';
+        html += '</tbody></table></div>';
 
         html += '<div style="font-size:0.8rem;color:var(--text-tertiary);margin-top:8px">The ESRS identifies patients with ischemic stroke or TIA who are at high risk for recurrent cardiovascular events. Patients with ESRS \u22653 may benefit from more aggressive secondary prevention strategies.</div>';
 
@@ -880,12 +1020,12 @@
 
         // Risk table
         html += '<div class="card-title mt-2">sICH Risk by SEDAN Score</div>';
-        html += '<table class="data-table"><thead><tr><th>Score</th><th>sICH Risk</th></tr></thead><tbody>';
+        html += '<div class="table-scroll-wrap"><table class="data-table"><thead><tr><th>Score</th><th>sICH Risk</th></tr></thead><tbody>';
         for (var i = 0; i <= 5; i++) {
             var rowStyle = i === score ? ' style="background:var(--accent-muted);font-weight:600"' : '';
             html += '<tr' + rowStyle + '><td>' + i + '</td><td class="num">' + sedanRisk[i] + '%</td></tr>';
         }
-        html += '</tbody></table>';
+        html += '</tbody></table></div>';
 
         html += '<div style="font-size:0.8rem;color:var(--text-tertiary);margin-top:8px">The SEDAN score predicts the risk of symptomatic intracerebral hemorrhage (sICH) after intravenous thrombolysis for acute ischemic stroke. Higher scores indicate greater hemorrhagic transformation risk.</div>';
 
@@ -940,7 +1080,7 @@
 
         // Outcome table
         html += '<div class="card-title mt-2">Good Outcome (mRS 0\u20132) by DRAGON Score</div>';
-        html += '<table class="data-table"><thead><tr><th>Score</th><th>Good Outcome (mRS 0\u20132)</th><th>Prognosis</th></tr></thead><tbody>';
+        html += '<div class="table-scroll-wrap"><table class="data-table"><thead><tr><th>Score</th><th>Good Outcome (mRS 0\u20132)</th><th>Prognosis</th></tr></thead><tbody>';
         var dragonRows = [
             { range: '0\u20131', pct: '96%', label: 'Excellent', scores: [0, 1] },
             { range: '2', pct: '88%', label: 'Good', scores: [2] },
@@ -954,7 +1094,7 @@
             var rowStyle = isMatch ? ' style="background:var(--accent-muted);font-weight:600"' : '';
             html += '<tr' + rowStyle + '><td>' + r.range + '</td><td class="num">' + r.pct + '</td><td>' + r.label + '</td></tr>';
         });
-        html += '</tbody></table>';
+        html += '</tbody></table></div>';
 
         html += '<div style="font-size:0.8rem;color:var(--text-tertiary);margin-top:8px">The DRAGON score predicts functional outcome after IV thrombolysis for acute ischemic stroke. It can help with prognostication and shared decision-making, but should not be used alone to withhold treatment.</div>';
 
@@ -1007,6 +1147,9 @@
 
         html += '<div class="btn-group mt-2">'
             + '<button class="btn btn-xs btn-secondary" onclick="Export.copyText(\'Incidence rate: ' + rate.toFixed(2) + ' ' + perLabel + ' (' + ((1 - alpha) * 100).toFixed(0) + '% CI: ' + ciLower.toFixed(2) + ' to ' + ciUpper.toFixed(2) + ')\')">Copy Result</button>'
+            + ' <button class="btn btn-xs r-script-btn" '
+            + 'onclick="RGenerator.showScript(RGenerator.riskRateCalculators({events:' + events + ',pt:' + pt + ',alpha:' + alpha + ',per:' + per + '}), &quot;Incidence Rate Calculation&quot;)">'
+            + '&#129513; R Script</button>'
             + '</div>';
 
         html += '</div>';
@@ -1052,6 +1195,9 @@
 
         html += '<div class="btn-group mt-2">'
             + '<button class="btn btn-xs btn-secondary" onclick="Export.copyText(\'IRR: ' + result.ratio.toFixed(3) + ' (95% CI: ' + result.ci.lower.toFixed(3) + ' to ' + result.ci.upper.toFixed(3) + ')\')">Copy Result</button>'
+            + ' <button class="btn btn-xs r-script-btn" '
+            + 'onclick="RGenerator.showScript(RGenerator.riskRateRatio({events1:' + events1 + ',pt1:' + pt1 + ',events2:' + events2 + ',pt2:' + pt2 + '}), &quot;Incidence Rate Ratio&quot;)">'
+            + '&#129513; R Script</button>'
             + '</div>';
 
         html += '</div>';
@@ -1090,16 +1236,19 @@
 
         // Compare CI methods
         html += '<div class="card-title mt-2">Confidence Interval Methods</div>';
-        html += '<table class="data-table"><thead><tr><th>Method</th><th>Lower</th><th>Upper</th><th>Width</th></tr></thead><tbody>';
+        html += '<div class="table-scroll-wrap"><table class="data-table"><thead><tr><th>Method</th><th>Lower</th><th>Upper</th><th>Width</th></tr></thead><tbody>';
         html += '<tr style="background:var(--accent-muted)"><td>Clopper-Pearson (Exact)</td><td class="num">' + (cpCI.lower * 100).toFixed(3) + '%</td><td class="num">' + (cpCI.upper * 100).toFixed(3) + '%</td><td class="num">' + ((cpCI.upper - cpCI.lower) * 100).toFixed(3) + '%</td></tr>';
         html += '<tr><td>Wald</td><td class="num">' + (waldResult.lower * 100).toFixed(3) + '%</td><td class="num">' + (waldResult.upper * 100).toFixed(3) + '%</td><td class="num">' + ((waldResult.upper - waldResult.lower) * 100).toFixed(3) + '%</td></tr>';
         html += '<tr><td>Wilson Score</td><td class="num">' + (wilsonResult.lower * 100).toFixed(3) + '%</td><td class="num">' + (wilsonResult.upper * 100).toFixed(3) + '%</td><td class="num">' + ((wilsonResult.upper - wilsonResult.lower) * 100).toFixed(3) + '%</td></tr>';
-        html += '</tbody></table>';
+        html += '</tbody></table></div>';
 
         html += '<div style="font-size:0.8rem;color:var(--text-tertiary);margin-top:4px">Clopper-Pearson exact CI is recommended, especially for small samples and extreme proportions. Wilson score is preferred by some for moderate samples.</div>';
 
         html += '<div class="btn-group mt-2">'
             + '<button class="btn btn-xs btn-secondary" onclick="Export.copyText(\'Prevalence: ' + (p * 100).toFixed(2) + '% (' + confLevel + '% CI: ' + (cpCI.lower * 100).toFixed(2) + '% to ' + (cpCI.upper * 100).toFixed(2) + '%; Clopper-Pearson exact)\')">Copy Result</button>'
+            + ' <button class="btn btn-xs r-script-btn" '
+            + 'onclick="RGenerator.showScript(RGenerator.riskRateCalculators({x:' + x + ',n:' + n + ',confLevel:' + (confLevel / 100) + '}), &quot;Prevalence Estimation&quot;)">'
+            + '&#129513; R Script</button>'
             + '</div>';
 
         html += '</div>';
@@ -1148,6 +1297,9 @@
 
         html += '<div class="btn-group mt-2">'
             + '<button class="btn btn-xs btn-secondary" onclick="Export.copyText(\'SMR: ' + result.smr.toFixed(3) + ' (' + confLevel + '% CI: ' + result.ci.lower.toFixed(3) + ' to ' + result.ci.upper.toFixed(3) + '); Observed=' + observed + ', Expected=' + expected.toFixed(1) + '\')">Copy Result</button>'
+            + ' <button class="btn btn-xs r-script-btn" '
+            + 'onclick="RGenerator.showScript(RGenerator.riskSMR({observed:' + observed + ',expected:' + expected + ',alpha:' + alpha + '}), &quot;Standardized Mortality Ratio&quot;)">'
+            + '&#129513; R Script</button>'
             + '</div>';
 
         html += '</div>';
@@ -1199,7 +1351,7 @@
             return;
         }
 
-        var html = '<table class="data-table"><thead><tr>'
+        var html = '<div class="table-scroll-wrap"><table class="data-table"><thead><tr>'
             + '<th>Age Group</th><th>Events</th><th>Study Population</th><th>Standard Pop Weight</th><th>Crude Rate</th><th></th>'
             + '</tr></thead><tbody>';
 
@@ -1215,7 +1367,7 @@
                 + '</tr>';
         });
 
-        html += '</tbody></table>';
+        html += '</tbody></table></div>';
         App.setTrustedHTML(el, html);
     }
 
@@ -1298,7 +1450,7 @@
 
         // Detail table
         html += '<div class="card-title mt-2">Age-Specific Rates</div>';
-        html += '<table class="data-table"><thead><tr><th>Age Group</th><th>Events</th><th>Population</th><th>Crude Rate</th><th>Weight</th><th>Weighted Rate</th></tr></thead><tbody>';
+        html += '<div class="table-scroll-wrap"><table class="data-table"><thead><tr><th>Age Group</th><th>Events</th><th>Population</th><th>Crude Rate</th><th>Weight</th><th>Weighted Rate</th></tr></thead><tbody>';
         var totalWeight = validRows.reduce(function(s, r) { return s + r.weight; }, 0);
         validRows.forEach(function(r) {
             var cr = r.events / r.population * multiplier;
@@ -1312,7 +1464,7 @@
                 + '<td class="num">' + (wr / totalWeight * multiplier).toFixed(2) + '</td>'
                 + '</tr>';
         });
-        html += '</tbody></table>';
+        html += '</tbody></table></div>';
 
         html += '<div class="btn-group mt-2">'
             + '<button class="btn btn-xs btn-secondary" onclick="Export.copyText(\'Age-standardized rate: ' + adjustedRate.toFixed(2) + ' ' + perLabel + ' (95% CI: ' + adjustedCILower.toFixed(2) + ' to ' + adjustedCIUpper.toFixed(2) + '). Crude rate: ' + crudeRate.toFixed(2) + ' ' + perLabel + '.\')">Copy Result</button>'
@@ -1380,7 +1532,7 @@
 
         // Interpretation
         html += '<div class="card-title mt-2">Interpretation</div>';
-        html += '<table class="data-table"><thead><tr><th>Measure</th><th>Value</th><th>Interpretation</th></tr></thead><tbody>';
+        html += '<div class="table-scroll-wrap"><table class="data-table"><thead><tr><th>Measure</th><th>Value</th><th>Interpretation</th></tr></thead><tbody>';
         html += '<tr><td>AR</td><td class="num">' + (ar * 100).toFixed(2) + '%</td>'
             + '<td>The excess risk in the exposed group attributable to the exposure is ' + (Math.abs(ar) * 100).toFixed(2) + ' per 100 persons.</td></tr>';
         html += '<tr><td>AF<sub>e</sub></td><td class="num">' + (afe * 100).toFixed(1) + '%</td>'
@@ -1389,10 +1541,13 @@
             + '<td>' + (paf * 100).toFixed(1) + '% of all cases in the population could theoretically be prevented by eliminating the exposure.</td></tr>';
         html += '<tr><td>PAR</td><td class="num">' + (par * 100).toFixed(3) + '%</td>'
             + '<td>The absolute excess rate in the population attributable to the exposure.</td></tr>';
-        html += '</tbody></table>';
+        html += '</tbody></table></div>';
 
         html += '<div class="btn-group mt-2">'
             + '<button class="btn btn-xs btn-secondary" onclick="Export.copyText(\'Attributable Risk: ' + (ar * 100).toFixed(2) + '%; RR=' + rr.toFixed(3) + '; AF(exposed)=' + (afe * 100).toFixed(1) + '%; PAF=' + (paf * 100).toFixed(1) + '%\')">Copy Result</button>'
+            + ' <button class="btn btn-xs r-script-btn" '
+            + 'onclick="RGenerator.showScript(RGenerator.riskAttributable({re:' + re + ',ru:' + ru + ',pe:' + pe + '}), &quot;Attributable Risk Measures&quot;)">'
+            + '&#129513; R Script</button>'
             + '</div>';
 
         html += '</div>';
@@ -1451,11 +1606,11 @@
 
         // Detail table
         html += '<div class="card-title mt-2">Calculation Details</div>';
-        html += '<table class="data-table"><thead><tr><th>Component</th><th>Formula</th><th>Value</th><th>% of DALY</th></tr></thead><tbody>';
+        html += '<div class="table-scroll-wrap"><table class="data-table"><thead><tr><th>Component</th><th>Formula</th><th>Value</th><th>% of DALY</th></tr></thead><tbody>';
         html += '<tr><td>YLL</td><td class="num">' + deaths + ' deaths x ' + lifeExpectancy.toFixed(1) + ' years</td><td class="num" style="color:var(--danger)">' + yll.toFixed(1) + '</td><td class="num">' + yllPct.toFixed(1) + '%</td></tr>';
         html += '<tr><td>YLD</td><td class="num">' + cases + ' cases x ' + duration.toFixed(1) + ' years x ' + dw.toFixed(3) + '</td><td class="num" style="color:var(--warning)">' + yld.toFixed(1) + '</td><td class="num">' + yldPct.toFixed(1) + '%</td></tr>';
         html += '<tr style="font-weight:bold"><td>DALY</td><td class="num">YLL + YLD</td><td class="num" style="color:var(--accent)">' + daly.toFixed(1) + '</td><td class="num">100%</td></tr>';
-        html += '</tbody></table>';
+        html += '</tbody></table></div>';
 
         // Per-case metrics
         html += '<div class="result-grid mt-2">'
@@ -1484,6 +1639,311 @@
         Export.addToHistory(MODULE_ID, { deaths: deaths, cases: cases, dw: dw }, 'DALY: ' + daly.toFixed(1));
     }
 
+    // ===================================================================
+    // EXTRA TAB SWITCHING (Card 3)
+    // ===================================================================
+    function switchExtraTab(tabId) {
+        document.querySelectorAll('#extra-tabs .tab').forEach(function(t) { t.classList.toggle('active', t.dataset.tab === tabId); });
+        var ids = ['framingham', 'ascvd', 'ichscore', 'mrs'];
+        ids.forEach(function(id) {
+            var el = document.getElementById('tab-extra-' + id);
+            if (el) el.classList.toggle('active', id === tabId);
+        });
+    }
+
+    // ===================================================================
+    // FRAMINGHAM RISK SCORE (Simplified)
+    // ===================================================================
+    function calcFramingham() {
+        var sex = document.getElementById('rc-fram-sex').value;
+        var age = parseInt(document.getElementById('rc-fram-age').value) || 55;
+        var chol = parseInt(document.getElementById('rc-fram-chol').value) || 220;
+        var hdl = parseInt(document.getElementById('rc-fram-hdl').value) || 50;
+        var sbp = parseInt(document.getElementById('rc-fram-sbp').value) || 140;
+        var bpTx = document.getElementById('rc-fram-bptx').value === 'yes';
+        var smoker = document.getElementById('rc-fram-smoker').checked;
+        var diabetes = document.getElementById('rc-fram-diabetes').checked;
+
+        // Simplified Framingham point-based estimation
+        var points = 0;
+        if (sex === 'male') {
+            if (age >= 70) points += 13; else if (age >= 65) points += 12; else if (age >= 60) points += 11; else if (age >= 55) points += 10; else if (age >= 50) points += 8; else if (age >= 45) points += 6; else if (age >= 40) points += 5; else if (age >= 35) points += 2; else points += 0;
+            if (chol >= 280) points += 3; else if (chol >= 240) points += 2; else if (chol >= 200) points += 1; else if (chol >= 160) points += 0; else points += -1;
+            if (hdl < 35) points += 2; else if (hdl < 45) points += 1; else if (hdl < 50) points += 0; else if (hdl < 60) points += -1; else points += -2;
+            if (bpTx) { if (sbp >= 160) points += 3; else if (sbp >= 140) points += 2; else if (sbp >= 130) points += 1; else points += 0; }
+            else { if (sbp >= 160) points += 2; else if (sbp >= 140) points += 1; else points += 0; }
+            if (smoker) points += 4;
+            if (diabetes) points += 3;
+        } else {
+            if (age >= 70) points += 16; else if (age >= 65) points += 14; else if (age >= 60) points += 13; else if (age >= 55) points += 11; else if (age >= 50) points += 9; else if (age >= 45) points += 7; else if (age >= 40) points += 4; else if (age >= 35) points += 2; else points += 0;
+            if (chol >= 280) points += 3; else if (chol >= 240) points += 2; else if (chol >= 200) points += 1; else if (chol >= 160) points += 0; else points += -1;
+            if (hdl < 35) points += 2; else if (hdl < 45) points += 1; else if (hdl < 50) points += 0; else if (hdl < 60) points += -1; else points += -2;
+            if (bpTx) { if (sbp >= 160) points += 4; else if (sbp >= 140) points += 3; else if (sbp >= 130) points += 2; else points += 1; }
+            else { if (sbp >= 160) points += 3; else if (sbp >= 140) points += 2; else if (sbp >= 130) points += 1; else points += 0; }
+            if (smoker) points += 3;
+            if (diabetes) points += 4;
+        }
+
+        // Approximate 10-year risk lookup
+        var riskLookupMale = { '-3': 1, '-2': 1, '-1': 1, '0': 2, '1': 2, '2': 3, '3': 4, '4': 5, '5': 6, '6': 8, '7': 10, '8': 12, '9': 14, '10': 16, '11': 20, '12': 25, '13': 30 };
+        var riskLookupFemale = { '-2': 1, '-1': 1, '0': 1, '1': 1, '2': 2, '3': 2, '4': 3, '5': 4, '6': 5, '7': 6, '8': 7, '9': 8, '10': 10, '11': 12, '12': 14, '13': 17, '14': 20, '15': 24, '16': 27 };
+
+        var lookup = sex === 'male' ? riskLookupMale : riskLookupFemale;
+        var clampedPts = Math.max(sex === 'male' ? -3 : -2, Math.min(points, sex === 'male' ? 13 : 16));
+        var risk10yr = lookup[String(clampedPts)] || (clampedPts > 13 ? 30 : 1);
+
+        var riskColor = risk10yr < 10 ? 'var(--success)' : risk10yr < 20 ? 'var(--warning)' : 'var(--danger)';
+        var riskCategory = risk10yr < 10 ? 'Low risk' : risk10yr < 20 ? 'Intermediate risk' : 'High risk';
+
+        var html = '<div class="result-panel animate-in">';
+        html += '<div class="result-value" style="color:' + riskColor + '">' + risk10yr + '%</div>';
+        html += '<div class="result-label">Estimated 10-Year CVD Risk (Framingham)</div>';
+        html += '<div class="result-detail mt-1" style="color:' + riskColor + ';font-weight:600">' + riskCategory + ' (Points: ' + points + ')</div>';
+        html += '<div class="result-grid mt-2">';
+        html += '<div class="result-item"><div class="result-item-value">' + age + '</div><div class="result-item-label">Age</div></div>';
+        html += '<div class="result-item"><div class="result-item-value">' + chol + '</div><div class="result-item-label">Total Chol</div></div>';
+        html += '<div class="result-item"><div class="result-item-value">' + hdl + '</div><div class="result-item-label">HDL</div></div>';
+        html += '<div class="result-item"><div class="result-item-value">' + sbp + '</div><div class="result-item-label">SBP</div></div>';
+        html += '</div>';
+        html += '<div style="font-size:0.8rem;color:var(--text-tertiary);margin-top:8px">Simplified Framingham Risk Score. Low risk: &lt;10%; Intermediate: 10-19%; High: &ge;20%.</div>';
+        html += '<div style="margin-top:8px;font-size:0.8rem;color:var(--warning);">Note: This is a simplified Framingham risk estimate. The full model includes age-cholesterol and age-smoking interaction terms. For clinical decisions, use the ACC/AHA Pooled Cohort Equations (ASCVD calculator in this module) which is the current standard.</div>';
+        html += '<div class="btn-group mt-2"><button class="btn btn-xs btn-secondary" onclick="Export.copyText(\'Framingham 10-yr CVD risk: ' + risk10yr + '% (' + riskCategory + '). Points: ' + points + '. Age ' + age + ', TC ' + chol + ', HDL ' + hdl + ', SBP ' + sbp + '.\')">Copy Result</button></div>';
+        html += '</div>';
+        App.setTrustedHTML(document.getElementById('rc-framingham-results'), html);
+    }
+
+    // ===================================================================
+    // ASCVD 10-YEAR RISK (Simplified PCE approximation)
+    // ===================================================================
+    function calcASCVD() {
+        var sex = document.getElementById('rc-ascvd-sex').value;
+        var race = document.getElementById('rc-ascvd-race').value;
+        var age = parseInt(document.getElementById('rc-ascvd-age').value) || 55;
+        var chol = parseInt(document.getElementById('rc-ascvd-chol').value) || 220;
+        var hdl = parseInt(document.getElementById('rc-ascvd-hdl').value) || 50;
+        var sbp = parseInt(document.getElementById('rc-ascvd-sbp').value) || 140;
+        var bpTx = document.getElementById('rc-ascvd-bptx').value === 'yes';
+        var smoker = document.getElementById('rc-ascvd-smoker').checked;
+        var diabetes = document.getElementById('rc-ascvd-diabetes').checked;
+
+        // PCE coefficients (log-transformed)
+        var coeffs;
+        if (sex === 'male' && race === 'white') {
+            coeffs = { lnAge: 12.344, lnChol: 11.853, lnAgeChol: -2.664, lnHDL: -7.990, lnAgeHDL: 1.769, lnSBPTx: 1.797, lnSBPUntx: 1.764, lnAgeSBP: 0, smoke: 7.837, lnAgeSmoke: -1.795, dm: 0.658, base: 0.9144, mean: 61.18 };
+        } else if (sex === 'male' && race === 'aa') {
+            coeffs = { lnAge: 2.469, lnChol: 0.302, lnAgeChol: 0, lnHDL: -0.307, lnAgeHDL: 0, lnSBPTx: 1.916, lnSBPUntx: 1.809, lnAgeSBP: 0, smoke: 0.549, lnAgeSmoke: 0, dm: 0.645, base: 0.8954, mean: 19.54 };
+        } else if (sex === 'female' && race === 'white') {
+            coeffs = { lnAge: -29.799, lnChol: 13.540, lnAgeChol: -3.114, lnHDL: -13.578, lnAgeHDL: 3.149, lnSBPTx: 2.019, lnSBPUntx: 1.957, lnAgeSBP: 0, smoke: 7.574, lnAgeSmoke: -1.665, dm: 0.661, base: 0.9665, mean: -29.18 };
+        } else {
+            coeffs = { lnAge: 17.114, lnChol: 0.940, lnAgeChol: 0, lnHDL: -18.920, lnAgeHDL: 4.475, lnSBPTx: 29.291, lnSBPUntx: 27.820, lnAgeSBP: -6.432, smoke: 0.691, lnAgeSmoke: 0, dm: 0.874, base: 0.9533, mean: 86.61 };
+        }
+
+        var lnAge = Math.log(age);
+        var lnChol = Math.log(chol);
+        var lnHDL = Math.log(hdl);
+        var lnSBP = Math.log(sbp);
+
+        var indSum = coeffs.lnAge * lnAge
+            + coeffs.lnChol * lnChol
+            + coeffs.lnAgeChol * lnAge * lnChol
+            + coeffs.lnHDL * lnHDL
+            + coeffs.lnAgeHDL * lnAge * lnHDL
+            + (bpTx ? coeffs.lnSBPTx : coeffs.lnSBPUntx) * lnSBP
+            + coeffs.lnAgeSBP * lnAge * lnSBP
+            + (smoker ? coeffs.smoke + coeffs.lnAgeSmoke * lnAge : 0)
+            + (diabetes ? coeffs.dm : 0);
+
+        var risk = 1 - Math.pow(coeffs.base, Math.exp(indSum - coeffs.mean));
+        risk = Math.max(0, Math.min(1, risk));
+        var riskPct = (risk * 100).toFixed(1);
+
+        var riskColor = risk < 0.05 ? 'var(--success)' : risk < 0.075 ? 'var(--success)' : risk < 0.20 ? 'var(--warning)' : 'var(--danger)';
+        var riskCat = risk < 0.05 ? 'Low risk' : risk < 0.075 ? 'Borderline risk' : risk < 0.20 ? 'Intermediate risk' : 'High risk';
+        var statinRec = risk >= 0.20 ? 'High-intensity statin recommended' : risk >= 0.075 ? 'Moderate-to-high intensity statin recommended; consider risk enhancers' : risk >= 0.05 ? 'Consider statin if risk-enhancing factors present' : 'Statin not routinely recommended';
+
+        var html = '<div class="result-panel animate-in">';
+        html += '<div class="result-value" style="color:' + riskColor + '">' + riskPct + '%</div>';
+        html += '<div class="result-label">10-Year ASCVD Risk (Pooled Cohort Equations)</div>';
+        html += '<div class="result-detail mt-1" style="color:' + riskColor + ';font-weight:600">' + riskCat + '</div>';
+        html += '<div class="result-detail">' + statinRec + '</div>';
+
+        html += '<div class="card-title mt-2">Risk Categories (2018 ACC/AHA)</div>';
+        html += '<div class="table-scroll-wrap"><table class="data-table"><thead><tr><th>10-Year Risk</th><th>Category</th><th>Statin Recommendation</th></tr></thead><tbody>';
+        var ascvdRows = [
+            { range: '< 5%', cat: 'Low', rec: 'Not routinely recommended', match: risk < 0.05 },
+            { range: '5 - 7.4%', cat: 'Borderline', rec: 'Consider if risk enhancers present', match: risk >= 0.05 && risk < 0.075 },
+            { range: '7.5 - 19.9%', cat: 'Intermediate', rec: 'Moderate-to-high intensity; consider CAC score', match: risk >= 0.075 && risk < 0.20 },
+            { range: '\u2265 20%', cat: 'High', rec: 'High-intensity statin therapy', match: risk >= 0.20 }
+        ];
+        ascvdRows.forEach(function(r) {
+            var style = r.match ? ' style="background:var(--accent-muted);font-weight:600"' : '';
+            html += '<tr' + style + '><td>' + r.range + '</td><td>' + r.cat + '</td><td>' + r.rec + '</td></tr>';
+        });
+        html += '</tbody></table></div>';
+
+        html += '<div style="font-size:0.8rem;color:var(--text-tertiary);margin-top:8px">Based on 2013 ACC/AHA Pooled Cohort Equations. Validated for ages 40-79, non-Hispanic White and African American populations. May over/underestimate risk in other populations.</div>';
+        html += '<div class="btn-group mt-2"><button class="btn btn-xs btn-secondary" onclick="Export.copyText(\'ASCVD 10-yr risk: ' + riskPct + '% (' + riskCat + '). Age ' + age + ', ' + sex + ', ' + race + '.\')">Copy Result</button></div>';
+        html += '</div>';
+        App.setTrustedHTML(document.getElementById('rc-ascvd-results'), html);
+    }
+
+    // ===================================================================
+    // ICH SCORE
+    // ===================================================================
+    var ichMortality = { 0: 0, 1: 13, 2: 26, 3: 72, 4: 97, 5: 100, 6: 100 };
+
+    function calcICH() {
+        var score = 0;
+        score += parseInt(document.getElementById('rc-ich-gcs').value) || 0;
+        score += parseInt(document.getElementById('rc-ich-age').value) || 0;
+        score += parseInt(document.getElementById('rc-ich-volume').value) || 0;
+        if (document.getElementById('rc-ich-ivh').checked) score += 1;
+        if (document.getElementById('rc-ich-infratentorial').checked) score += 1;
+
+        var mortality = ichMortality[Math.min(score, 6)];
+        var mortColor = mortality < 20 ? 'var(--success)' : mortality < 50 ? 'var(--warning)' : 'var(--danger)';
+
+        var html = '<div class="result-panel animate-in">';
+        html += '<div class="result-value">' + score + ' / 6</div>';
+        html += '<div class="result-label">ICH Score</div>';
+        html += '<div class="result-detail">30-day mortality: <span style="color:' + mortColor + ';font-weight:600">' + mortality + '%</span></div>';
+
+        html += '<div class="card-title mt-2">30-Day Mortality by ICH Score</div>';
+        html += '<div class="table-scroll-wrap"><table class="data-table"><thead><tr><th>Score</th><th>30-Day Mortality</th></tr></thead><tbody>';
+        for (var i = 0; i <= 6; i++) {
+            var rowStyle = i === score ? ' style="background:var(--accent-muted);font-weight:600"' : '';
+            html += '<tr' + rowStyle + '><td>' + i + '</td><td class="num">' + ichMortality[i] + '%</td></tr>';
+        }
+        html += '</tbody></table></div>';
+
+        html += '<div style="font-size:0.8rem;color:var(--text-tertiary);margin-top:8px">The ICH Score was developed by Hemphill et al. (2001) to predict 30-day mortality after ICH. It should NOT be used to make withdrawal-of-care decisions, as this creates a self-fulfilling prophecy. Use for prognostication and communication with families.</div>';
+        html += '<div class="btn-group mt-2"><button class="btn btn-xs btn-secondary" onclick="Export.copyText(\'ICH Score: ' + score + '/6. 30-day mortality: ' + mortality + '%.\')">Copy Result</button></div>';
+        html += '</div>';
+
+        App.setTrustedHTML(document.getElementById('rc-ich-results'), html);
+        Export.addToHistory(MODULE_ID, { calculator: 'ICH Score', score: score }, 'ICH Score: ' + score + '/6 (' + mortality + '% 30-day mortality)');
+    }
+
+    // ===================================================================
+    // mRS ASSESSMENT
+    // ===================================================================
+    function assessMRS() {
+        var radios = document.querySelectorAll('input[name="rc-mrs-score"]');
+        var score = 0;
+        for (var i = 0; i < radios.length; i++) {
+            if (radios[i].checked) { score = parseInt(radios[i].value); break; }
+        }
+
+        var labels = ['No symptoms', 'No significant disability', 'Slight disability', 'Moderate disability', 'Moderately severe disability', 'Severe disability', 'Dead'];
+        var outcomeColor = score <= 1 ? 'var(--success)' : score <= 2 ? 'var(--success)' : score <= 3 ? 'var(--warning)' : 'var(--danger)';
+        var outcomeLabel = score <= 2 ? 'Good outcome (functionally independent)' : score <= 4 ? 'Poor outcome (functionally dependent)' : score === 5 ? 'Very poor outcome (bedridden)' : 'Deceased';
+
+        var html = '<div class="result-panel animate-in">';
+        html += '<div class="result-value" style="color:' + outcomeColor + '">' + score + '</div>';
+        html += '<div class="result-label">Modified Rankin Scale</div>';
+        html += '<div class="result-detail" style="font-weight:600">' + labels[score] + '</div>';
+        html += '<div class="result-detail mt-1" style="color:' + outcomeColor + '">' + outcomeLabel + '</div>';
+
+        html += '<div class="card-title mt-2">mRS Scale Reference</div>';
+        html += '<div class="table-scroll-wrap"><table class="data-table"><thead><tr><th>Score</th><th>Description</th><th>Category</th></tr></thead><tbody>';
+        var mrsCats = ['Good', 'Good', 'Good (independent)', 'Poor (dependent)', 'Poor (dependent)', 'Very poor', 'Dead'];
+        for (var m = 0; m <= 6; m++) {
+            var rs = m === score ? ' style="background:var(--accent-muted);font-weight:600"' : '';
+            html += '<tr' + rs + '><td>' + m + '</td><td>' + labels[m] + '</td><td>' + mrsCats[m] + '</td></tr>';
+        }
+        html += '</tbody></table></div>';
+
+        html += '<div style="margin-top:0.8rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<strong>Clinical Trial Interpretation:</strong><br>';
+        html += 'mRS 0-1: Excellent outcome. mRS 0-2: Good outcome (functional independence). mRS 3-5: Dependent or worse. mRS 6: Dead.<br>';
+        html += '<strong>Analysis approach:</strong> Ordinal shift analysis preferred over dichotomized (e.g., mRS 0-2 vs 3-6). Report full mRS distribution.';
+        html += '</div>';
+
+        html += '<div class="btn-group mt-2"><button class="btn btn-xs btn-secondary" onclick="Export.copyText(\'mRS: ' + score + ' - ' + labels[score] + '. ' + outcomeLabel + '.\')">Copy Result</button></div>';
+        html += '</div>';
+
+        App.setTrustedHTML(document.getElementById('rc-mrs-results'), html);
+        Export.addToHistory(MODULE_ID, { calculator: 'mRS', score: score }, 'mRS: ' + score + ' (' + labels[score] + ')');
+    }
+
+    // ===================================================================
+    // MULTI-SCORE COMPARISON
+    // ===================================================================
+    function calcMultiScore() {
+        var age = parseInt(document.getElementById('rc-multi-age').value) || 72;
+        var sex = document.getElementById('rc-multi-sex').value;
+        var sbp = parseInt(document.getElementById('rc-multi-sbp').value) || 150;
+        var htn = document.getElementById('rc-multi-htn').checked;
+        var dm = document.getElementById('rc-multi-dm').checked;
+        var chf = document.getElementById('rc-multi-chf').checked;
+        var stroke = document.getElementById('rc-multi-stroke').checked;
+        var vasc = document.getElementById('rc-multi-vasc').checked;
+        var smoker = document.getElementById('rc-multi-smoker').checked;
+        var af = document.getElementById('rc-multi-af').checked;
+
+        var scores = [];
+
+        // CHA2DS2-VASc (if AF)
+        if (af) {
+            var chadsScore = 0;
+            if (chf) chadsScore += 1;
+            if (htn) chadsScore += 1;
+            if (dm) chadsScore += 1;
+            if (stroke) chadsScore += 2;
+            if (vasc) chadsScore += 1;
+            if (sex === 'female') chadsScore += 1;
+            if (age >= 75) chadsScore += 2; else if (age >= 65) chadsScore += 1;
+            var chadsRisk = chadsVascRisk[Math.min(chadsScore, 9)];
+            scores.push({ name: 'CHA\u2082DS\u2082-VASc', score: chadsScore + '/9', risk: chadsRisk + '% annual stroke risk', color: chadsScore <= 1 ? 'var(--success)' : chadsScore <= 3 ? 'var(--warning)' : 'var(--danger)' });
+        }
+
+        // HAS-BLED (if AF)
+        if (af) {
+            var hasbledScore = 0;
+            if (htn && sbp > 160) hasbledScore += 1;
+            if (stroke) hasbledScore += 1;
+            if (age > 65) hasbledScore += 1;
+            var hbRate = hasbledScore >= 5 ? hasBledRisk[5] : (hasBledRisk[hasbledScore] || hasBledRisk[0]);
+            scores.push({ name: 'HAS-BLED', score: hasbledScore + '/9', risk: hbRate.toFixed(1) + ' bleeds/100 pt-yr', color: hasbledScore >= 3 ? 'var(--danger)' : 'var(--success)' });
+        }
+
+        // ESRS
+        var esrsScore = 0;
+        if (htn) esrsScore += 1;
+        if (dm) esrsScore += 1;
+        if (vasc) esrsScore += 1;
+        if (smoker) esrsScore += 1;
+        if (stroke) esrsScore += 1;
+        if (age > 75) esrsScore += 2; else if (age >= 65) esrsScore += 1;
+        scores.push({ name: 'ESRS', score: esrsScore + '/9', risk: esrsScore >= 3 ? '\u22654% annual recurrence' : '<4% annual recurrence', color: esrsScore >= 3 ? 'var(--danger)' : 'var(--success)' });
+
+        var html = '<div class="result-panel animate-in">';
+        html += '<div class="card-subtitle">Multi-Score Comparison for ' + (sex === 'male' ? 'Male' : 'Female') + ', Age ' + age + '</div>';
+
+        html += '<div class="table-scroll-wrap"><table class="data-table"><thead><tr><th>Score</th><th>Result</th><th>Risk Estimate</th></tr></thead><tbody>';
+        for (var si = 0; si < scores.length; si++) {
+            html += '<tr><td><strong>' + scores[si].name + '</strong></td><td class="num" style="color:' + scores[si].color + ';font-weight:600">' + scores[si].score + '</td><td>' + scores[si].risk + '</td></tr>';
+        }
+        html += '</tbody></table></div>';
+
+        html += '<div style="font-size:0.8rem;color:var(--text-tertiary);margin-top:8px">Scores calculated from shared patient data. Some scores require additional information not captured here (e.g., HAS-BLED labile INR, drug/alcohol use). CHA\u2082DS\u2082-VASc and HAS-BLED are only calculated when AF is indicated.</div>';
+        html += '</div>';
+
+        App.setTrustedHTML(document.getElementById('rc-multi-results'), html);
+        multiScoreCache = scores;
+    }
+
+    var multiScoreCache = [];
+
+    function copyMultiScore() {
+        if (multiScoreCache.length === 0) calcMultiScore();
+        var text = 'MULTI-SCORE COMPARISON\n' + '='.repeat(50) + '\n';
+        for (var i = 0; i < multiScoreCache.length; i++) {
+            text += multiScoreCache[i].name + ': ' + multiScoreCache[i].score + ' (' + multiScoreCache[i].risk + ')\n';
+        }
+        Export.copyText(text);
+    }
+
     // Register module
     App.registerModule(MODULE_ID, { render: render });
 
@@ -1491,6 +1951,7 @@
     window.RiskCalc = {
         switchTab: switchTab,
         switchCrsTab: switchCrsTab,
+        switchExtraTab: switchExtraTab,
         calcCHADSVASc: calcCHADSVASc,
         calcHASBLED: calcHASBLED,
         calcABCD2: calcABCD2,
@@ -1509,6 +1970,12 @@
         calcAgeStd: calcAgeStd,
         calcAR: calcAR,
         setDW: setDW,
-        calcDALY: calcDALY
+        calcDALY: calcDALY,
+        calcFramingham: calcFramingham,
+        calcASCVD: calcASCVD,
+        calcICH: calcICH,
+        assessMRS: assessMRS,
+        calcMultiScore: calcMultiScore,
+        copyMultiScore: copyMultiScore
     };
 })();

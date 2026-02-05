@@ -1,7 +1,9 @@
 /**
  * Neuro-Epi — Biostatistics Reference
  * Quick-reference encyclopedia for common biostatistical concepts, tests,
- * distributions, confidence interval methods, effect sizes, and multiple testing.
+ * distributions, confidence interval methods, effect sizes, multiple testing,
+ * probability distributions gallery, CLT demonstrator, hypothesis testing
+ * flowchart, multiple testing corrections calculator, Bayesian vs frequentist.
  */
 (function() {
     'use strict';
@@ -127,6 +129,7 @@
             + '<li><strong>Power = 1 &minus; &beta;:</strong> Probability of correctly detecting a true effect. Typically 0.80 or 0.90.</li>'
             + '<li><strong>p-value:</strong> P(observed data or more extreme | H&#8320; is true). It is NOT the probability that H&#8320; is true.</li>'
             + '<li><strong>Confidence interval:</strong> A range of values that, across repeated sampling, would contain the true parameter (1&minus;&alpha;)% of the time. It does NOT mean there is a 95% probability the true value lies within this specific interval.</li>'
+            + '<li><strong>Central Limit Theorem:</strong> As sample size increases, the sampling distribution of the mean approaches a normal distribution regardless of the shape of the population distribution. This is why many parametric tests are robust with large n.</li>'
             + '</ul>';
 
         html += '<div class="card-subtitle" style="font-weight:600;">Test Selection Logic</div>';
@@ -137,6 +140,13 @@
             + '<li><strong>Paired data:</strong> Paired t-test (parametric), McNemar test (binary), Wilcoxon signed-rank (non-parametric)</li>'
             + '<li><strong>Non-parametric alternatives:</strong> Mann-Whitney U (2 groups), Kruskal-Wallis (3+ groups), Friedman (repeated measures)</li>'
             + '<li><strong>Count data:</strong> Poisson regression (mean = variance), negative binomial (overdispersed)</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Bayesian vs Frequentist</div>';
+        html += '<ul style="margin:0 0 12px 16px; font-size:0.9rem; line-height:1.7;">'
+            + '<li><strong>Frequentist:</strong> Parameters are fixed but unknown. Probability is long-run frequency. Makes no probabilistic statements about parameters, only about data.</li>'
+            + '<li><strong>Bayesian:</strong> Parameters are random variables with distributions. Uses prior information updated by data (via Bayes theorem) to produce posterior distributions.</li>'
+            + '<li><strong>Key difference:</strong> A 95% credible interval (Bayesian) means "there is a 95% probability the parameter lies in this range given the data." A 95% CI (frequentist) means "in repeated sampling, 95% of such intervals would contain the true value."</li>'
             + '</ul>';
 
         html += '<div class="card-subtitle" style="font-weight:600;">Common Pitfalls</div>';
@@ -152,6 +162,7 @@
             + '<li>Altman DG. <em>Practical Statistics for Medical Research</em>. Chapman &amp; Hall/CRC, 1991.</li>'
             + '<li>Bland M. <em>An Introduction to Medical Statistics</em>, 4th ed. Oxford University Press, 2015.</li>'
             + '<li>Vittinghoff E, Glidden DV, Shiboski SC, McCulloch CE. <em>Regression Methods in Biostatistics</em>, 2nd ed. Springer, 2012.</li>'
+            + '<li>Gelman A, Carlin JB, Stern HS, et al. <em>Bayesian Data Analysis</em>, 3rd ed. Chapman &amp; Hall/CRC, 2013.</li>'
             + '</ul>';
 
         html += '</div></div>';
@@ -206,11 +217,32 @@
         html += '<div id="br-test-results"></div>';
         html += '</div>';
 
-        // ---- Card 2: Probability Distributions Reference ----
+        // ---- Card 2: Probability Distributions Gallery ----
         html += '<div class="card">';
-        html += '<div class="card-title">Probability Distributions Reference</div>';
-        html += '<div class="card-subtitle">Common probability distributions with parameters, moments, formulas, and use cases in biostatistics.</div>';
+        html += '<div class="card-title">Probability Distributions Gallery</div>';
+        html += '<div class="card-subtitle">Interactive exploration of common probability distributions with parameter adjustments.</div>';
 
+        // Interactive distribution explorer
+        html += '<div class="form-row form-row--3">';
+        html += '<div class="form-group"><label class="form-label">Distribution</label>';
+        html += '<select class="form-select" id="br_dist_select" onchange="BiostatRef.showDistribution()">';
+        html += '<option value="normal">Normal (Gaussian)</option>';
+        html += '<option value="t">Student t</option>';
+        html += '<option value="chi2">Chi-squared</option>';
+        html += '<option value="f">F distribution</option>';
+        html += '<option value="poisson">Poisson</option>';
+        html += '<option value="binomial">Binomial</option>';
+        html += '</select></div>';
+        html += '<div class="form-group"><label class="form-label">Parameter 1</label>';
+        html += '<input type="number" class="form-input" id="br_dist_p1" value="0" step="0.5" onchange="BiostatRef.showDistribution()"></div>';
+        html += '<div class="form-group"><label class="form-label">Parameter 2</label>';
+        html += '<input type="number" class="form-input" id="br_dist_p2" value="1" step="0.5" onchange="BiostatRef.showDistribution()"></div>';
+        html += '</div>';
+        html += '<div id="br-dist-info"></div>';
+        html += '<div id="br-dist-visual" style="margin-top:12px;"></div>';
+
+        // Full reference table
+        html += '<div class="card-subtitle mt-2">Full Distribution Reference</div>';
         html += '<div class="table-container">';
         html += '<table class="data-table">';
         html += '<thead><tr><th>Distribution</th><th>Parameters</th><th>Mean</th><th>Variance</th><th>PDF / PMF</th><th>Common Uses</th></tr></thead>';
@@ -232,7 +264,13 @@
         html += '</div>';
         html += '</div>';
 
-        // ---- Card 3: Confidence Interval Methods ----
+        // ---- Card 3: Central Limit Theorem Demonstrator ----
+        html += renderCLTDemonstrator();
+
+        // ---- Card 4: Hypothesis Testing Decision Flowchart ----
+        html += renderHypothesisFlowchart();
+
+        // ---- Card 5: Confidence Interval Methods ----
         html += '<div class="card">';
         html += '<div class="card-title">Confidence Interval Methods</div>';
         html += '<div class="card-subtitle">Reference for CI construction methods for proportions and rates. Includes an interactive calculator.</div>';
@@ -275,7 +313,7 @@
         html += '<div id="br-ci-results"></div>';
         html += '</div>';
 
-        // ---- Card 4: Effect Size Interpretation Guide ----
+        // ---- Card 6: Effect Size Interpretation Guide ----
         html += '<div class="card">';
         html += '<div class="card-title">Effect Size Interpretation Guide</div>';
         html += '<div class="card-subtitle">Conventional benchmarks for interpreting effect sizes. Note: These are rules of thumb -- clinical context always determines meaningfulness.</div>';
@@ -299,7 +337,6 @@
         html += '</tbody></table>';
         html += '</div>';
 
-        // Interpretation guidance
         html += '<div class="result-panel mt-2">';
         html += '<div class="card-subtitle">Important Caveats About Effect Size Benchmarks</div>';
         html += '<div style="font-size:0.85rem;line-height:1.8">';
@@ -312,7 +349,7 @@
         html += '</div>';
         html += '</div>';
 
-        // ---- Card 5: Multiple Testing & P-value Reference ----
+        // ---- Card 7: Multiple Testing & P-value Reference ----
         html += '<div class="card">';
         html += '<div class="card-title">Multiple Testing &amp; P-value Reference</div>';
         html += '<div class="card-subtitle">Methods for controlling the family-wise error rate (FWER) or false discovery rate (FDR) when performing multiple comparisons.</div>';
@@ -375,8 +412,432 @@
         html += '</div>';
         html += '</div>';
 
+        // ---- Card 8: Bayesian vs Frequentist Comparison ----
+        html += renderBayesianComparison();
+
         App.setTrustedHTML(container, html);
         App.autoSaveInputs(container, MODULE_ID);
+
+        // Initialize distribution display
+        setTimeout(function() { showDistribution(); }, 100);
+    }
+
+    /* ================================================================
+       CLT DEMONSTRATOR
+       ================================================================ */
+
+    function renderCLTDemonstrator() {
+        var html = '<div class="card">';
+        html += '<div class="card-title">Central Limit Theorem Demonstrator</div>';
+        html += '<div class="card-subtitle">Explore how the sampling distribution of the mean approaches normality as sample size increases, regardless of the population distribution.</div>';
+
+        html += '<div class="form-row form-row--3">';
+        html += '<div class="form-group"><label class="form-label">Population Distribution</label>';
+        html += '<select class="form-select" id="br_clt_dist">';
+        html += '<option value="uniform">Uniform (flat)</option>';
+        html += '<option value="exponential">Exponential (right-skewed)</option>';
+        html += '<option value="bimodal">Bimodal (two peaks)</option>';
+        html += '<option value="normal">Normal (already normal)</option>';
+        html += '</select></div>';
+        html += '<div class="form-group"><label class="form-label">Sample Size (n)</label>';
+        html += '<select class="form-select" id="br_clt_n">';
+        html += '<option value="1">n = 1</option>';
+        html += '<option value="5">n = 5</option>';
+        html += '<option value="10">n = 10</option>';
+        html += '<option value="30" selected>n = 30</option>';
+        html += '<option value="100">n = 100</option>';
+        html += '</select></div>';
+        html += '<div class="form-group"><label class="form-label">Number of Samples</label>';
+        html += '<select class="form-select" id="br_clt_reps">';
+        html += '<option value="100">100 samples</option>';
+        html += '<option value="500">500 samples</option>';
+        html += '<option value="1000" selected>1000 samples</option>';
+        html += '<option value="5000">5000 samples</option>';
+        html += '</select></div>';
+        html += '</div>';
+
+        html += '<div class="btn-group"><button class="btn btn-primary" onclick="BiostatRef.runCLT()">Simulate</button></div>';
+        html += '<div id="br-clt-results"></div>';
+
+        html += '<div style="background:var(--bg-tertiary);border-radius:8px;padding:12px;margin-top:12px;font-size:0.85rem;line-height:1.7;">';
+        html += '<strong>Why CLT matters:</strong> The Central Limit Theorem is the reason t-tests and ANOVA work even when individual observations are not normally distributed. '
+            + 'With n >= 30, the sampling distribution of the mean is approximately normal for most population shapes. '
+            + 'For highly skewed distributions, larger n may be needed (n >= 50 or more). '
+            + 'CLT does NOT say the data become normal -- it says the <em>distribution of sample means</em> becomes normal.';
+        html += '</div>';
+
+        html += '</div>';
+        return html;
+    }
+
+    function runCLT() {
+        var distType = document.getElementById('br_clt_dist').value;
+        var n = parseInt(document.getElementById('br_clt_n').value);
+        var reps = parseInt(document.getElementById('br_clt_reps').value);
+
+        // Generate sample means
+        var means = [];
+        for (var r = 0; r < reps; r++) {
+            var sum = 0;
+            for (var i = 0; i < n; i++) {
+                sum += generateFromDist(distType);
+            }
+            means.push(sum / n);
+        }
+
+        // Calculate statistics
+        var grandMean = means.reduce(function(a, b) { return a + b; }, 0) / means.length;
+        var variance = means.reduce(function(a, b) { return a + (b - grandMean) * (b - grandMean); }, 0) / (means.length - 1);
+        var sd = Math.sqrt(variance);
+
+        // Build histogram (text-based)
+        var min = Math.min.apply(null, means);
+        var max = Math.max.apply(null, means);
+        var bins = 20;
+        var binWidth = (max - min) / bins;
+        var counts = new Array(bins).fill(0);
+        for (var m = 0; m < means.length; m++) {
+            var bin = Math.min(Math.floor((means[m] - min) / binWidth), bins - 1);
+            counts[bin]++;
+        }
+        var maxCount = Math.max.apply(null, counts);
+
+        var html = '<div class="result-panel mt-2">';
+        html += '<div class="card-title">CLT Simulation Results</div>';
+        html += '<div class="form-row form-row--4">';
+        html += '<div class="result-value">' + grandMean.toFixed(3) + '<div class="result-label">Mean of Means</div></div>';
+        html += '<div class="result-value">' + sd.toFixed(3) + '<div class="result-label">SD of Means (SE)</div></div>';
+        html += '<div class="result-value">' + n + '<div class="result-label">Sample Size</div></div>';
+        html += '<div class="result-value">' + reps + '<div class="result-label">Samples Drawn</div></div>';
+        html += '</div>';
+
+        // Text histogram
+        html += '<div style="font-family:monospace;font-size:0.78rem;line-height:1.3;margin-top:12px;background:var(--bg-primary);border:1px solid var(--border);padding:12px;border-radius:8px;overflow-x:auto;">';
+        html += '<div style="margin-bottom:6px;font-weight:600;">Distribution of ' + reps + ' sample means (n=' + n + '):</div>';
+        for (var b = 0; b < bins; b++) {
+            var barLen = Math.round((counts[b] / maxCount) * 40);
+            var label = (min + b * binWidth).toFixed(2);
+            var bar = '';
+            for (var bl = 0; bl < barLen; bl++) bar += '#';
+            html += label + ' | ' + bar + ' (' + counts[b] + ')\n';
+        }
+        html += '</div>';
+
+        html += '<div class="result-detail mt-1" style="font-size:0.88rem;">';
+        if (n >= 30) {
+            html += 'With n = ' + n + ', the sampling distribution of the mean is approximately <strong>normal</strong> (CLT in action), '
+                + 'even though the population distribution is ' + distType + '.';
+        } else if (n >= 10) {
+            html += 'With n = ' + n + ', the sampling distribution is approaching normality but may still show some skew from the ' + distType + ' population.';
+        } else {
+            html += 'With n = ' + n + ', the sampling distribution still reflects the shape of the ' + distType + ' population. Larger n is needed for CLT to produce approximate normality.';
+        }
+        html += '</div>';
+
+        html += '</div>';
+        App.setTrustedHTML(document.getElementById('br-clt-results'), html);
+    }
+
+    function generateFromDist(type) {
+        if (type === 'uniform') {
+            return Math.random() * 10;
+        } else if (type === 'exponential') {
+            return -Math.log(1 - Math.random()) * 2;
+        } else if (type === 'bimodal') {
+            return Math.random() < 0.5 ? (2 + (Math.random() - 0.5)) : (8 + (Math.random() - 0.5));
+        } else {
+            // Box-Muller for normal
+            var u1 = Math.random();
+            var u2 = Math.random();
+            return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2) * 1 + 5;
+        }
+    }
+
+    /* ================================================================
+       HYPOTHESIS TESTING DECISION FLOWCHART
+       ================================================================ */
+
+    function renderHypothesisFlowchart() {
+        var html = '<div class="card">';
+        html += '<div class="card-title">Hypothesis Testing Decision Flowchart</div>';
+        html += '<div class="card-subtitle">Follow this decision tree to determine the correct hypothesis testing approach for your research question.</div>';
+
+        html += '<div style="font-family:monospace;font-size:0.82rem;line-height:1.5;background:var(--bg-primary);border:1px solid var(--border);padding:16px;border-radius:8px;overflow-x:auto;white-space:pre;">';
+        html += 'What is your research question?\n';
+        html += '|\n';
+        html += '|-- Compare GROUPS on an outcome?\n';
+        html += '|   |\n';
+        html += '|   |-- How many groups?\n';
+        html += '|   |   |-- 1 group vs. known value --> One-sample t-test (or z-test)\n';
+        html += '|   |   |-- 2 groups\n';
+        html += '|   |   |   |-- Independent? --> t-test / Mann-Whitney U\n';
+        html += '|   |   |   |-- Paired?      --> Paired t-test / Wilcoxon signed-rank\n';
+        html += '|   |   |-- 3+ groups\n';
+        html += '|   |       |-- Independent? --> ANOVA / Kruskal-Wallis\n';
+        html += '|   |       |-- Repeated?    --> RM-ANOVA / Friedman\n';
+        html += '|   |\n';
+        html += '|   |-- What type of outcome?\n';
+        html += '|       |-- Continuous   --> t-test, ANOVA, Mann-Whitney, Kruskal-Wallis\n';
+        html += '|       |-- Binary       --> Chi-squared, Fisher exact, McNemar\n';
+        html += '|       |-- Time-to-event --> Log-rank, Cox regression\n';
+        html += '|       |-- Count        --> Poisson or negative binomial regression\n';
+        html += '|\n';
+        html += '|-- Assess ASSOCIATION between variables?\n';
+        html += '|   |-- Both continuous --> Pearson r (parametric), Spearman rho\n';
+        html += '|   |-- Both categorical --> Chi-squared, Cramer V\n';
+        html += '|   |-- Mixed           --> Point-biserial r, logistic regression\n';
+        html += '|\n';
+        html += '|-- PREDICT an outcome from predictors?\n';
+        html += '|   |-- Continuous outcome --> Linear regression\n';
+        html += '|   |-- Binary outcome     --> Logistic regression\n';
+        html += '|   |-- Time-to-event      --> Cox regression\n';
+        html += '|   |-- Count outcome      --> Poisson / neg binomial regression\n';
+        html += '|   |-- Clustered data     --> Mixed-effects / multilevel model\n';
+        html += '|\n';
+        html += '|-- Test for TREND across ordered groups?\n';
+        html += '    |-- Binary outcome  --> Cochran-Armitage trend test\n';
+        html += '    |-- Continuous      --> Linear contrast in ANOVA\n';
+        html += '</div>';
+
+        html += '<div style="background:var(--bg-tertiary);border-radius:8px;padding:12px;margin-top:12px;font-size:0.85rem;line-height:1.7;">';
+        html += '<strong>Key decision points:</strong> (1) What is your outcome type? (2) How many groups? (3) Independent or paired? (4) Parametric assumptions met? '
+            + 'When assumptions are violated, use non-parametric alternatives. When adjusting for covariates, use regression models instead of simple tests.';
+        html += '</div>';
+
+        html += '</div>';
+        return html;
+    }
+
+    /* ================================================================
+       DISTRIBUTION EXPLORER
+       ================================================================ */
+
+    function showDistribution() {
+        var distType = document.getElementById('br_dist_select').value;
+        var p1 = parseFloat(document.getElementById('br_dist_p1').value);
+        var p2 = parseFloat(document.getElementById('br_dist_p2').value);
+
+        var info = '';
+        var paramLabels = '';
+
+        if (distType === 'normal') {
+            if (isNaN(p1)) p1 = 0;
+            if (isNaN(p2) || p2 <= 0) p2 = 1;
+            paramLabels = 'mu = ' + p1 + ', sigma = ' + p2;
+            info = '<strong>Normal distribution</strong> with mean = ' + p1 + ' and SD = ' + p2 + '. '
+                + 'Bell-shaped, symmetric. 68% of values within 1 SD, 95% within 2 SD, 99.7% within 3 SD. '
+                + 'Mean = ' + p1 + ', Variance = ' + (p2 * p2).toFixed(2) + '.';
+        } else if (distType === 't') {
+            if (isNaN(p1) || p1 < 1) p1 = 5;
+            paramLabels = 'df = ' + p1;
+            info = '<strong>Student t distribution</strong> with ' + p1 + ' degrees of freedom. '
+                + 'Heavier tails than normal (more probability in extremes). Approaches normal as df increases. '
+                + 'Mean = 0 (for df > 1), Variance = ' + (p1 > 2 ? (p1 / (p1 - 2)).toFixed(3) : 'undefined (df <= 2)') + '.';
+        } else if (distType === 'chi2') {
+            if (isNaN(p1) || p1 < 1) p1 = 5;
+            paramLabels = 'k = ' + p1;
+            info = '<strong>Chi-squared distribution</strong> with k = ' + p1 + ' degrees of freedom. '
+                + 'Right-skewed; becomes more symmetric as k increases. Mean = ' + p1 + ', Variance = ' + (2 * p1) + '.';
+        } else if (distType === 'f') {
+            if (isNaN(p1) || p1 < 1) p1 = 5;
+            if (isNaN(p2) || p2 < 1) p2 = 20;
+            paramLabels = 'd1 = ' + p1 + ', d2 = ' + p2;
+            info = '<strong>F distribution</strong> with d1 = ' + p1 + ' and d2 = ' + p2 + ' degrees of freedom. '
+                + 'Right-skewed. Used for comparing variances and ANOVA F-tests. '
+                + 'Mean = ' + (p2 > 2 ? (p2 / (p2 - 2)).toFixed(3) : 'undefined') + '.';
+        } else if (distType === 'poisson') {
+            if (isNaN(p1) || p1 < 0) p1 = 5;
+            paramLabels = 'lambda = ' + p1;
+            info = '<strong>Poisson distribution</strong> with rate lambda = ' + p1 + '. '
+                + 'Discrete distribution for counts. Mean = Variance = ' + p1 + '. '
+                + 'Approaches normal when lambda is large (>= 20).';
+        } else if (distType === 'binomial') {
+            if (isNaN(p1) || p1 < 1) p1 = 20;
+            if (isNaN(p2) || p2 < 0 || p2 > 1) p2 = 0.5;
+            paramLabels = 'n = ' + p1 + ', p = ' + p2;
+            info = '<strong>Binomial distribution</strong> with n = ' + Math.round(p1) + ' trials and p = ' + p2 + '. '
+                + 'Discrete distribution for number of successes. Mean = ' + (Math.round(p1) * p2).toFixed(1)
+                + ', Variance = ' + (Math.round(p1) * p2 * (1 - p2)).toFixed(2) + '. '
+                + 'Approaches normal when np >= 5 and n(1-p) >= 5.';
+        }
+
+        var infoEl = document.getElementById('br-dist-info');
+        if (infoEl) {
+            App.setTrustedHTML(infoEl, '<div style="background:var(--bg-tertiary);border-radius:8px;padding:12px;font-size:0.88rem;line-height:1.6;">'
+                + '<strong>Parameters:</strong> ' + paramLabels + '<br>' + info + '</div>');
+        }
+
+        // Generate text-based visualization
+        var visualEl = document.getElementById('br-dist-visual');
+        if (visualEl) {
+            var vizHtml = generateDistViz(distType, p1, p2);
+            App.setTrustedHTML(visualEl, vizHtml);
+        }
+    }
+
+    function generateDistViz(distType, p1, p2) {
+        var points = [];
+        var nPoints = 40;
+        var xMin, xMax;
+
+        if (distType === 'normal') {
+            xMin = p1 - 4 * p2;
+            xMax = p1 + 4 * p2;
+        } else if (distType === 't') {
+            xMin = -4;
+            xMax = 4;
+        } else if (distType === 'chi2') {
+            xMin = 0;
+            xMax = p1 + 4 * Math.sqrt(2 * p1);
+        } else if (distType === 'f') {
+            xMin = 0;
+            xMax = Math.max(5, p1 / p2 * 4);
+        } else if (distType === 'poisson') {
+            xMin = 0;
+            xMax = Math.max(10, p1 + 4 * Math.sqrt(p1));
+            nPoints = Math.min(Math.round(xMax) + 1, 30);
+        } else if (distType === 'binomial') {
+            xMin = 0;
+            xMax = Math.round(p1);
+            nPoints = Math.min(Math.round(p1) + 1, 30);
+        }
+
+        // Calculate density/probability values
+        for (var i = 0; i < nPoints; i++) {
+            var x;
+            if (distType === 'poisson' || distType === 'binomial') {
+                x = i;
+                if (x > xMax) break;
+            } else {
+                x = xMin + (xMax - xMin) * i / (nPoints - 1);
+            }
+
+            var y = 0;
+            if (distType === 'normal') {
+                y = (1 / (p2 * Math.sqrt(2 * Math.PI))) * Math.exp(-0.5 * Math.pow((x - p1) / p2, 2));
+            } else if (distType === 't') {
+                // Approximate t-density using normal for display
+                var v = p1;
+                var coef = 1 / (Math.sqrt(v) * 3.14159);
+                y = coef * Math.pow(1 + x * x / v, -(v + 1) / 2);
+            } else if (distType === 'chi2') {
+                if (x > 0) {
+                    var k = p1;
+                    y = Math.pow(x, k / 2 - 1) * Math.exp(-x / 2) / (Math.pow(2, k / 2) * approxGamma(k / 2));
+                }
+            } else if (distType === 'f') {
+                if (x > 0) {
+                    y = Math.pow(x, p1 / 2 - 1) / Math.pow(1 + p1 * x / p2, (p1 + p2) / 2) * 0.5;
+                }
+            } else if (distType === 'poisson') {
+                var lam = p1;
+                y = Math.exp(-lam + x * Math.log(lam) - logFactorial(x));
+            } else if (distType === 'binomial') {
+                var nn = Math.round(p1);
+                var pp = p2;
+                if (x <= nn) {
+                    y = Math.exp(logCombination(nn, x) + x * Math.log(pp) + (nn - x) * Math.log(1 - pp));
+                }
+            }
+
+            points.push({ x: x, y: isFinite(y) ? y : 0 });
+        }
+
+        // Build text-based bar chart
+        var maxY = 0;
+        for (var j = 0; j < points.length; j++) {
+            if (points[j].y > maxY) maxY = points[j].y;
+        }
+
+        var html = '<div style="font-family:monospace;font-size:0.78rem;line-height:1.2;background:var(--bg-primary);border:1px solid var(--border);padding:12px;border-radius:8px;overflow-x:auto;">';
+        for (var k = 0; k < points.length; k++) {
+            var barLen = maxY > 0 ? Math.round((points[k].y / maxY) * 35) : 0;
+            var bar = '';
+            for (var bl = 0; bl < barLen; bl++) bar += '#';
+            var xLabel = points[k].x.toFixed(1);
+            if (xLabel.length < 6) xLabel = ('      ' + xLabel).slice(-6);
+            html += xLabel + ' | ' + bar + '\n';
+        }
+        html += '</div>';
+        return html;
+    }
+
+    function approxGamma(n) {
+        // Stirling's approximation for Gamma function
+        if (n <= 0) return 1;
+        if (n < 0.5) return Math.PI / (Math.sin(Math.PI * n) * approxGamma(1 - n));
+        n -= 1;
+        var x = 1;
+        var t = n + 7.5;
+        var coeffs = [0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
+        var sum = coeffs[0];
+        for (var i = 1; i < 9; i++) {
+            sum += coeffs[i] / (n + i);
+        }
+        return Math.sqrt(2 * Math.PI) * Math.pow(t, n + 0.5) * Math.exp(-t) * sum;
+    }
+
+    function logFactorial(n) {
+        var result = 0;
+        for (var i = 2; i <= n; i++) result += Math.log(i);
+        return result;
+    }
+
+    function logCombination(n, k) {
+        return logFactorial(n) - logFactorial(k) - logFactorial(n - k);
+    }
+
+    /* ================================================================
+       BAYESIAN vs FREQUENTIST COMPARISON
+       ================================================================ */
+
+    function renderBayesianComparison() {
+        var html = '<div class="card">';
+        html += '<div class="card-title">Bayesian vs Frequentist Comparison</div>';
+        html += '<div class="card-subtitle">Side-by-side comparison of the two major frameworks for statistical inference.</div>';
+
+        html += '<div class="table-container">';
+        html += '<table class="data-table"><thead><tr><th>Aspect</th><th>Frequentist</th><th>Bayesian</th></tr></thead><tbody>';
+
+        var rows = [
+            ['Definition of probability', 'Long-run frequency of events', 'Degree of belief or certainty'],
+            ['Parameters', 'Fixed but unknown constants', 'Random variables with distributions'],
+            ['Data', 'Random (different samples yield different data)', 'Fixed (the data we observed)'],
+            ['Inference target', 'P(data | parameter) -- likelihood', 'P(parameter | data) -- posterior'],
+            ['Key formula', 'Likelihood function', 'Bayes theorem: posterior = prior x likelihood / evidence'],
+            ['Prior information', 'Not formally incorporated', 'Explicitly incorporated via prior distributions'],
+            ['Confidence/Credible interval', '95% CI: In repeated sampling, 95% of intervals would contain the true value', '95% CrI: There is a 95% probability the parameter lies in this interval, given the data and prior'],
+            ['Hypothesis testing', 'Reject/fail to reject H0 based on p-value and alpha', 'Compute posterior probability of hypotheses; Bayes factors'],
+            ['Multiple comparisons', 'Requires correction (Bonferroni, FDR)', 'Naturally handled through hierarchical models (partial pooling)'],
+            ['Small samples', 'Can be unreliable; relies on asymptotics', 'Works well with informative priors; exact posterior inference'],
+            ['Computation', 'Often closed-form or simple', 'May require MCMC, variational inference'],
+            ['Common criticism', 'p-values are widely misinterpreted; arbitrary thresholds', 'Choice of prior is subjective; computational cost'],
+            ['When to prefer', 'Regulatory settings; large samples; when objectivity is paramount', 'Small samples; sequential analysis; when prior information is available']
+        ];
+
+        for (var i = 0; i < rows.length; i++) {
+            html += '<tr><td><strong>' + rows[i][0] + '</strong></td>'
+                + '<td style="font-size:0.82rem;">' + rows[i][1] + '</td>'
+                + '<td style="font-size:0.82rem;">' + rows[i][2] + '</td></tr>';
+        }
+
+        html += '</tbody></table></div>';
+
+        html += '<div style="background:var(--bg-tertiary);border-radius:8px;padding:12px;margin-top:12px;font-size:0.85rem;line-height:1.7;">';
+        html += '<strong>Practical guidance:</strong> In most clinical research, frequentist methods remain standard. '
+            + 'Bayesian methods are increasingly used for: (1) adaptive clinical trial designs, (2) meta-analyses with informative priors, '
+            + '(3) rare disease research with small samples, (4) diagnostic test evaluation, and (5) health technology assessment. '
+            + 'Some journals (e.g., JAMA) now accept Bayesian analyses alongside or instead of frequentist results.';
+        html += '</div>';
+
+        html += '<div style="margin-top:12px;font-size:0.8rem;color:var(--text-tertiary);">'
+            + 'References: Gelman A et al. Bayesian Data Analysis, 3rd ed. CRC Press, 2013. '
+            + 'Kruschke JK. Bayesian estimation supersedes the t test. J Exp Psychol Gen. 2013;142(2):573-603. '
+            + 'Greenland S. Bayesian perspectives for epidemiological research. Int J Epidemiol. 2006;35(3):765-775.'
+            + '</div>';
+
+        html += '</div>';
+        return html;
     }
 
     /* ================================================================
@@ -408,9 +869,7 @@
             }
         }
 
-        // Also add broadly applicable tests (regression models)
         if (matches.length === 0) {
-            // Fallback: relax matching
             for (var j = 0; j < STAT_TESTS.length; j++) {
                 var t2 = STAT_TESTS[j];
                 if (t2.outcome === outcome) {
@@ -449,7 +908,6 @@
             html += '<strong>Interpretation:</strong><div style="font-style:italic">' + t.interpretation + '</div>';
             html += '</div>';
 
-            // Tags
             html += '<div style="margin-top:0.5em">';
             html += '<span style="display:inline-block;background:var(--accent-muted);color:var(--accent);padding:2px 8px;border-radius:12px;font-size:0.75rem;margin-right:4px">' + t.outcome + '</span>';
             html += '<span style="display:inline-block;background:var(--accent-muted);padding:2px 8px;border-radius:12px;font-size:0.75rem;margin-right:4px">' + t.groups + ' group' + (t.groups !== '1' ? 's' : '') + '</span>';
@@ -508,12 +966,10 @@
             cpLo = x === 0 ? 0 : jStat.beta.inv(alpha / 2, x, n - x + 1);
             cpHi = x === n ? 1 : jStat.beta.inv(1 - alpha / 2, x + 1, n - x);
         } else {
-            // Fallback approximation
             cpLo = waldLo;
             cpHi = waldHi;
         }
 
-        // Try app-level functions if available
         var hasStats = typeof Statistics !== 'undefined';
         if (hasStats && typeof Statistics.wilsonCI === 'function') {
             try {
@@ -563,6 +1019,10 @@
         html += 'Clopper-Pearson guarantees >= nominal coverage but tends to be conservative. ';
         html += 'Avoid Wald when p is near 0 or 1, or n is small.';
         html += '</div>';
+        html += '<div class="btn-group mt-2">'
+            + '<button class="btn btn-xs r-script-btn" '
+            + 'onclick="RGenerator.showScript(RGenerator.biostatCI({x:' + x + ',n:' + n + ',level:' + level + '}), &quot;Confidence Intervals for Proportions&quot;)">'
+            + '&#129513; Generate R Script</button></div>';
 
         html += '</div>';
         App.setTrustedHTML(document.getElementById('br-ci-results'), html);
@@ -589,7 +1049,6 @@
 
         var m = pvals.length;
 
-        // Create indexed array and sort by p-value
         var indexed = [];
         for (var i = 0; i < m; i++) {
             indexed.push({ idx: i, p: pvals[i] });
@@ -671,6 +1130,10 @@
         html += 'Sidak: ' + sidakSig + '/' + m;
         html += '<br><span style="color:var(--text-tertiary)">* indicates significant after adjustment</span>';
         html += '</div>';
+        html += '<div class="btn-group mt-2">'
+            + '<button class="btn btn-xs r-script-btn" '
+            + 'onclick="RGenerator.showScript(RGenerator.biostatPvalAdjust({pvals:[' + pvals.join(',') + '],alpha:' + alpha + '}), &quot;P-Value Adjustment&quot;)">'
+            + '&#129513; Generate R Script</button></div>';
 
         html += '</div>';
         App.setTrustedHTML(document.getElementById('br-pval-results'), html);
@@ -686,6 +1149,8 @@
         findTest: findTest,
         showAllTests: showAllTests,
         calcCI: calcCI,
-        adjustPvals: adjustPvals
+        adjustPvals: adjustPvals,
+        showDistribution: showDistribution,
+        runCLT: runCLT
     };
 })();

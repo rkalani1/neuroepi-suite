@@ -287,7 +287,7 @@
             // Expanded detail
             html += '<div class="trial-detail">';
             if (trial.fullTitle) html += '<div style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:8px"><em>' + trial.fullTitle + '</em></div>';
-            html += '<table class="data-table" style="font-size:0.8rem">';
+            html += '<div class="table-scroll-wrap"><table class="data-table" style="font-size:0.8rem">';
             if (trial.journal) {
                 html += '<tr><td style="width:130px;font-weight:500">Journal</td><td>' + trial.journal;
                 if (trial.pmid) html += ' <a href="https://pubmed.ncbi.nlm.nih.gov/' + trial.pmid + '/" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:var(--accent)">[PubMed]</a>';
@@ -311,7 +311,7 @@
                 html += '<tr><td style="font-weight:500">Key Secondary</td><td>' + trial.keySecondary.join('; ') + '</td></tr>';
             }
             if (trial.significance) html += '<tr><td style="font-weight:500">Significance</td><td>' + trial.significance + '</td></tr>';
-            html += '</table>';
+            html += '</table></div>';
 
             html += '<div class="btn-group mt-1">'
                 + '<button class="btn btn-xs btn-secondary" onclick="event.stopPropagation();TrialDB.copyCitation(\'' + trial.name.replace(/'/g, "\\'") + '\')">Copy Citation</button>'
@@ -352,18 +352,16 @@
         var years = Object.keys(byYear).map(Number).sort(function(a, b) { return a - b; });
         if (years.length === 0) return;
 
-        var points = years.map(function(y) {
-            return { x: y, y: byYear[y].length };
-        });
+        var categories = years.map(function(y) { return String(y); });
+        var values = years.map(function(y) { return byYear[y].length; });
 
         Charts.BarChart(canvas, {
-            data: points,
-            xLabel: 'Publication Year',
+            categories: categories,
+            series: [{ label: 'Trials', values: values }],
             yLabel: 'Number of Trials',
             title: 'Trial Publications by Year (N=' + TrialDatabase.trials.length + ')',
             width: 800,
-            height: 300,
-            color: 'var(--accent)'
+            height: 300
         });
     }
 

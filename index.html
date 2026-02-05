@@ -17,6 +17,13 @@
         <!-- Sidebar overlay for mobile -->
         <div id="sidebar-overlay" class="sidebar-overlay" onclick="App.closeSidebar()"></div>
 
+        <!-- Mobile header bar -->
+        <div class="mobile-header">
+            <button class="mobile-header-menu" onclick="App.openSidebar()" aria-label="Open menu">&#9776;</button>
+            <span class="mobile-header-title" onclick="App.navigate('home')">Neuro-Epi</span>
+            <button class="mobile-header-search" onclick="App.openCommandPalette()" aria-label="Search">&#128269;</button>
+        </div>
+
         <!-- Main content -->
         <main class="main-content">
             <div id="module-content"></div>
@@ -30,12 +37,14 @@
     <script src="js/core/statistics.js"></script>
     <script src="js/core/charts.js"></script>
     <script src="js/core/export.js"></script>
+    <script src="js/core/r-generator.js"></script>
 
     <!-- Data -->
     <script src="js/data/trials.js"></script>
     <script src="js/data/trials-batch2.js"></script>
     <script src="js/data/trials-batch3.js"></script>
     <script src="js/data/trials-batch4.js"></script>
+    <script src="js/data/trials-batch5.js"></script>
     <script src="js/data/references.js"></script>
 
     <!-- App shell -->
@@ -67,5 +76,10 @@
     <script src="js/modules/ml-prediction.js"></script>
     <script src="js/modules/methods-generator.js"></script>
     <script src="js/modules/project-planner.js"></script>
+
+    <!-- v2.1 modules -->
+    <script src="js/modules/r-code-library.js"></script>
+    <script src="js/modules/teaching-tools.js"></script>
+    <script src="js/modules/quick-reference.js"></script>
 </body>
 </html>

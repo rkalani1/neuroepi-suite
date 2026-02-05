@@ -13,6 +13,10 @@
     var container;
     var milestones = [];
     var milestoneIdCounter = 0;
+    var resources = [];
+    var resourceIdCounter = 0;
+    var risks = [];
+    var riskIdCounter = 0;
 
     // ============================================================
     // RENDER
@@ -201,14 +205,222 @@
             + '</div>';
         html += '</div>';
 
-        html += '</div>'; // end card
+        html += '</div>'; // end main card
+
+        /* === Card 2: Resource Allocation Tracker === */
+        html += '<div class="card">';
+        html += '<div class="card-title">Resource Allocation Tracker</div>';
+        html += '<div class="card-subtitle">Track team members, their roles, effort allocation, and availability across your research project.</div>';
+
+        html += '<div class="form-row form-row--3" style="align-items:flex-end">';
+        html += '<div class="form-group"><label class="form-label">Team Member Name</label>';
+        html += '<input type="text" class="form-input" id="pp-res-name" placeholder="e.g., Dr. Smith"></div>';
+        html += '<div class="form-group"><label class="form-label">Role</label>';
+        html += '<select class="form-select" id="pp-res-role">';
+        html += '<option value="PI">Principal Investigator</option>';
+        html += '<option value="Co-I">Co-Investigator</option>';
+        html += '<option value="Coordinator">Research Coordinator</option>';
+        html += '<option value="Statistician">Biostatistician</option>';
+        html += '<option value="RA">Research Assistant</option>';
+        html += '<option value="Postdoc">Postdoctoral Fellow</option>';
+        html += '<option value="Student">Graduate Student</option>';
+        html += '<option value="Other">Other</option>';
+        html += '</select></div>';
+        html += '<div class="form-group"><label class="form-label">% Effort (FTE)</label>';
+        html += '<input type="number" class="form-input" id="pp-res-effort" value="25" min="1" max="100"></div>';
+        html += '</div>';
+
+        html += '<div class="form-row form-row--2" style="align-items:flex-end">';
+        html += '<div class="form-group"><label class="form-label">Annual Salary ($)</label>';
+        html += '<input type="number" class="form-input" id="pp-res-salary" value="80000" min="0"></div>';
+        html += '<div class="form-group"><label class="form-label">Duration (months)</label>';
+        html += '<input type="number" class="form-input" id="pp-res-months" value="12" min="1" max="60"></div>';
+        html += '</div>';
+
+        html += '<div class="btn-group mt-1">';
+        html += '<button class="btn btn-primary" onclick="ProjectPlanner.addResource()">Add Team Member</button>';
+        html += '</div>';
+        html += '<div id="pp-res-table" class="mt-2"></div>';
+        html += '<div class="btn-group mt-1">';
+        html += '<button class="btn btn-secondary" onclick="ProjectPlanner.exportResources()">Export Resources</button>';
+        html += '</div>';
+        html += '</div>';
+
+        /* === Card 3: Budget Estimation Tool === */
+        html += '<div class="card">';
+        html += '<div class="card-title">Detailed Budget Builder</div>';
+        html += '<div class="card-subtitle">Build a comprehensive research budget with line items, indirect costs, and multi-year projections.</div>';
+
+        html += '<div id="pp-budget-lines">';
+        html += '<div class="form-row form-row--3" style="margin-bottom:0.3rem;">';
+        html += '<div class="form-group"><label class="form-label">Category</label></div>';
+        html += '<div class="form-group"><label class="form-label">Description</label></div>';
+        html += '<div class="form-group"><label class="form-label">Annual Cost ($)</label></div>';
+        html += '</div>';
+
+        var budgetDefaults = [
+            { cat: 'Personnel', desc: 'PI salary + fringe (20% effort)', cost: '45000' },
+            { cat: 'Personnel', desc: 'Research Coordinator (100%)', cost: '55000' },
+            { cat: 'Personnel', desc: 'Biostatistician (10% effort)', cost: '12000' },
+            { cat: 'Equipment', desc: 'Data collection devices', cost: '15000' },
+            { cat: 'Supplies', desc: 'Lab consumables', cost: '5000' },
+            { cat: 'Travel', desc: 'Conference presentation', cost: '3000' },
+            { cat: 'Other', desc: 'Publication fees (open access)', cost: '4000' },
+            { cat: 'Other', desc: 'Participant compensation', cost: '10000' }
+        ];
+
+        for (var bl = 0; bl < budgetDefaults.length; bl++) {
+            html += '<div class="form-row form-row--3" style="margin-bottom:0.3rem;">';
+            html += '<div class="form-group"><input type="text" class="form-input" id="pp-bl-cat-' + bl + '" value="' + budgetDefaults[bl].cat + '"></div>';
+            html += '<div class="form-group"><input type="text" class="form-input" id="pp-bl-desc-' + bl + '" value="' + budgetDefaults[bl].desc + '"></div>';
+            html += '<div class="form-group"><input type="number" class="form-input" id="pp-bl-cost-' + bl + '" value="' + budgetDefaults[bl].cost + '" min="0"></div>';
+            html += '</div>';
+        }
+        html += '</div>';
+
+        html += '<div class="form-row form-row--3">';
+        html += '<div class="form-group"><label class="form-label">Indirect Cost Rate (%)</label>';
+        html += '<input type="number" class="form-input" id="pp-bl-indirect" value="55" min="0" max="100"></div>';
+        html += '<div class="form-group"><label class="form-label">Project Duration (years)</label>';
+        html += '<input type="number" class="form-input" id="pp-bl-years" value="3" min="1" max="10"></div>';
+        html += '<div class="form-group"><label class="form-label">Annual Inflation (%)</label>';
+        html += '<input type="number" class="form-input" id="pp-bl-inflation" value="3" min="0" max="10" step="0.5"></div>';
+        html += '</div>';
+
+        html += '<div class="btn-group mt-1">';
+        html += '<button class="btn btn-primary" onclick="ProjectPlanner.calcDetailedBudget()">Calculate Budget</button>';
+        html += '<button class="btn btn-secondary" onclick="ProjectPlanner.copyDetailedBudget()">Copy Budget</button>';
+        html += '</div>';
+        html += '<div id="pp-bl-results" class="mt-2"></div>';
+        html += '</div>';
+
+        /* === Card 4: Risk Assessment Matrix === */
+        html += '<div class="card">';
+        html += '<div class="card-title">Risk Assessment Matrix</div>';
+        html += '<div class="card-subtitle">Identify and assess project risks by likelihood and impact. Develop mitigation strategies.</div>';
+
+        html += '<div class="form-row form-row--2" style="align-items:flex-end">';
+        html += '<div class="form-group"><label class="form-label">Risk Description</label>';
+        html += '<input type="text" class="form-input" id="pp-risk-desc" placeholder="e.g., Slow recruitment"></div>';
+        html += '<div class="form-group"><label class="form-label">Mitigation Strategy</label>';
+        html += '<input type="text" class="form-input" id="pp-risk-mitigation" placeholder="e.g., Multi-site recruitment"></div>';
+        html += '</div>';
+        html += '<div class="form-row form-row--2" style="align-items:flex-end">';
+        html += '<div class="form-group"><label class="form-label">Likelihood (1-5)</label>';
+        html += '<select class="form-select" id="pp-risk-likelihood">';
+        html += '<option value="1">1 - Rare</option>';
+        html += '<option value="2">2 - Unlikely</option>';
+        html += '<option value="3" selected>3 - Possible</option>';
+        html += '<option value="4">4 - Likely</option>';
+        html += '<option value="5">5 - Almost Certain</option>';
+        html += '</select></div>';
+        html += '<div class="form-group"><label class="form-label">Impact (1-5)</label>';
+        html += '<select class="form-select" id="pp-risk-impact">';
+        html += '<option value="1">1 - Negligible</option>';
+        html += '<option value="2">2 - Minor</option>';
+        html += '<option value="3" selected>3 - Moderate</option>';
+        html += '<option value="4">4 - Major</option>';
+        html += '<option value="5">5 - Catastrophic</option>';
+        html += '</select></div>';
+        html += '</div>';
+
+        html += '<div class="btn-group mt-1">';
+        html += '<button class="btn btn-primary" onclick="ProjectPlanner.addRisk()">Add Risk</button>';
+        html += '</div>';
+        html += '<div id="pp-risk-table" class="mt-2"></div>';
+        html += '<div id="pp-risk-matrix" class="mt-2"></div>';
+        html += '</div>';
+
+        /* === Card 5: Project Template Library === */
+        html += '<div class="card">';
+        html += '<div class="card-title">Project Template Library</div>';
+        html += '<div class="card-subtitle">Pre-built project templates with standard phases, milestones, and checklists for common study designs.</div>';
+
+        var templates = [
+            { id: 'rct-template', name: 'Randomized Controlled Trial', duration: '3-5 years', phases: 'Protocol (3mo) > IRB (3-6mo) > Recruitment (12-24mo) > Follow-up (6-24mo) > Analysis (3-6mo) > Dissemination (6-12mo)', milestones: ['Protocol finalized', 'IRB approval', 'DSMB established', 'First patient enrolled', '50% enrollment', 'Last patient enrolled', 'Database lock', 'Primary analysis complete', 'Manuscript submitted'], keyRisks: 'Slow recruitment, protocol amendments, DSMB recommendations, loss to follow-up' },
+            { id: 'cohort-template', name: 'Prospective Cohort Study', duration: '2-5 years', phases: 'Protocol (2mo) > IRB (3mo) > Cohort Assembly (6-12mo) > Follow-up (12-36mo) > Analysis (3-6mo) > Dissemination (6mo)', milestones: ['Protocol finalized', 'IRB approval', 'Data collection tools validated', 'Cohort assembly complete', 'Interim analysis', 'End of follow-up', 'Database lock', 'Manuscript submitted'], keyRisks: 'Loss to follow-up, exposure misclassification, competing risks, outcome ascertainment' },
+            { id: 'sr-template', name: 'Systematic Review / Meta-Analysis', duration: '6-18 months', phases: 'Protocol (2wk) > Search (4wk) > Screening (4-8wk) > Extraction (4-6wk) > Quality Assessment (2-4wk) > Synthesis (4-6wk) > Writing (4-8wk)', milestones: ['Protocol registered (PROSPERO)', 'Search strategy finalized', 'Screening complete', 'Data extraction complete', 'Risk of bias assessed', 'Meta-analysis complete', 'Manuscript submitted'], keyRisks: 'Insufficient studies, high heterogeneity, publication bias, delayed data availability' }
+        ];
+
+        for (var tp = 0; tp < templates.length; tp++) {
+            var tpl = templates[tp];
+            html += '<div style="border:1px solid var(--border);border-radius:6px;margin-bottom:0.5rem;overflow:hidden;">';
+            html += '<div onclick="ProjectPlanner.toggleTemplate(' + tp + ')" style="padding:0.6rem 1rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--bg-elevated);">';
+            html += '<div><strong>' + tpl.name + '</strong><span style="font-size:0.8rem;color:var(--text-tertiary);margin-left:0.5rem;">' + tpl.duration + '</span></div>';
+            html += '<span id="pp-tpl-arrow-' + tp + '" style="transition:transform 0.2s;">&#9660;</span>';
+            html += '</div>';
+            html += '<div id="pp-tpl-detail-' + tp + '" class="hidden" style="padding:0.8rem 1rem;font-size:0.9rem;">';
+            html += '<p><strong>Typical Duration:</strong> ' + tpl.duration + '</p>';
+            html += '<p><strong>Phases:</strong> ' + tpl.phases + '</p>';
+            html += '<p><strong>Key Milestones:</strong></p><ul style="margin:0.3rem 0;padding-left:1.5rem;">';
+            for (var tmi = 0; tmi < tpl.milestones.length; tmi++) {
+                html += '<li>' + tpl.milestones[tmi] + '</li>';
+            }
+            html += '</ul>';
+            html += '<p><strong>Key Risks:</strong> ' + tpl.keyRisks + '</p>';
+            html += '<button class="btn btn-xs btn-primary mt-1" onclick="ProjectPlanner.loadTemplate(' + tp + ')">Load Template Milestones</button>';
+            html += '</div></div>';
+        }
+        html += '</div>';
+
+        /* === Expanded Learn Section === */
+        html += '<div class="card" style="background: var(--bg-secondary); border-left: 4px solid var(--accent-color);">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\')">&#128218; Advanced Project Management <span style="font-size:0.8em; color: var(--text-muted);">(click to expand)</span></div>';
+        html += '<div class="learn-body hidden">';
+
+        html += '<div style="margin-bottom:1rem;">';
+        html += '<strong style="color:var(--accent);">Grant Budget Tips</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>NIH modular budgets: increments of $25K up to $250K/year (direct costs)</li>';
+        html += '<li>Fringe benefits typically 25-35% of salary (varies by institution)</li>';
+        html += '<li>Include annual salary increases (3-4%) in multi-year budgets</li>';
+        html += '<li>Equipment vs. supplies: items >$5,000 are typically classified as equipment</li>';
+        html += '<li>F&A (indirect) costs are negotiated between institution and NIH</li>';
+        html += '<li>Subcontracts: first $25K subject to indirect costs; remainder exempt at many institutions</li>';
+        html += '</ul></div>';
+
+        html += '<div style="margin-bottom:1rem;">';
+        html += '<strong style="color:var(--accent);">Risk Management Framework</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>Identify risks early in planning phase</li>';
+        html += '<li>Classify risks: scientific, regulatory, operational, financial, personnel</li>';
+        html += '<li>Score risks: Likelihood (1-5) x Impact (1-5) = Risk Score (1-25)</li>';
+        html += '<li>Low risk (1-5): Accept and monitor</li>';
+        html += '<li>Medium risk (6-12): Develop mitigation plan</li>';
+        html += '<li>High risk (13-25): Requires active management and contingency plan</li>';
+        html += '</ul></div>';
+
+        html += '<div style="margin-bottom:1rem;">';
+        html += '<strong style="color:var(--accent);">Milestone Dependencies</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>Identify critical path: longest chain of dependent milestones</li>';
+        html += '<li>Build in buffer time (10-20%) for each phase</li>';
+        html += '<li>Use finish-to-start dependencies as default</li>';
+        html += '<li>Identify parallel tasks that can overlap</li>';
+        html += '<li>Regular milestone review meetings (monthly or quarterly)</li>';
+        html += '</ul></div>';
+
+        html += '<div style="margin-bottom:0;">';
+        html += '<strong style="color:var(--accent);">References</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>NIH Grants Policy Statement (current edition)</li>';
+        html += '<li>FDA 21 CFR Parts 50, 56, 312</li>';
+        html += '<li>ICH-GCP E6(R2) Guidelines</li>';
+        html += '<li>PMBOK Guide (Project Management Body of Knowledge)</li>';
+        html += '</ul></div>';
+
+        html += '</div></div>';
 
         App.setTrustedHTML(container, html);
         App.autoSaveInputs(container, MODULE_ID);
 
-        // Reset milestones state
+        // Reset state
         milestones = [];
         milestoneIdCounter = 0;
+        resources = [];
+        resourceIdCounter = 0;
+        risks = [];
+        riskIdCounter = 0;
     }
 
     // ============================================================
@@ -860,6 +1072,333 @@
     }
 
     // ============================================================
+    // RESOURCE ALLOCATION TRACKER
+    // ============================================================
+
+    function addResource() {
+        var nameEl = document.getElementById('pp-res-name');
+        var roleEl = document.getElementById('pp-res-role');
+        var effortEl = document.getElementById('pp-res-effort');
+        var salaryEl = document.getElementById('pp-res-salary');
+        var monthsEl = document.getElementById('pp-res-months');
+
+        var name = nameEl.value.trim();
+        if (!name) return;
+
+        resources.push({
+            id: resourceIdCounter++,
+            name: name,
+            role: roleEl.value,
+            effort: parseInt(effortEl.value) || 25,
+            salary: parseFloat(salaryEl.value) || 0,
+            months: parseInt(monthsEl.value) || 12
+        });
+
+        nameEl.value = '';
+        renderResourceTable();
+    }
+
+    function removeResource(id) {
+        resources = resources.filter(function(r) { return r.id !== id; });
+        renderResourceTable();
+    }
+
+    function renderResourceTable() {
+        var el = document.getElementById('pp-res-table');
+        if (!el) return;
+
+        if (resources.length === 0) {
+            App.setTrustedHTML(el, '<div style="color:var(--text-tertiary);font-size:0.85rem;padding:1rem 0">No team members added yet.</div>');
+            return;
+        }
+
+        var totalCost = 0;
+        var totalFTE = 0;
+        var html = '<table style="width:100%;border-collapse:collapse;font-size:0.85rem">';
+        html += '<thead><tr style="border-bottom:2px solid var(--border)">'
+            + '<th style="text-align:left;padding:0.5rem">Name</th>'
+            + '<th style="text-align:left;padding:0.5rem">Role</th>'
+            + '<th style="text-align:right;padding:0.5rem">% Effort</th>'
+            + '<th style="text-align:right;padding:0.5rem">Months</th>'
+            + '<th style="text-align:right;padding:0.5rem">Cost</th>'
+            + '<th style="text-align:center;padding:0.5rem">Actions</th>'
+            + '</tr></thead><tbody>';
+
+        resources.forEach(function(r) {
+            var cost = (r.salary * (r.effort / 100) * (r.months / 12));
+            totalCost += cost;
+            totalFTE += r.effort / 100;
+            html += '<tr style="border-bottom:1px solid var(--border)">'
+                + '<td style="padding:0.5rem">' + r.name + '</td>'
+                + '<td style="padding:0.5rem">' + r.role + '</td>'
+                + '<td style="text-align:right;padding:0.5rem">' + r.effort + '%</td>'
+                + '<td style="text-align:right;padding:0.5rem">' + r.months + '</td>'
+                + '<td style="text-align:right;padding:0.5rem;font-family:var(--font-mono)">$' + Math.round(cost).toLocaleString() + '</td>'
+                + '<td style="text-align:center;padding:0.5rem">'
+                + '<button class="btn btn-xs btn-secondary" onclick="ProjectPlanner.removeResource(' + r.id + ')" style="font-size:0.75rem">Remove</button>'
+                + '</td></tr>';
+        });
+
+        html += '<tr style="border-top:2px solid var(--border);font-weight:700">'
+            + '<td style="padding:0.5rem" colspan="2">Total</td>'
+            + '<td style="text-align:right;padding:0.5rem">' + (totalFTE * 100).toFixed(0) + '%</td>'
+            + '<td style="padding:0.5rem"></td>'
+            + '<td style="text-align:right;padding:0.5rem;font-family:var(--font-mono);color:var(--accent)">$' + Math.round(totalCost).toLocaleString() + '</td>'
+            + '<td></td></tr>';
+        html += '</tbody></table>';
+        html += '<div style="font-size:0.78rem;color:var(--text-tertiary);margin-top:0.5rem">' + resources.length + ' team members, ' + totalFTE.toFixed(1) + ' total FTE</div>';
+
+        App.setTrustedHTML(el, html);
+    }
+
+    function exportResources() {
+        if (resources.length === 0) return;
+        var text = 'RESOURCE ALLOCATION\n' + '='.repeat(60) + '\n\n';
+        text += 'Name'.padEnd(20) + 'Role'.padEnd(18) + 'Effort'.padEnd(10) + 'Months'.padEnd(10) + 'Cost\n';
+        text += '-'.repeat(60) + '\n';
+        var totalCost = 0;
+        resources.forEach(function(r) {
+            var cost = (r.salary * (r.effort / 100) * (r.months / 12));
+            totalCost += cost;
+            text += r.name.padEnd(20) + r.role.padEnd(18) + (r.effort + '%').padEnd(10) + String(r.months).padEnd(10) + '$' + Math.round(cost).toLocaleString() + '\n';
+        });
+        text += '-'.repeat(60) + '\n';
+        text += 'Total Personnel Cost: $' + Math.round(totalCost).toLocaleString() + '\n';
+        Export.copyText(text);
+    }
+
+    // ============================================================
+    // DETAILED BUDGET BUILDER
+    // ============================================================
+
+    function calcDetailedBudget() {
+        var lineItems = [];
+        for (var i = 0; i < 8; i++) {
+            var catEl = document.getElementById('pp-bl-cat-' + i);
+            var descEl = document.getElementById('pp-bl-desc-' + i);
+            var costEl = document.getElementById('pp-bl-cost-' + i);
+            if (catEl && catEl.value.trim() && costEl) {
+                var cost = parseFloat(costEl.value) || 0;
+                if (cost > 0) {
+                    lineItems.push({ cat: catEl.value.trim(), desc: descEl ? descEl.value.trim() : '', cost: cost });
+                }
+            }
+        }
+        if (lineItems.length === 0) return;
+
+        var indirectRate = parseFloat(document.getElementById('pp-bl-indirect').value) / 100 || 0;
+        var years = parseInt(document.getElementById('pp-bl-years').value) || 1;
+        var inflation = parseFloat(document.getElementById('pp-bl-inflation').value) / 100 || 0;
+
+        var categories = {};
+        lineItems.forEach(function(item) {
+            if (!categories[item.cat]) categories[item.cat] = [];
+            categories[item.cat].push(item);
+        });
+
+        var annualDirect = lineItems.reduce(function(sum, item) { return sum + item.cost; }, 0);
+
+        var html = '<div class="result-panel">';
+        html += '<div class="card-subtitle">Detailed Budget Summary</div>';
+
+        // Line items by category
+        html += '<table style="width:100%;border-collapse:collapse;font-size:0.85rem">';
+        html += '<thead><tr style="border-bottom:2px solid var(--border)"><th style="text-align:left;padding:0.5rem">Category</th><th style="text-align:left;padding:0.5rem">Description</th><th style="text-align:right;padding:0.5rem">Annual Cost</th></tr></thead><tbody>';
+        var catKeys = Object.keys(categories);
+        for (var c = 0; c < catKeys.length; c++) {
+            var catName = catKeys[c];
+            var catItems = categories[catName];
+            var catTotal = 0;
+            for (var ci = 0; ci < catItems.length; ci++) {
+                catTotal += catItems[ci].cost;
+                html += '<tr style="border-bottom:1px solid var(--border)"><td style="padding:0.5rem">' + (ci === 0 ? '<strong>' + catName + '</strong>' : '') + '</td><td style="padding:0.5rem">' + catItems[ci].desc + '</td><td style="text-align:right;padding:0.5rem;font-family:var(--font-mono)">$' + catItems[ci].cost.toLocaleString() + '</td></tr>';
+            }
+            html += '<tr style="background:var(--bg-elevated)"><td colspan="2" style="padding:0.3rem 0.5rem;font-weight:600;font-size:0.8rem">' + catName + ' Subtotal</td><td style="text-align:right;padding:0.3rem 0.5rem;font-family:var(--font-mono);font-weight:600">$' + catTotal.toLocaleString() + '</td></tr>';
+        }
+        html += '</tbody></table>';
+
+        // Multi-year projection
+        html += '<div class="card-subtitle mt-2" style="font-weight:600;">Multi-Year Projection (' + years + ' years, ' + (inflation * 100).toFixed(1) + '% annual inflation)</div>';
+        html += '<table style="width:100%;border-collapse:collapse;font-size:0.85rem">';
+        html += '<thead><tr style="border-bottom:2px solid var(--border)"><th style="text-align:left;padding:0.5rem">Year</th><th style="text-align:right;padding:0.5rem">Direct Costs</th><th style="text-align:right;padding:0.5rem">Indirect (' + (indirectRate * 100).toFixed(0) + '%)</th><th style="text-align:right;padding:0.5rem">Total</th></tr></thead><tbody>';
+
+        var grandTotal = 0;
+        var grandDirect = 0;
+        var grandIndirect = 0;
+        for (var yr = 1; yr <= years; yr++) {
+            var yearDirect = annualDirect * Math.pow(1 + inflation, yr - 1);
+            var yearIndirect = yearDirect * indirectRate;
+            var yearTotal = yearDirect + yearIndirect;
+            grandDirect += yearDirect;
+            grandIndirect += yearIndirect;
+            grandTotal += yearTotal;
+            html += '<tr style="border-bottom:1px solid var(--border)"><td style="padding:0.5rem">Year ' + yr + '</td><td style="text-align:right;padding:0.5rem;font-family:var(--font-mono)">$' + Math.round(yearDirect).toLocaleString() + '</td><td style="text-align:right;padding:0.5rem;font-family:var(--font-mono)">$' + Math.round(yearIndirect).toLocaleString() + '</td><td style="text-align:right;padding:0.5rem;font-family:var(--font-mono)">$' + Math.round(yearTotal).toLocaleString() + '</td></tr>';
+        }
+        html += '<tr style="border-top:2px solid var(--border);font-weight:700"><td style="padding:0.5rem">Grand Total</td><td style="text-align:right;padding:0.5rem;font-family:var(--font-mono)">$' + Math.round(grandDirect).toLocaleString() + '</td><td style="text-align:right;padding:0.5rem;font-family:var(--font-mono)">$' + Math.round(grandIndirect).toLocaleString() + '</td><td style="text-align:right;padding:0.5rem;font-family:var(--font-mono);color:var(--accent)">$' + Math.round(grandTotal).toLocaleString() + '</td></tr>';
+        html += '</tbody></table>';
+
+        html += '</div>';
+        App.setTrustedHTML(document.getElementById('pp-bl-results'), html);
+    }
+
+    function copyDetailedBudget() {
+        var el = document.getElementById('pp-bl-results');
+        if (!el || !el.textContent.trim()) { calcDetailedBudget(); }
+        var text = 'DETAILED BUDGET\n' + '='.repeat(50) + '\n\n';
+        for (var i = 0; i < 8; i++) {
+            var catEl = document.getElementById('pp-bl-cat-' + i);
+            var descEl = document.getElementById('pp-bl-desc-' + i);
+            var costEl = document.getElementById('pp-bl-cost-' + i);
+            if (catEl && catEl.value.trim() && costEl && parseFloat(costEl.value) > 0) {
+                text += catEl.value.padEnd(15) + (descEl ? descEl.value : '').padEnd(35) + '$' + parseFloat(costEl.value).toLocaleString() + '\n';
+            }
+        }
+        var indirectRate = parseFloat(document.getElementById('pp-bl-indirect').value) || 0;
+        var years = parseInt(document.getElementById('pp-bl-years').value) || 1;
+        text += '\nIndirect rate: ' + indirectRate + '%, Duration: ' + years + ' years\n';
+        Export.copyText(text);
+    }
+
+    // ============================================================
+    // RISK ASSESSMENT MATRIX
+    // ============================================================
+
+    function addRisk() {
+        var descEl = document.getElementById('pp-risk-desc');
+        var mitigationEl = document.getElementById('pp-risk-mitigation');
+        var likelihoodEl = document.getElementById('pp-risk-likelihood');
+        var impactEl = document.getElementById('pp-risk-impact');
+
+        var desc = descEl.value.trim();
+        if (!desc) return;
+
+        risks.push({
+            id: riskIdCounter++,
+            desc: desc,
+            mitigation: mitigationEl.value.trim(),
+            likelihood: parseInt(likelihoodEl.value) || 3,
+            impact: parseInt(impactEl.value) || 3
+        });
+
+        descEl.value = '';
+        mitigationEl.value = '';
+        renderRiskTable();
+        renderRiskMatrix();
+    }
+
+    function removeRisk(id) {
+        risks = risks.filter(function(r) { return r.id !== id; });
+        renderRiskTable();
+        renderRiskMatrix();
+    }
+
+    function renderRiskTable() {
+        var el = document.getElementById('pp-risk-table');
+        if (!el) return;
+
+        if (risks.length === 0) {
+            App.setTrustedHTML(el, '<div style="color:var(--text-tertiary);font-size:0.85rem;padding:1rem 0">No risks added yet. Use the form above to identify project risks.</div>');
+            return;
+        }
+
+        var html = '<table style="width:100%;border-collapse:collapse;font-size:0.85rem">';
+        html += '<thead><tr style="border-bottom:2px solid var(--border)">'
+            + '<th style="text-align:left;padding:0.5rem">Risk</th>'
+            + '<th style="text-align:center;padding:0.5rem">L</th>'
+            + '<th style="text-align:center;padding:0.5rem">I</th>'
+            + '<th style="text-align:center;padding:0.5rem">Score</th>'
+            + '<th style="text-align:left;padding:0.5rem">Level</th>'
+            + '<th style="text-align:left;padding:0.5rem">Mitigation</th>'
+            + '<th style="text-align:center;padding:0.5rem">Actions</th>'
+            + '</tr></thead><tbody>';
+
+        risks.sort(function(a, b) { return (b.likelihood * b.impact) - (a.likelihood * a.impact); });
+
+        risks.forEach(function(r) {
+            var score = r.likelihood * r.impact;
+            var level = score <= 5 ? 'Low' : score <= 12 ? 'Medium' : 'High';
+            var levelColor = score <= 5 ? 'var(--success)' : score <= 12 ? 'var(--warning)' : 'var(--danger)';
+            html += '<tr style="border-bottom:1px solid var(--border)">'
+                + '<td style="padding:0.5rem">' + r.desc + '</td>'
+                + '<td style="text-align:center;padding:0.5rem">' + r.likelihood + '</td>'
+                + '<td style="text-align:center;padding:0.5rem">' + r.impact + '</td>'
+                + '<td style="text-align:center;padding:0.5rem;font-weight:700;color:' + levelColor + '">' + score + '</td>'
+                + '<td style="padding:0.5rem;color:' + levelColor + ';font-weight:600">' + level + '</td>'
+                + '<td style="padding:0.5rem;font-size:0.8rem">' + (r.mitigation || '--') + '</td>'
+                + '<td style="text-align:center;padding:0.5rem"><button class="btn btn-xs btn-secondary" onclick="ProjectPlanner.removeRisk(' + r.id + ')" style="font-size:0.75rem">Remove</button></td>'
+                + '</tr>';
+        });
+
+        html += '</tbody></table>';
+        App.setTrustedHTML(el, html);
+    }
+
+    function renderRiskMatrix() {
+        var el = document.getElementById('pp-risk-matrix');
+        if (!el || risks.length === 0) {
+            if (el) App.setTrustedHTML(el, '');
+            return;
+        }
+
+        var html = '<div class="card-subtitle" style="font-weight:600;">Risk Heat Map (Likelihood x Impact)</div>';
+        html += '<table style="border-collapse:collapse;font-size:0.8rem;margin:0 auto;">';
+        html += '<thead><tr><th style="padding:4px 8px"></th>';
+        for (var ih = 1; ih <= 5; ih++) {
+            html += '<th style="padding:4px 8px;text-align:center">I=' + ih + '</th>';
+        }
+        html += '</tr></thead><tbody>';
+
+        for (var li = 5; li >= 1; li--) {
+            html += '<tr><td style="padding:4px 8px;font-weight:600">L=' + li + '</td>';
+            for (var im = 1; im <= 5; im++) {
+                var cellScore = li * im;
+                var bg = cellScore <= 5 ? 'rgba(52,211,153,0.2)' : cellScore <= 12 ? 'rgba(251,191,36,0.2)' : 'rgba(248,113,113,0.3)';
+                var riskCount = 0;
+                for (var ri = 0; ri < risks.length; ri++) {
+                    if (risks[ri].likelihood === li && risks[ri].impact === im) riskCount++;
+                }
+                var cellContent = riskCount > 0 ? '<strong style="color:var(--text)">' + riskCount + '</strong>' : '';
+                html += '<td style="padding:8px 12px;text-align:center;background:' + bg + ';border:1px solid var(--border);min-width:40px">' + cellContent + '</td>';
+            }
+            html += '</tr>';
+        }
+        html += '</tbody></table>';
+        html += '<div style="font-size:0.78rem;color:var(--text-tertiary);margin-top:0.3rem;text-align:center">L=Likelihood, I=Impact. Numbers show risk count in each cell.</div>';
+
+        App.setTrustedHTML(el, html);
+    }
+
+    // ============================================================
+    // PROJECT TEMPLATE LIBRARY
+    // ============================================================
+
+    var templateData = [
+        { milestones: ['Protocol finalized', 'IRB approval obtained', 'DSMB established', 'First patient enrolled', '50% enrollment reached', 'Last patient enrolled', 'Database lock', 'Primary analysis complete', 'Manuscript submitted'] },
+        { milestones: ['Protocol finalized', 'IRB approval obtained', 'Data collection tools validated', 'Cohort assembly complete', 'Interim analysis', 'End of follow-up', 'Database lock', 'Manuscript submitted'] },
+        { milestones: ['Protocol registered (PROSPERO)', 'Search strategy finalized', 'Title/abstract screening complete', 'Full-text screening complete', 'Data extraction complete', 'Risk of bias assessed', 'Meta-analysis complete', 'Manuscript submitted'] }
+    ];
+
+    function toggleTemplate(idx) {
+        var detail = document.getElementById('pp-tpl-detail-' + idx);
+        var arrow = document.getElementById('pp-tpl-arrow-' + idx);
+        if (detail) {
+            detail.classList.toggle('hidden');
+            if (arrow) arrow.style.transform = detail.classList.contains('hidden') ? '' : 'rotate(180deg)';
+        }
+    }
+
+    function loadTemplate(idx) {
+        if (!templateData[idx]) return;
+        milestones = [];
+        milestoneIdCounter = 0;
+        templateData[idx].milestones.forEach(function(ms) {
+            milestones.push({ id: milestoneIdCounter++, name: ms, date: '', status: 'not-started' });
+        });
+        switchTab('milestones');
+        renderMilestoneTable();
+    }
+
+    // ============================================================
     // REGISTER
     // ============================================================
 
@@ -877,6 +1416,15 @@
         removeMilestone: removeMilestone,
         updateMilestoneStatus: updateMilestoneStatus,
         sortMilestones: sortMilestones,
-        exportMilestones: exportMilestones
+        exportMilestones: exportMilestones,
+        addResource: addResource,
+        removeResource: removeResource,
+        exportResources: exportResources,
+        calcDetailedBudget: calcDetailedBudget,
+        copyDetailedBudget: copyDetailedBudget,
+        addRisk: addRisk,
+        removeRisk: removeRisk,
+        toggleTemplate: toggleTemplate,
+        loadTemplate: loadTemplate
     };
 })();

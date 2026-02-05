@@ -196,6 +196,101 @@ const Export = (() => {
     }
 
     // ============================================================
+    // COPY RESULT PANEL
+    // ============================================================
+
+    function copyResultPanel(panelId) {
+        var panel = document.getElementById(panelId);
+        if (!panel) {
+            showToast('Panel not found', 'error');
+            return;
+        }
+        var lines = [];
+        var labels = panel.querySelectorAll('.result-label');
+        var values = panel.querySelectorAll('.result-value');
+        var details = panel.querySelectorAll('.result-detail');
+
+        labels.forEach(function(label, i) {
+            var line = label.textContent.trim();
+            if (values[i]) {
+                line += ': ' + values[i].textContent.trim();
+            }
+            lines.push(line);
+        });
+        // Append any remaining values not paired with labels
+        if (values.length > labels.length) {
+            for (var i = labels.length; i < values.length; i++) {
+                lines.push(values[i].textContent.trim());
+            }
+        }
+        details.forEach(function(detail) {
+            lines.push(detail.textContent.trim());
+        });
+
+        var text = lines.filter(function(l) { return l.length > 0; }).join('\n');
+        if (!text) {
+            showToast('No results to copy', 'error');
+            return;
+        }
+        navigator.clipboard.writeText(text).then(function() {
+            showToast('Results copied');
+        }).catch(function() {
+            // Fallback
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            showToast('Results copied');
+        });
+    }
+
+    // ============================================================
+    // INTERPRET VALUE HELPER
+    // ============================================================
+
+    function interpretValue(type, value) {
+        switch (type) {
+            case 'p-value':
+                if (value < 0.001) return 'Highly significant';
+                if (value < 0.05) return 'Statistically significant';
+                if (value < 0.1) return 'Marginally significant (trend)';
+                return 'Not statistically significant';
+
+            case 'rr':
+            case 'or':
+                if (Math.abs(value - 1) < 0.001) return 'No association';
+                if (value > 1) return 'Increased risk';
+                return 'Decreased risk (protective)';
+
+            case 'nnt':
+                if (value < 10) return 'Strong treatment effect';
+                if (value <= 50) return 'Moderate treatment effect';
+                return 'Weak treatment effect';
+
+            case 'power':
+                if (value >= 0.8) return 'Adequate power';
+                if (value >= 0.5) return 'Underpowered';
+                return 'Severely underpowered';
+
+            case 'ci-width':
+                if (value && typeof value === 'object' && value.point !== undefined) {
+                    var width = (value.upper - value.lower) / value.point;
+                    if (width < 0.5) return 'Precise';
+                    if (width < 1) return 'Moderate precision';
+                    return 'Imprecise';
+                }
+                return 'Invalid input';
+
+            default:
+                return 'Unknown type';
+        }
+    }
+
+    // ============================================================
     // RECENT HISTORY
     // ============================================================
 
@@ -235,7 +330,9 @@ const Export = (() => {
         listSavedCalculations,
         saveCalculation,
         addToHistory,
-        getHistory
+        getHistory,
+        copyResultPanel,
+        interpretValue
     };
 })();
 
