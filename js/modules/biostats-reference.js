@@ -115,6 +115,47 @@
             'Quick-reference encyclopedia for statistical tests, distributions, confidence intervals, effect sizes, and multiple testing corrections.'
         );
 
+        // ===== LEARN SECTION =====
+        html += '<div class="card" style="background: var(--bg-secondary); border-left: 4px solid var(--accent-color);">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\')">&#x1F4DA; Learn &amp; Reference <span style="font-size:0.8em; color: var(--text-muted);">(click to expand)</span></div>';
+        html += '<div class="learn-body hidden">';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Fundamental Concepts</div>';
+        html += '<ul style="margin:0 0 12px 16px; font-size:0.9rem; line-height:1.7;">'
+            + '<li><strong>Type I error (&alpha;):</strong> False positive &mdash; rejecting H&#8320; when it is true. Conventionally set at 0.05.</li>'
+            + '<li><strong>Type II error (&beta;):</strong> False negative &mdash; failing to reject H&#8320; when it is false.</li>'
+            + '<li><strong>Power = 1 &minus; &beta;:</strong> Probability of correctly detecting a true effect. Typically 0.80 or 0.90.</li>'
+            + '<li><strong>p-value:</strong> P(observed data or more extreme | H&#8320; is true). It is NOT the probability that H&#8320; is true.</li>'
+            + '<li><strong>Confidence interval:</strong> A range of values that, across repeated sampling, would contain the true parameter (1&minus;&alpha;)% of the time. It does NOT mean there is a 95% probability the true value lies within this specific interval.</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Test Selection Logic</div>';
+        html += '<ul style="margin:0 0 12px 16px; font-size:0.9rem; line-height:1.7;">'
+            + '<li><strong>Continuous outcome:</strong> t-test (2 groups), ANOVA (3+ groups), linear regression (adjusted)</li>'
+            + '<li><strong>Binary outcome:</strong> Chi-squared / Fisher exact (unadjusted), logistic regression (adjusted)</li>'
+            + '<li><strong>Time-to-event outcome:</strong> Log-rank test (unadjusted), Cox proportional hazards (adjusted)</li>'
+            + '<li><strong>Paired data:</strong> Paired t-test (parametric), McNemar test (binary), Wilcoxon signed-rank (non-parametric)</li>'
+            + '<li><strong>Non-parametric alternatives:</strong> Mann-Whitney U (2 groups), Kruskal-Wallis (3+ groups), Friedman (repeated measures)</li>'
+            + '<li><strong>Count data:</strong> Poisson regression (mean = variance), negative binomial (overdispersed)</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Common Pitfalls</div>';
+        html += '<ul style="margin:0 0 12px 16px; font-size:0.9rem; line-height:1.7;">'
+            + '<li><strong>Multiple testing inflation:</strong> With 20 tests at &alpha;=0.05, expect 1 false positive by chance. Apply Bonferroni, Holm, or BH correction.</li>'
+            + '<li><strong>P-hacking:</strong> Selective reporting, optional stopping, or outcome switching to achieve significance. Pre-register analyses.</li>'
+            + '<li><strong>Statistical vs. clinical significance:</strong> A statistically significant result (p&lt;0.05) may be clinically trivial. Always report effect sizes and confidence intervals.</li>'
+            + '<li><strong>Non-significant &ne; &ldquo;no effect&rdquo;:</strong> Absence of evidence is not evidence of absence. A non-significant result may reflect inadequate power, not a true null effect.</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">References</div>';
+        html += '<ul style="margin:0 0 0 16px; font-size:0.85rem; line-height:1.7;">'
+            + '<li>Altman DG. <em>Practical Statistics for Medical Research</em>. Chapman &amp; Hall/CRC, 1991.</li>'
+            + '<li>Bland M. <em>An Introduction to Medical Statistics</em>, 4th ed. Oxford University Press, 2015.</li>'
+            + '<li>Vittinghoff E, Glidden DV, Shiboski SC, McCulloch CE. <em>Regression Methods in Biostatistics</em>, 2nd ed. Springer, 2012.</li>'
+            + '</ul>';
+
+        html += '</div></div>';
+
         // ---- Card 1: Statistical Test Selector ----
         html += '<div class="card">';
         html += '<div class="card-title">Statistical Test Selector</div>';

@@ -458,6 +458,56 @@
             'Interactive checklists for major research reporting guidelines. Select a guideline, track your progress, and export completed checklists.'
         );
 
+        // Learn & Reference section
+        html += '<div class="card" style="background: var(--bg-secondary); border-left: 4px solid var(--accent-color);">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\')">&#128218; Learn &amp; Reference <span style="font-size:0.8em; color: var(--text-muted);">(click to expand)</span></div>';
+        html += '<div class="learn-body hidden">';
+
+        html += '<div style="margin-bottom:1.2rem;">';
+        html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">When to Use Which Guideline</div>';
+        html += '<ul style="margin:0;padding-left:1.5rem;font-size:0.9rem;line-height:1.7;">';
+        html += '<li><strong>CONSORT</strong> &rarr; RCTs</li>';
+        html += '<li><strong>STROBE</strong> &rarr; Observational studies</li>';
+        html += '<li><strong>PRISMA</strong> &rarr; Systematic reviews / meta-analyses</li>';
+        html += '<li><strong>SPIRIT</strong> &rarr; Trial protocols</li>';
+        html += '<li><strong>TRIPOD</strong> &rarr; Prediction models</li>';
+        html += '<li><strong>ARRIVE</strong> &rarr; Animal studies</li>';
+        html += '<li><strong>STARD</strong> &rarr; Diagnostic accuracy</li>';
+        html += '</ul>';
+        html += '</div>';
+
+        html += '<div style="margin-bottom:1.2rem;">';
+        html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">Key Principles</div>';
+        html += '<ul style="margin:0;padding-left:1.5rem;font-size:0.9rem;line-height:1.7;">';
+        html += '<li>Complete reporting improves reproducibility.</li>';
+        html += '<li>Checklists &ne; quality assessment.</li>';
+        html += '<li>All items should be addressed (even if &ldquo;not applicable&rdquo;).</li>';
+        html += '<li>Page/section numbers should be included.</li>';
+        html += '</ul>';
+        html += '</div>';
+
+        html += '<div style="margin-bottom:1.2rem;">';
+        html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">Common Pitfalls</div>';
+        html += '<ul style="margin:0;padding-left:1.5rem;font-size:0.9rem;line-height:1.7;">';
+        html += '<li>Treating checklists as quality scores</li>';
+        html += '<li>Omitting negative/null results</li>';
+        html += '<li>Inadequate flow diagrams</li>';
+        html += '<li>Not registering protocols prospectively</li>';
+        html += '</ul>';
+        html += '</div>';
+
+        html += '<div>';
+        html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">References</div>';
+        html += '<ul style="margin:0;padding-left:1.5rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>EQUATOR Network (equator-network.org)</li>';
+        html += '<li>Moher D et al. CONSORT 2010</li>';
+        html += '<li>von Elm E et al. STROBE</li>';
+        html += '<li>Page MJ et al. PRISMA 2020</li>';
+        html += '</ul>';
+        html += '</div>';
+
+        html += '</div></div>';
+
         /* Card 1: Guideline Selector */
         html += '<div class="card">';
         html += '<div class="card-title">Select Reporting Guideline</div>';

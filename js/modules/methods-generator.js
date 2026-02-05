@@ -201,6 +201,61 @@
             'Auto-generate publication-ready statistical methods paragraphs for manuscripts. Customize parameters and copy directly into your paper.'
         );
 
+        // ---- Learn & Reference ----
+        html += '<div class="card" style="background: var(--bg-secondary); border-left: 4px solid var(--accent-color);">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\')">📚 Learn &amp; Reference <span style="font-size:0.8em; color: var(--text-muted);">(click to expand)</span></div>';
+        html += '<div class="learn-body hidden">';
+
+        html += '<div style="margin-bottom:1rem;">';
+        html += '<strong style="color:var(--accent);">Writing Principles</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>Methods should be reproducible by another researcher</li>';
+        html += '<li>Use past tense</li>';
+        html += '<li>Report software and version</li>';
+        html += '<li>State statistical significance threshold</li>';
+        html += '<li>Describe handling of missing data</li>';
+        html += '</ul></div>';
+
+        html += '<div style="margin-bottom:1rem;">';
+        html += '<strong style="color:var(--accent);">Key Elements</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>Study design + setting + timeframe</li>';
+        html += '<li>Population + eligibility criteria</li>';
+        html += '<li>Intervention/exposure definition</li>';
+        html += '<li>Outcome definition + measurement</li>';
+        html += '<li>Sample size justification</li>';
+        html += '<li>Statistical analysis plan</li>';
+        html += '</ul></div>';
+
+        html += '<div style="margin-bottom:1rem;">';
+        html += '<strong style="color:var(--accent);">Style Guide</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>Follow journal-specific instructions</li>';
+        html += '<li>Use active voice for clarity</li>';
+        html += '<li>Define abbreviations at first use</li>';
+        html += '<li>Report exact p-values (not just &lt; 0.05)</li>';
+        html += '<li>Include effect sizes with CIs</li>';
+        html += '</ul></div>';
+
+        html += '<div style="margin-bottom:1rem;">';
+        html += '<strong style="color:var(--accent);">Common Pitfalls</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>Vague analysis descriptions (&ldquo;standard statistical methods&rdquo;)</li>';
+        html += '<li>Omitting software versions</li>';
+        html += '<li>Not describing intention-to-treat vs per-protocol</li>';
+        html += '<li>Insufficient detail on randomization/blinding</li>';
+        html += '</ul></div>';
+
+        html += '<div style="margin-bottom:0;">';
+        html += '<strong style="color:var(--accent);">References</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>ICMJE Recommendations</li>';
+        html += '<li>Lang TA &amp; Secic M &mdash; <em>How to Report Statistics in Medicine</em></li>';
+        html += '<li>Moher D et al &mdash; CONSORT 2010</li>';
+        html += '</ul></div>';
+
+        html += '</div></div>';
+
         // ---- Card 1: Study Parameters ----
         html += '<div class="card">';
         html += '<div class="card-title">Study Parameters</div>';

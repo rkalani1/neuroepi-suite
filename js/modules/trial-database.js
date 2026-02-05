@@ -64,6 +64,57 @@
             'Comprehensive database of landmark clinical trials with verified data. Search, filter, compare, and generate citation text for grants and manuscripts.'
         );
 
+        // ---- Learn & Reference ----
+        html += '<div class="card" style="background: var(--bg-secondary); border-left: 4px solid var(--accent-color);">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\')">📚 Learn &amp; Reference <span style="font-size:0.8em; color: var(--text-muted);">(click to expand)</span></div>';
+        html += '<div class="learn-body hidden">';
+
+        html += '<div style="margin-bottom:1rem;">';
+        html += '<strong style="color:var(--accent);">Using Trial Evidence</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>Hierarchy: systematic reviews &gt; RCTs &gt; observational</li>';
+        html += '<li>Assess risk of bias before applying results</li>';
+        html += '<li>Consider GRADE certainty of evidence</li>';
+        html += '<li>External validity matters for clinical application</li>';
+        html += '</ul></div>';
+
+        html += '<div style="margin-bottom:1rem;">';
+        html += '<strong style="color:var(--accent);">Key Trial Design Concepts</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>Superiority vs non-inferiority vs equivalence</li>';
+        html += '<li>Intention-to-treat vs per-protocol vs modified ITT</li>';
+        html += '<li>Adaptive designs allow pre-planned modifications</li>';
+        html += '<li>Pragmatic vs explanatory trials (PRECIS-2)</li>';
+        html += '</ul></div>';
+
+        html += '<div style="margin-bottom:1rem;">';
+        html += '<strong style="color:var(--accent);">Interpreting Results</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>Relative vs absolute effects (always report both)</li>';
+        html += '<li>Number needed to treat for clinical relevance</li>';
+        html += '<li>Subgroup analyses are hypothesis-generating only</li>';
+        html += '<li>Composite endpoints may obscure component effects</li>';
+        html += '</ul></div>';
+
+        html += '<div style="margin-bottom:1rem;">';
+        html += '<strong style="color:var(--accent);">Common Pitfalls</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>Underpowered trials interpreted as &ldquo;negative&rdquo;</li>';
+        html += '<li>Publication bias toward positive results</li>';
+        html += '<li>Post-hoc subgroup analyses</li>';
+        html += '<li>Surrogate endpoint fallacy</li>';
+        html += '</ul></div>';
+
+        html += '<div style="margin-bottom:0;">';
+        html += '<strong style="color:var(--accent);">References</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>Friedman LM et al &mdash; <em>Fundamentals of Clinical Trials</em> (5th ed)</li>';
+        html += '<li>Schulz KF &amp; Grimes DA &mdash; Lancet series</li>';
+        html += '<li>Guyatt GH et al &mdash; GRADE guidelines</li>';
+        html += '</ul></div>';
+
+        html += '</div></div>';
+
         // Search and controls
         html += '<div class="card">';
         html += '<div class="search-box"><input type="text" id="td-search" placeholder="Search trials by name, intervention, population, tags..." oninput="TrialDB.search(this.value)"></div>';

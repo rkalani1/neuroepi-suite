@@ -427,6 +427,62 @@
             'Educational reference and decision tools for applying machine learning methods in clinical and epidemiological research.'
         );
 
+        // Learn & Reference section
+        html += '<div class="card" style="background: var(--bg-secondary); border-left: 4px solid var(--accent-color);">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\')">&#128218; Learn &amp; Reference <span style="font-size:0.8em; color: var(--text-muted);">(click to expand)</span></div>';
+        html += '<div class="learn-body hidden">';
+
+        html += '<div style="margin-bottom:1.2rem;">';
+        html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">Key Concepts</div>';
+        html += '<ul style="margin:0;padding-left:1.5rem;font-size:0.9rem;line-height:1.7;">';
+        html += '<li>Bias-variance tradeoff</li>';
+        html += '<li>Overfitting vs underfitting</li>';
+        html += '<li>Feature engineering</li>';
+        html += '<li>Cross-validation (k-fold, LOOCV, nested CV)</li>';
+        html += '<li>Hyperparameter tuning</li>';
+        html += '</ul>';
+        html += '</div>';
+
+        html += '<div style="margin-bottom:1.2rem;">';
+        html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">Validation Hierarchy</div>';
+        html += '<div style="font-size:0.9rem;line-height:1.7;padding-left:0.5rem;">';
+        html += 'Internal (cross-validation) &rarr; Temporal validation &rarr; External (different population) &rarr; Clinical impact study.';
+        html += '<br><strong>Always split BEFORE any data exploration.</strong>';
+        html += '</div>';
+        html += '</div>';
+
+        html += '<div style="margin-bottom:1.2rem;">';
+        html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">Performance Metrics</div>';
+        html += '<ul style="margin:0;padding-left:1.5rem;font-size:0.9rem;line-height:1.7;">';
+        html += '<li><strong>Discrimination:</strong> AUC-ROC, c-statistic</li>';
+        html += '<li><strong>Calibration:</strong> Hosmer-Lemeshow, calibration plots</li>';
+        html += '<li><strong>Net benefit:</strong> Decision curves</li>';
+        html += '<li><strong>Clinical utility:</strong> NRI, IDI</li>';
+        html += '</ul>';
+        html += '</div>';
+
+        html += '<div style="margin-bottom:1.2rem;">';
+        html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">Common Pitfalls</div>';
+        html += '<ul style="margin:0;padding-left:1.5rem;font-size:0.9rem;line-height:1.7;">';
+        html += '<li>Data leakage (using test info during training)</li>';
+        html += '<li>Class imbalance &rarr; misleading accuracy</li>';
+        html += '<li>Overfitting to training data</li>';
+        html += '<li>Ignoring calibration</li>';
+        html += '<li>Not reporting confidence intervals</li>';
+        html += '</ul>';
+        html += '</div>';
+
+        html += '<div>';
+        html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">References</div>';
+        html += '<ul style="margin:0;padding-left:1.5rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>Collins GS et al. TRIPOD+AI, 2024</li>';
+        html += '<li>Steyerberg EW. Clinical Prediction Models</li>';
+        html += '<li>Rajkomar A et al. ML in Medicine, NEJM 2019</li>';
+        html += '</ul>';
+        html += '</div>';
+
+        html += '</div></div>';
+
         /* === Card 1: ML Method Selector === */
         html += '<div class="card">';
         html += '<div class="card-title">ML Method Selector</div>';

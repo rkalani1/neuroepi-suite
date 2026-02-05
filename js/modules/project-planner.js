@@ -26,6 +26,56 @@
             'Plan research projects with timeline visualization, pre-study checklists, budget estimation, and milestone tracking.'
         );
 
+        // ---- Learn & Reference ----
+        html += '<div class="card" style="background: var(--bg-secondary); border-left: 4px solid var(--accent-color);">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\')">📚 Learn &amp; Reference <span style="font-size:0.8em; color: var(--text-muted);">(click to expand)</span></div>';
+        html += '<div class="learn-body hidden">';
+
+        html += '<div style="margin-bottom:1rem;">';
+        html += '<strong style="color:var(--accent);">Research Timeline Principles</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>Allow 3-6 months for IRB approval</li>';
+        html += '<li>Budget 20-30% extra time for recruitment</li>';
+        html += '<li>Data cleaning typically takes 2-4x longer than expected</li>';
+        html += '<li>Plan for 10-15% dropout rate</li>';
+        html += '</ul></div>';
+
+        html += '<div style="margin-bottom:1rem;">';
+        html += '<strong style="color:var(--accent);">Budget Planning</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>Personnel costs typically 60-80% of total budget</li>';
+        html += '<li>Include indirect costs (F&amp;A)</li>';
+        html += '<li>Budget for open access publication fees</li>';
+        html += '<li>Equipment vs supplies distinction matters for grants</li>';
+        html += '</ul></div>';
+
+        html += '<div style="margin-bottom:1rem;">';
+        html += '<strong style="color:var(--accent);">Regulatory Essentials</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>Single IRB for multi-site studies (NIH policy)</li>';
+        html += '<li>Data Safety Monitoring Board required for interventional trials</li>';
+        html += '<li>ClinicalTrials.gov registration within 21 days of first enrollment</li>';
+        html += '</ul></div>';
+
+        html += '<div style="margin-bottom:1rem;">';
+        html += '<strong style="color:var(--accent);">Common Pitfalls</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>Underestimating recruitment timeline</li>';
+        html += '<li>Not budgeting for protocol amendments</li>';
+        html += '<li>Forgetting data management costs</li>';
+        html += '<li>Inadequate time for manuscript preparation</li>';
+        html += '</ul></div>';
+
+        html += '<div style="margin-bottom:0;">';
+        html += '<strong style="color:var(--accent);">References</strong>';
+        html += '<ul style="margin:0.3rem 0 0 1.2rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>NIH Grants Policy Statement</li>';
+        html += '<li>FDA 21 CFR Parts 50/56</li>';
+        html += '<li>ICH-GCP E6(R2)</li>';
+        html += '</ul></div>';
+
+        html += '</div></div>';
+
         html += '<div class="card">';
 
         // Tab buttons

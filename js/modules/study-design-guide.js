@@ -245,6 +245,49 @@
             'Interactive decision support for selecting the optimal epidemiological study design. Includes evidence hierarchy, design templates, and a comprehensive bias reference.'
         );
 
+        // ===== LEARN SECTION =====
+        html += '<div class="card" style="background: var(--bg-secondary); border-left: 4px solid var(--accent-color);">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\')">&#x1F4DA; Learn &amp; Reference <span style="font-size:0.8em; color: var(--text-muted);">(click to expand)</span></div>';
+        html += '<div class="learn-body hidden">';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Key Concepts</div>';
+        html += '<ul style="margin:0 0 12px 16px; font-size:0.9rem; line-height:1.7;">'
+            + '<li><strong>Hierarchy of evidence:</strong> RCT &gt; cohort &gt; case-control &gt; case series &gt; expert opinion</li>'
+            + '<li><strong>Internal validity:</strong> Degree to which results are free from systematic error (bias) within the study</li>'
+            + '<li><strong>External validity:</strong> Generalizability of results to populations beyond the study sample</li>'
+            + '<li><strong>Selection bias:</strong> Systematic error from how participants are selected or retained</li>'
+            + '<li><strong>Information bias:</strong> Systematic error from how data are measured or classified</li>'
+            + '<li><strong>Confounding:</strong> Distortion by a third variable associated with both exposure and outcome</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Design Selection Principles</div>';
+        html += '<ul style="margin:0 0 12px 16px; font-size:0.9rem; line-height:1.7;">'
+            + '<li><strong>Rare disease</strong> &rarr; Case-control study (efficient sampling of cases)</li>'
+            + '<li><strong>Rare exposure</strong> &rarr; Cohort study (follow exposed group forward)</li>'
+            + '<li><strong>Causal inference</strong> &rarr; RCT (randomization controls known and unknown confounders)</li>'
+            + '<li><strong>Prognostic question</strong> &rarr; Prospective cohort (inception cohort followed over time)</li>'
+            + '<li><strong>Prevalence estimation</strong> &rarr; Cross-sectional survey</li>'
+            + '<li><strong>Evidence synthesis</strong> &rarr; Systematic review / meta-analysis</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">Common Pitfalls</div>';
+        html += '<ul style="margin:0 0 12px 16px; font-size:0.9rem; line-height:1.7;">'
+            + '<li><strong>Confusing association with causation:</strong> Observational studies show association; causation requires additional evidence (Hill criteria, counterfactual reasoning)</li>'
+            + '<li><strong>Ecological fallacy:</strong> Inferring individual-level associations from group-level (aggregate) data</li>'
+            + '<li><strong>Lead-time bias:</strong> Earlier detection appears to increase survival even if death occurs at the same time</li>'
+            + '<li><strong>Length-time bias:</strong> Screening preferentially detects slow-growing, less aggressive disease</li>'
+            + '<li><strong>Immortal time bias:</strong> A period during which the outcome cannot occur is misclassified, inflating survival in the exposed group</li>'
+            + '</ul>';
+
+        html += '<div class="card-subtitle" style="font-weight:600;">References</div>';
+        html += '<ul style="margin:0 0 0 16px; font-size:0.85rem; line-height:1.7;">'
+            + '<li>Rothman KJ, Greenland S, Lash TL. <em>Modern Epidemiology</em>, 4th ed. Lippincott Williams &amp; Wilkins, 2021.</li>'
+            + '<li>STROBE Statement: Strengthening the Reporting of Observational Studies in Epidemiology (von Elm et al., 2007).</li>'
+            + '<li>CONSORT 2010 Statement: Updated guidelines for reporting parallel group randomised trials (Schulz et al., 2010).</li>'
+            + '</ul>';
+
+        html += '</div></div>';
+
         // ---- Card 1: Decision Tree ----
         html += '<div class="card">';
         html += '<div class="card-title">Study Design Decision Tree</div>';

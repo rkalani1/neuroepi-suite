@@ -17,6 +17,60 @@
             'Paste statistical results and get plain-English interpretation. Covers p-values, confidence intervals, effect sizes, regression output, and common statistics.'
         );
 
+        // Learn & Reference section
+        html += '<div class="card" style="background: var(--bg-secondary); border-left: 4px solid var(--accent-color);">';
+        html += '<div class="card-title" style="cursor:pointer;" onclick="this.parentElement.querySelector(\'.learn-body\').classList.toggle(\'hidden\')">&#128218; Learn &amp; Reference <span style="font-size:0.8em; color: var(--text-muted);">(click to expand)</span></div>';
+        html += '<div class="learn-body hidden">';
+
+        html += '<div style="margin-bottom:1.2rem;">';
+        html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">P-value Interpretation</div>';
+        html += '<ul style="margin:0;padding-left:1.5rem;font-size:0.9rem;line-height:1.7;">';
+        html += '<li><strong>p &lt; 0.001</strong> &mdash; Strong evidence against H&#8320;</li>';
+        html += '<li><strong>0.001&ndash;0.01</strong> &mdash; Good evidence against H&#8320;</li>';
+        html += '<li><strong>0.01&ndash;0.05</strong> &mdash; Moderate evidence against H&#8320;</li>';
+        html += '<li><strong>&gt; 0.05</strong> &mdash; Insufficient evidence against H&#8320;</li>';
+        html += '</ul>';
+        html += '<div style="font-size:0.85rem;color:var(--text-secondary);margin-top:0.3rem;">Never say &ldquo;the result is significant&rdquo; without context about effect size and clinical relevance.</div>';
+        html += '</div>';
+
+        html += '<div style="margin-bottom:1.2rem;">';
+        html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">CI Interpretation</div>';
+        html += '<ul style="margin:0;padding-left:1.5rem;font-size:0.9rem;line-height:1.7;">';
+        html += '<li>Contains plausible population values.</li>';
+        html += '<li>Width reflects precision.</li>';
+        html += '<li>If CI for a difference includes 0 (or ratio includes 1) &rarr; not statistically significant at corresponding &alpha;.</li>';
+        html += '</ul>';
+        html += '</div>';
+
+        html += '<div style="margin-bottom:1.2rem;">';
+        html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">Effect Size Guidelines</div>';
+        html += '<ul style="margin:0;padding-left:1.5rem;font-size:0.9rem;line-height:1.7;">';
+        html += '<li><strong>Cohen\'s d:</strong> 0.2 small, 0.5 medium, 0.8 large</li>';
+        html += '<li><strong>OR / RR:</strong> Interpretation depends on clinical context</li>';
+        html += '<li><strong>NNT:</strong> Lower = stronger effect</li>';
+        html += '</ul>';
+        html += '</div>';
+
+        html += '<div style="margin-bottom:1.2rem;">';
+        html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">Common Pitfalls</div>';
+        html += '<ul style="margin:0;padding-left:1.5rem;font-size:0.9rem;line-height:1.7;">';
+        html += '<li>Absence of evidence &ne; evidence of absence</li>';
+        html += '<li>P-value is NOT the probability H&#8320; is true</li>';
+        html += '<li>Statistical significance &ne; clinical importance</li>';
+        html += '<li>Bayesian vs frequentist interpretation</li>';
+        html += '</ul>';
+        html += '</div>';
+
+        html += '<div>';
+        html += '<div style="font-weight:700;margin-bottom:0.4rem;color:var(--accent);">References</div>';
+        html += '<ul style="margin:0;padding-left:1.5rem;font-size:0.85rem;line-height:1.7;">';
+        html += '<li>Wasserstein RL et al. ASA statement on p-values, 2016</li>';
+        html += '<li>Greenland S et al. Statistical tests, P values, CIs: a reappraisal, 2016</li>';
+        html += '</ul>';
+        html += '</div>';
+
+        html += '</div></div>';
+
         // Card 1: P-value Interpreter
         html += renderPValue();
 
