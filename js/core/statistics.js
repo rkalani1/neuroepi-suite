@@ -1122,14 +1122,27 @@ const Statistics = (() => {
         for (let i = 0; i < effects.length; i++) {
             const e = effects.slice(0, i + 1);
             const v = variances.slice(0, i + 1);
-            const ma = metaAnalysisRandomEffects(e, v);
-            results.push({
-                nStudies: i + 1,
-                label: labels ? labels[i] : `Study ${i + 1}`,
-                pooled: ma.pooled,
-                ci: ma.ci,
-                I2: ma.I2
-            });
+            if (e.length === 1) {
+                // Single study: return its own effect and CI directly
+                const se = Math.sqrt(v[0]);
+                const z = normalQuantile(0.975);
+                results.push({
+                    nStudies: 1,
+                    label: labels ? labels[0] : 'Study 1',
+                    pooled: e[0],
+                    ci: [e[0] - z * se, e[0] + z * se],
+                    I2: 0
+                });
+            } else {
+                const ma = metaAnalysisRandomEffects(e, v);
+                results.push({
+                    nStudies: i + 1,
+                    label: labels ? labels[i] : `Study ${i + 1}`,
+                    pooled: ma.pooled,
+                    ci: ma.ci,
+                    I2: ma.I2
+                });
+            }
         }
         return results;
     }

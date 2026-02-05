@@ -106,7 +106,7 @@
                 + '<div class="form-group"><label class="form-label">Scenario ' + i + ' - p\u2081</label>'
                 + '<input type="number" class="form-input form-input--small" id="pa-sc' + i + '-p1" step="0.01" value="' + (0.28) + '"></div>'
                 + '<div class="form-group"><label class="form-label">p\u2082</label>'
-                + '<input type="number" class="form-input form-input--small" id="pa-sc' + i + '-p2" step="0.01" value="' + (0.28 - 0.02 * i) + '"></div>'
+                + '<input type="number" class="form-input form-input--small" id="pa-sc' + i + '-p2" step="0.01" value="' + +(0.28 - 0.02 * i).toFixed(2) + '"></div>'
                 + '<div class="form-group"><label class="form-label">N/group</label>'
                 + '<input type="number" class="form-input form-input--small" id="pa-sc' + i + '-n" step="10" value="' + (200 + i * 100) + '"></div>'
                 + '<div class="form-group"><label class="form-label">Power</label>'
