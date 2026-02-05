@@ -4,7 +4,7 @@
  * Tab B: Stratified Analysis (Mantel-Haenszel)
  * Tab C: Interaction Assessment (additive & multiplicative)
  * Tab D: Dose-Response (Cochran-Armitage trend test)
- * Tab E: Bias Checklist (catalog with stroke examples)
+ * Tab E: Bias Checklist (catalog with clinical examples)
  *
  * Note: All HTML content is generated from trusted internal sources only.
  */

@@ -38,7 +38,7 @@
             + '<option value="binary">Binary (e.g., mRS 0-2 vs 3-6)</option>'
             + '<option value="continuous">Continuous (e.g., NIHSS score change)</option>'
             + '<option value="count">Count (e.g., number of lesions)</option>'
-            + '<option value="time">Time-to-Event (e.g., time to recurrent stroke)</option>'
+            + '<option value="time">Time-to-Event (e.g., time to event/relapse)</option>'
             + '<option value="ordinal">Ordinal (e.g., full mRS shift)</option>'
             + '</select></div>'
             + '<div class="form-group"><label class="form-label">Clustering? ' + App.tooltip('Are observations grouped (e.g., patients within hospitals)?') + '</label>'
@@ -95,7 +95,7 @@
         html += '<div class="card-title">Add Node</div>';
         html += '<div class="form-row form-row--3">'
             + '<div class="form-group"><label class="form-label">Variable Name</label>'
-            + '<input type="text" class="form-input" id="rh-node-name" placeholder="e.g., Stroke Severity"></div>'
+            + '<input type="text" class="form-input" id="rh-node-name" placeholder="e.g., Disease Severity, Age, BMI"></div>'
             + '<div class="form-group"><label class="form-label">Type</label>'
             + '<select class="form-select" id="rh-node-type">'
             + '<option value="exposure">Exposure</option>'
@@ -218,15 +218,15 @@
             + '<li><strong>Missing data</strong>: Document missingness pattern; consider multiple imputation for MAR data</li>'
             + '</ul></div>';
 
-        html += '<div class="card-title mt-3">Stroke Research Best Practices</div>';
+        html += '<div class="card-title mt-3">Clinical Research Best Practices</div>';
         html += '<div class="result-panel">'
             + '<ul style="margin:0;padding-left:20px;color:var(--text-secondary);font-size:0.9rem;line-height:1.8">'
             + '<li>Use <strong>ordinal logistic regression</strong> for mRS as the primary analysis (preserves statistical power)</li>'
             + '<li>Always test the <strong>proportional odds assumption</strong> when using ordinal logistic regression</li>'
             + '<li>Pre-specify the adjustment set based on a <strong>DAG</strong>, not on statistical significance</li>'
             + '<li>For multicenter studies, account for center effects using <strong>mixed-effects models</strong> or <strong>GEE</strong></li>'
-            + '<li>Report both <strong>adjusted and unadjusted</strong> estimates in stroke observational studies</li>'
-            + '<li>Include <strong>stroke severity (NIHSS)</strong> and <strong>age</strong> as minimum adjustment variables</li>'
+            + '<li>Report both <strong>adjusted and unadjusted</strong> estimates in observational studies</li>'
+            + '<li>Include <strong>disease severity</strong> and <strong>age</strong> as minimum adjustment variables</li>'
             + '<li>Consider <strong>treatment-by-subgroup interactions</strong> for key pre-specified subgroups</li>'
             + '<li>Account for <strong>time-varying confounders</strong> (e.g., blood pressure) with marginal structural models or g-estimation</li>'
             + '</ul></div>';
@@ -285,7 +285,7 @@
         html += '<div class="mt-2"><strong style="color:var(--text-secondary);font-size:0.85rem">Key Assumptions:</strong>'
             + '<p style="color:var(--text-secondary);font-size:0.85rem;margin:4px 0">' + model.assumptions + '</p></div>';
 
-        html += '<div class="mt-1"><strong style="color:var(--accent);font-size:0.85rem">Stroke-Specific Notes:</strong>'
+        html += '<div class="mt-1"><strong style="color:var(--accent);font-size:0.85rem">Domain-Specific Notes:</strong>'
             + '<p style="color:var(--text-secondary);font-size:0.85rem;margin:4px 0">' + model.notes + '</p></div>';
 
         // Additional contextual guidance
@@ -318,7 +318,7 @@
                 + '<li>Report hazard ratios with 95% CIs</li>'
                 + '<li>Check PH assumption with Schoenfeld residuals and log(-log(S(t))) plots</li>'
                 + '<li>If PH violated: consider restricted mean survival time (RMST), time-dependent coefficients, or stratified Cox</li>'
-                + '<li>For competing risks (e.g., death preventing stroke recurrence), use Fine-Gray subdistribution hazard or cause-specific hazards</li>'
+                + '<li>For competing risks (e.g., death preventing outcome occurrence), use Fine-Gray subdistribution hazard or cause-specific hazards</li>'
                 + '</ul></div>';
         }
 

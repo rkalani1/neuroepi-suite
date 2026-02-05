@@ -15,7 +15,7 @@
     var lastResults = null;
 
     // ============================================================
-    // EXAMPLE DATA — Stroke patients, 2 groups (EVT vs Medical)
+    // EXAMPLE DATA — Clinical example, 2 groups (Treatment vs Control)
     // ============================================================
     var STROKE_EXAMPLE = [
         { time:  2, event: 1, group: 'EVT' },
@@ -63,7 +63,7 @@
 
         // Action buttons
         html += '<div class="btn-group">'
-            + '<button class="btn btn-secondary" onclick="SurvivalModule.loadExample()">Load Stroke Example</button>'
+            + '<button class="btn btn-secondary" onclick="SurvivalModule.loadExample()">Load Clinical Example</button>'
             + '<button class="btn btn-secondary" onclick="SurvivalModule.pasteCSV()">Paste CSV</button>'
             + '<button class="btn btn-secondary" onclick="SurvivalModule.addRow()">+ Add Row</button>'
             + '<button class="btn btn-secondary" onclick="SurvivalModule.clearData()">Clear All</button>'
@@ -172,7 +172,7 @@
             return { time: d.time, event: d.event, group: d.group };
         });
         renderDataTable();
-        Export.showToast('Loaded stroke survival example (30 observations, 2 groups)');
+        Export.showToast('Loaded clinical survival example (30 observations, 2 groups)');
     }
 
     // ============================================================

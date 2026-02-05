@@ -18,7 +18,7 @@
     function render(container) {
         var html = App.createModuleLayout(
             'Effect Size Converter',
-            'Convert between effect size measures. Input any one measure with its confidence interval and derive all others. Includes Cohen and stroke-specific benchmarks.'
+            'Convert between effect size measures. Input any one measure with its confidence interval and derive all others. Includes Cohen benchmarks and field-specific references.'
         );
 
         html += '<div class="card">';
