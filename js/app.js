@@ -107,7 +107,7 @@ const App = (() => {
 
         html += '</nav>'
             + '<div class="sidebar-footer">'
-            + '<a href="https://github.com/rizwankalani/neuroepi-suite" target="_blank" rel="noopener" style="font-size:0.75rem;color:var(--text-tertiary);">GitHub</a>'
+            + '<a href="https://github.com/rkalani1/neuroepi-suite" target="_blank" rel="noopener" style="font-size:0.75rem;color:var(--text-tertiary);">GitHub</a>'
             + '<button class="theme-toggle" onclick="App.toggleTheme()" title="Toggle theme">'
             + '<span id="theme-icon">&#9790;</span>'
             + '</button></div>';

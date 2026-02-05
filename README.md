@@ -4,7 +4,7 @@
 
 A comprehensive, zero-dependency static web app built for vascular neurologists, stroke researchers, epidemiologists, and clinical trialists. Designed for daily use in grant writing, manuscript preparation, study design, hypothesis development, and critical appraisal.
 
-**[Live Demo →](https://rizwankalani.github.io/neuroepi-suite/)**
+**[Live Demo →](https://rkalani1.github.io/neuroepi-suite/)**
 
 ## Features
 
@@ -45,13 +45,13 @@ No build step required. Open `index.html` in any modern browser.
 
 ```bash
 # Clone the repository
-git clone https://github.com/rizwankalani/neuroepi-suite.git
+git clone https://github.com/rkalani1/neuroepi-suite.git
 
 # Open in browser
 open neuroepi-suite/index.html
 ```
 
-Or visit the [live site](https://rizwankalani.github.io/neuroepi-suite/).
+Or visit the [live site](https://rkalani1.github.io/neuroepi-suite/).
 
 ## Technology
 
