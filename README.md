@@ -45,6 +45,11 @@ A zero-dependency static web app built for clinical researchers, epidemiologists
 - **Methods Generator** — Auto-generate statistical methods paragraphs for manuscripts, common templates for RCTs, observational studies, meta-analyses.
 - **Project Planner** — Research timeline builder, milestone tracker, budget calculator, regulatory checklists.
 
+### Cross-Cutting Educational Features
+- **Learn panels** in every module — collapsible sections with key formulas, assumptions, common pitfalls, and references
+- **Methods text generators** — auto-generate publication-ready methods paragraphs for sample size, power analysis, diagnostic accuracy, meta-analysis, and more
+- **Copy/Export** — clipboard integration for all results, PNG chart export, CSV export
+
 ### Technical Features
 - Complete statistical engine built from scratch (no dependencies)
 - Canvas-based charting with Retina support
