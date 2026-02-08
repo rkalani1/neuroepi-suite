@@ -15,9 +15,8 @@ A zero-dependency static web app built for clinical researchers, epidemiologists
 - **Study Design Guide** — Interactive decision tree for selecting study designs, reference tables with Oxford CEBM evidence levels, design templates, bias & confounding quick reference.
 
 ### Epidemiology
-- **Epidemiology Calculators** — 2×2 analysis, Mantel-Haenszel stratified analysis, additive/multiplicative interaction, Cochran-Armitage trend test, bias checklist.
-- **Risk Calculators** — Clinical stroke risk scores (CHA₂DS₂-VASc, HAS-BLED, ABCD², ESRS, SEDAN, DRAGON) plus epidemiological rate calculators (incidence rates, rate ratios, prevalence, SMR, age standardization, attributable risk, DALY/YLL).
-- **Epi Concepts** — Interactive reference for measures of disease frequency, association, impact, screening concepts, and study validity.
+- **Epidemiology Calculators** — Comprehensive suite: 2×2 analysis, Mantel-Haenszel stratified analysis, interaction, trend tests, incidence rates, prevalence, SMR, age standardization, DALY/YLL, and bias checklist.
+- **Epi Concepts** — Interactive reference for frequency, association, impact, screening, and study validity.
 - **Causal Inference** — Bradford Hill criteria assessment, DAG builder, counterfactual framework reference, causal inference methods comparison.
 
 ### Biostatistics
