@@ -294,10 +294,9 @@ const App = (() => {
 
         var html = '<div class="sidebar-header">'
             + '<div class="sidebar-logo" onclick="App.navigate(\'home\')" style="cursor:pointer;">'
-            + '<div class="sidebar-logo-icon">NE</div>'
+            + '<div class="sidebar-logo-icon">n</div>'
             + '<div>'
-            + '<div class="sidebar-logo-text">Neuro-Epi</div>'
-            + '<div class="sidebar-logo-version">Epidemiology &amp; Clinical Research</div>'
+            + '<div class="sidebar-logo-text">n-epi</div>'
             + '</div></div>'
             + '<button class="sidebar-cmd-k-btn" onclick="App.openCommandPalette()" title="Search modules (Cmd+K)">'
             + '<span style="opacity:0.6;">Search...</span>'
@@ -774,9 +773,8 @@ const App = (() => {
 
         // Hero section
         html += '<div class="dashboard-hero">'
-            + '<div class="dashboard-hero-icon">NE</div>'
-            + '<h1 class="dashboard-hero-title">Welcome to Neuro-Epi</h1>'
-            + '<p class="dashboard-hero-sub">Epidemiology, Biostatistics &amp; Clinical Research Platform</p>'
+            + '<div class="dashboard-hero-icon">n</div>'
+            + '<h1 class="dashboard-hero-title">Welcome to n-epi</h1>'
             + '<button class="dashboard-search-btn" onclick="App.openCommandPalette()">'
             + '<span style="opacity:0.5;margin-right:8px;">&#128269;</span>'
             + '<span>Search modules...</span>'
